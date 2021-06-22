@@ -1,19 +1,16 @@
 import React from 'react'
-import { Button, Text, useModal, Flex, TooltipText, useTooltip, Skeleton } from '@pancakeswap/uikit'
+import { Button, Text, useModal, Flex, TooltipText, useTooltip, Skeleton } from '@heswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { getCakeVaultEarnings } from 'views/Pools/helpers'
 import { PoolCategory } from 'config/constants/types'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import { useTranslation } from 'contexts/Localization'
 import Balance from 'components/Balance'
-import { useCakeVault } from 'state/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
 import CollectModal from '../../PoolCard/Modals/CollectModal'
-import UnstakingFeeCountdownRow from '../../CakeVaultCard/UnstakingFeeCountdownRow'
 
 interface HarvestActionProps extends Pool {
   userDataLoaded: boolean
@@ -25,7 +22,6 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   earningToken,
   userData,
   userDataLoaded,
-  isAutoVault,
   earningTokenPrice,
 }) => {
   const { t } = useTranslation()
@@ -42,23 +38,6 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   const isCompoundPool = sousId === 0
   const isBnbPool = poolCategory === PoolCategory.BINANCE
 
-  // Auto CAKE vault calculations
-  const {
-    userData: { cakeAtLastUserAction, userShares },
-    pricePerFullShare,
-    fees: { performanceFee },
-  } = useCakeVault()
-  const { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay } = getCakeVaultEarnings(
-    account,
-    cakeAtLastUserAction,
-    userShares,
-    pricePerFullShare,
-    earningTokenPrice,
-  )
-
-  earningTokenBalance = isAutoVault ? autoCakeToDisplay : earningTokenBalance
-  hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
-  earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance
 
   const displayBalance = hasEarnings ? earningTokenBalance : 0
   const [onPresentCollect] = useModal(
@@ -78,11 +57,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
     { placement: 'bottom-start' },
   )
 
-  const actionTitle = isAutoVault ? (
-    <Text fontSize="12px" bold color="secondary" as="span" textTransform="uppercase">
-      {t('Recent CAKE profit')}
-    </Text>
-  ) : (
+  const actionTitle = (
     <>
       <Text fontSize="12px" bold color="secondary" as="span" textTransform="uppercase">
         {earningToken.symbol}{' '}
@@ -138,22 +113,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
             </Text>
           )}
         </Flex>
-        {isAutoVault ? (
-          <Flex flex="1.3" flexDirection="column" alignSelf="flex-start" alignItems="flex-start">
-            <UnstakingFeeCountdownRow isTableVariant />
-            <Flex mb="2px" justifyContent="space-between" alignItems="center">
-              {tooltipVisible && tooltip}
-              <TooltipText ref={targetRef} small>
-                {t('Performance Fee')}
-              </TooltipText>
-              <Flex alignItems="center">
-                <Text ml="4px" small>
-                  {performanceFee / 100}%
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        ) : (
+        {(
           <Button disabled={!hasEarnings} onClick={onPresentCollect}>
             {isCompoundPool ? t('Collect') : t('Harvest')}
           </Button>

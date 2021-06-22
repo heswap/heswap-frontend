@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, TooltipText, IconButton, useModal, CalculateIcon, Skeleton, useTooltip } from '@pancakeswap/uikit'
+import { Flex, TooltipText, IconButton, useModal, CalculateIcon, Skeleton, useTooltip } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Balance from 'components/Balance'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
@@ -9,20 +9,17 @@ import { getAprData } from 'views/Pools/helpers'
 
 interface AprRowProps {
   pool: Pool
-  performanceFee?: number
 }
 
-const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
+const AprRow: React.FC<AprRowProps> = ({ pool }) => {
   const { t } = useTranslation()
-  const { stakingToken, earningToken, isFinished, apr, earningTokenPrice, isAutoVault } = pool
+  const { stakingToken, earningToken, isFinished, apr, earningTokenPrice } = pool
 
-  const tooltipContent = isAutoVault
-    ? t('APY includes compounding, APR doesn’t. This pool’s CAKE is compounded automatically, so we show APY.')
-    : t('This pool’s rewards aren’t compounded automatically, so we show APR')
+  const tooltipContent = t('This pool’s rewards aren’t compounded automatically, so we show APR')
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(tooltipContent, { placement: 'bottom-start' })
 
-  const { apr: earningsPercentageToDisplay, roundingDecimals, compoundFrequency } = getAprData(pool, performanceFee)
+  const { apr: earningsPercentageToDisplay, roundingDecimals, compoundFrequency } = getAprData(pool)
 
   const apyModalLink =
     stakingToken.address &&
@@ -44,7 +41,7 @@ const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
   return (
     <Flex alignItems="center" justifyContent="space-between">
       {tooltipVisible && tooltip}
-      <TooltipText ref={targetRef}>{isAutoVault ? `${t('APY')}:` : `${t('APR')}:`}</TooltipText>
+      <TooltipText ref={targetRef}>{`${t('APR')}:`}</TooltipText>
       {isFinished || !apr ? (
         <Skeleton width="82px" height="32px" />
       ) : (

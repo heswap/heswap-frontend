@@ -12,10 +12,10 @@ import {
   Text,
   TimerIcon,
   useTooltip,
-} from '@pancakeswap/uikit'
+} from '@heswap/uikit'
 import { BASE_URL } from 'config'
 import { getBscScanBlockCountdownUrl } from 'utils/bscscan'
-import { useBlock, useCakeVault } from 'state/hooks'
+import { useBlock } from 'state/hooks'
 import BigNumber from 'bignumber.js'
 import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
@@ -109,7 +109,7 @@ const InfoSection = styled(Box)`
 `
 
 const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded, expanded, breakpoints }) => {
-  const { sousId, stakingToken, earningToken, totalStaked, endBlock, stakingLimit, isAutoVault } = pool
+  const { sousId, stakingToken, earningToken, totalStaked, endBlock, stakingLimit } = pool
   const { t } = useTranslation()
   const { currentBlock } = useBlock()
   const { isXs, isSm, isMd } = breakpoints
@@ -122,22 +122,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
   const tokenAddress = earningToken.address ? getAddress(earningToken.address) : ''
   const imageSrc = `${BASE_URL}/images/tokens/${tokenAddress}.png`
 
-  const {
-    totalCakeInVault,
-    fees: { performanceFee },
-  } = useCakeVault()
-
-  const performanceFeeAsDecimal = performanceFee && performanceFee / 100
-  const isManualCakePool = sousId === 0
-
   const getTotalStakedBalance = () => {
-    if (isAutoVault) {
-      return getBalanceNumber(totalCakeInVault, stakingToken.decimals)
-    }
-    if (isManualCakePool) {
-      const manualCakeTotalMinusAutoVault = new BigNumber(totalStaked).minus(totalCakeInVault)
-      return getBalanceNumber(manualCakeTotalMinusAutoVault, stakingToken.decimals)
-    }
     return getBalanceNumber(totalStaked, stakingToken.decimals)
   }
 
@@ -150,15 +135,12 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
   })
 
   const manualTooltipText = t('You must harvest and compound your earnings from this pool manually.')
-  const autoTooltipText = t(
-    'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.',
-  )
 
   const {
     targetRef: tagTargetRef,
     tooltip: tagTooltip,
     tooltipVisible: tagTooltipVisible,
-  } = useTooltip(isAutoVault ? autoTooltipText : manualTooltipText, {
+  } = useTooltip(manualTooltipText, {
     placement: 'bottom-start',
   })
 
@@ -189,8 +171,8 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
 
   const aprRow = (
     <Flex justifyContent="space-between" alignItems="center" mb="8px">
-      <Text>{isAutoVault ? t('APY') : t('APR')}:</Text>
-      <Apr pool={pool} showIcon performanceFee={isAutoVault ? performanceFeeAsDecimal : 0} />
+      <Text>{t('APR')}:</Text>
+      <Apr pool={pool} showIcon performanceFee={0} />
     </Flex>
   )
 
@@ -243,7 +225,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
             </Button>
           </Flex>
         )}
-        {isAutoVault ? <CompoundingPoolTag /> : <ManualPoolTag />}
+        {<ManualPoolTag />}
         {tagTooltipVisible && tagTooltip}
         <span ref={tagTargetRef}>
           <HelpIcon ml="4px" width="20px" height="20px" color="textSubtle" />
@@ -252,7 +234,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
       <ActionContainer>
         {showSubtitle && (
           <Text mt="4px" mb="16px" color="textSubtle">
-            {isAutoVault ? t('Automatic restaking') : `${t('Earn')} CAKE ${t('Stake').toLocaleLowerCase()} CAKE`}
+            {`${t('Earn')} CAKE ${t('Stake').toLocaleLowerCase()} CAKE`}
           </Text>
         )}
         <Harvest {...pool} userDataLoaded={userDataLoaded} />

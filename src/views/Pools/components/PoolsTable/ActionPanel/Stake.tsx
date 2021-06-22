@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Button, useModal, IconButton, AddIcon, MinusIcon, Skeleton, useTooltip, Flex, Text } from '@pancakeswap/uikit'
+import { Button, useModal, IconButton, AddIcon, MinusIcon, Skeleton, useTooltip, Flex, Text } from '@heswap/uikit'
 import UnlockButton from 'components/UnlockButton'
 import { useWeb3React } from '@web3-react/core'
 import { useCakeVault } from 'state/hooks'
 import { Pool } from 'state/types'
 import Balance from 'components/Balance'
 import { useTranslation } from 'contexts/Localization'
-import { useCheckVaultApprovalStatus, useSousApprove, useVaultApprove } from 'hooks/useApprove'
+import { useSousApprove} from 'hooks/useApprove'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { PoolCategory } from 'config/constants/types'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -18,7 +18,6 @@ import { convertSharesToCake } from 'views/Pools/helpers'
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
 import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
 import StakeModal from '../../PoolCard/Modals/StakeModal'
-import VaultStakeModal from '../../CakeVaultCard/VaultStakeModal'
 
 const IconButtonWrapper = styled.div`
   display: flex;
@@ -39,7 +38,6 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
     poolCategory,
     userData,
     stakingTokenPrice,
-    isAutoVault,
   } = pool
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -51,17 +49,10 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
     earningToken.symbol,
   )
 
-  const { isVaultApproved, setLastUpdated } = useCheckVaultApprovalStatus()
-  const { handleApprove: handleVaultApprove, requestedApproval: requestedVaultApproval } =
-    useVaultApprove(setLastUpdated)
-
-  const handleApprove = isAutoVault ? handleVaultApprove : handlePoolApprove
-  const requestedApproval = isAutoVault ? requestedVaultApproval : requestedPoolApproval
 
   const isBnbPool = poolCategory === PoolCategory.BINANCE
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
-  const isNotVaultAndHasStake = !isAutoVault && stakedBalance.gt(0)
 
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
 
@@ -71,17 +62,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
     stakingToken.decimals,
   )
 
-  const {
-    userData: { userShares },
-    pricePerFullShare,
-  } = useCakeVault()
-
   const { cakeAsBigNumber, cakeAsNumberBalance } = convertSharesToCake(userShares, pricePerFullShare)
   const hasSharesStaked = userShares && userShares.gt(0)
   const isVaultWithShares = isAutoVault && hasSharesStaked
   const stakedAutoDollarValue = getBalanceNumber(cakeAsBigNumber.multipliedBy(stakingTokenPrice), stakingToken.decimals)
 
-  const needsApproval = isAutoVault ? !isVaultApproved : !allowance.gt(0) && !isBnbPool
+  const needsApproval = !allowance.gt(0) && !isBnbPool
 
   const [onPresentTokenRequired] = useModal(<NotEnoughTokensModal tokenSymbol={stakingToken.symbol} />)
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Text, Image, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Text, Image, useMatchBreakpoints } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { useCakeVault } from 'state/hooks'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
 import BaseCell, { CellContent } from './BaseCell'
@@ -25,11 +24,7 @@ const StyledCell = styled(BaseCell)`
 const NameCell: React.FC<NameCellProps> = ({ pool }) => {
   const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
-  const { sousId, stakingToken, earningToken, userData, isFinished, isAutoVault } = pool
-  const {
-    userData: { userShares },
-  } = useCakeVault()
-  const hasVaultShares = userShares && userShares.gt(0)
+  const { sousId, stakingToken, earningToken, userData, isFinished } = pool
 
   const stakingTokenSymbol = stakingToken.symbol
   const earningTokenSymbol = earningToken.symbol
@@ -39,16 +34,13 @@ const NameCell: React.FC<NameCellProps> = ({ pool }) => {
   const isStaked = stakedBalance.gt(0)
   const isManualCakePool = sousId === 0
 
-  const showStakedTag = isAutoVault ? hasVaultShares : isStaked
+  const showStakedTag = isStaked
 
   let title = `${t('Earn')} ${earningTokenSymbol}`
   let subtitle = `${t('Stake')} ${stakingTokenSymbol}`
   const showSubtitle = sousId !== 0 || (sousId === 0 && !isXs && !isSm)
 
-  if (isAutoVault) {
-    title = t('Auto CAKE')
-    subtitle = t('Automatic restaking')
-  } else if (isManualCakePool) {
+  if (isManualCakePool) {
     title = t('Manual CAKE')
     subtitle = `${t('Earn')} CAKE ${t('Stake').toLocaleLowerCase()} CAKE`
   }

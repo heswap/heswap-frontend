@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, useModal, CalculateIcon, IconButton, Skeleton, FlexProps } from '@pancakeswap/uikit'
+import { Flex, useModal, CalculateIcon, IconButton, Skeleton, FlexProps } from '@heswap/uikit'
 import { BASE_EXCHANGE_URL } from 'config'
 import ApyCalculatorModal from 'components/ApyCalculatorModal'
 import Balance from 'components/Balance'
@@ -17,7 +17,7 @@ const Apr: React.FC<AprProps> = ({ pool, showIcon, performanceFee = 0, ...props 
   const { stakingToken, earningToken, isFinished, earningTokenPrice, apr } = pool
   const { t } = useTranslation()
 
-  const { apr: earningsPercentageToDisplay, roundingDecimals, compoundFrequency } = getAprData(pool, performanceFee)
+  const { apr: earningsPercentageToDisplay, roundingDecimals, compoundFrequency } = getAprData(pool)
 
   const apyModalLink =
     stakingToken.address &&

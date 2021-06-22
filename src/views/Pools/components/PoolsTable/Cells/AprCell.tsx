@@ -21,16 +21,15 @@ const StyledCell = styled(BaseCell)`
 const AprCell: React.FC<AprCellProps> = ({ pool, performanceFee }) => {
   const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
-  const { isAutoVault } = pool
   return (
     <StyledCell role="cell">
       <CellContent>
         <Text fontSize="12px" color="textSubtle" textAlign="left">
-          {isAutoVault ? t('APY') : t('APR')}
+          {t('APR')}
         </Text>
         <Apr
           pool={pool}
-          performanceFee={isAutoVault ? performanceFee : 0}
+          performanceFee={0}
           showIcon={!isXs && !isSm}
           alignItems="flex-start"
         />

@@ -1,15 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Skeleton, Text, useTooltip, HelpIcon, Flex, Box, useModal, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Skeleton, Text, useTooltip, HelpIcon, Flex, Box, useModal, useMatchBreakpoints } from '@heswap/uikit'
 import { Pool } from 'state/types'
 import BigNumber from 'bignumber.js'
 import { PoolCategory } from 'config/constants/types'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { formatNumber, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import Balance from 'components/Balance'
-import { useCakeVault } from 'state/hooks'
 import { useTranslation } from 'contexts/Localization'
-import { getCakeVaultEarnings } from 'views/Pools/helpers'
 import BaseCell, { CellContent } from './BaseCell'
 import CollectModal from '../../PoolCard/Modals/CollectModal'
 
@@ -33,7 +31,7 @@ const HelpIconWrapper = styled.div`
 const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoaded }) => {
   const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
-  const { sousId, earningToken, poolCategory, userData, earningTokenPrice, isAutoVault } = pool
+  const { sousId, earningToken, poolCategory, userData, earningTokenPrice } = pool
   const isManualCakePool = sousId === 0
 
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
@@ -46,37 +44,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
   const earningsDollarValue = formatNumber(earningTokenDollarBalance)
   const isBnbPool = poolCategory === PoolCategory.BINANCE
 
-  // Auto CAKE vault calculations
-  const {
-    userData: { cakeAtLastUserAction, userShares, lastUserActionTime },
-    pricePerFullShare,
-  } = useCakeVault()
-  const { hasAutoEarnings, autoCakeToDisplay, autoUsdToDisplay } = getCakeVaultEarnings(
-    account,
-    cakeAtLastUserAction,
-    userShares,
-    pricePerFullShare,
-    earningTokenPrice,
-  )
-
-  const lastActionInMs = lastUserActionTime && parseInt(lastUserActionTime) * 1000
-  const dateTimeLastAction = new Date(lastActionInMs)
-  const dateStringToDisplay = dateTimeLastAction.toLocaleString()
-
-  const labelText = isAutoVault ? t('Recent CAKE profit') : t('%asset% Earned', { asset: earningToken.symbol })
-  earningTokenBalance = isAutoVault ? autoCakeToDisplay : earningTokenBalance
-  hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
-  earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance
-
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(
-    <>
-      <Balance fontSize="16px" value={autoCakeToDisplay} decimals={3} bold unit=" CAKE" />
-      <Balance fontSize="16px" value={autoUsdToDisplay} decimals={2} bold prefix="~$" />
-      {t('Earned since your last action')}
-      <Text>{dateStringToDisplay}</Text>
-    </>,
-    { placement: 'bottom' },
-  )
+  const labelText = t('%asset% Earned', { asset: earningToken.symbol })
 
   const [onPresentCollect] = useModal(
     <CollectModal
@@ -105,9 +73,8 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
           <Skeleton width="80px" height="16px" />
         ) : (
           <>
-            {tooltipVisible && tooltip}
             <Flex>
-              <Box mr="8px" height="32px" onClick={!isAutoVault && hasEarnings ? handleEarningsClick : undefined}>
+              <Box mr="8px" height="32px" onClick={hasEarnings ? handleEarningsClick : undefined}>
                 <Balance
                   mt="4px"
                   bold={!isXs && !isSm}
@@ -132,11 +99,6 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
                   </Text>
                 )}
               </Box>
-              {isAutoVault && hasEarnings && !isXs && !isSm && (
-                <HelpIconWrapper ref={targetRef}>
-                  <HelpIcon color="textSubtle" />
-                </HelpIconWrapper>
-              )}
             </Flex>
           </>
         )}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
-import { Flex, CardFooter, ExpandableLabel, HelpIcon, useTooltip } from '@pancakeswap/uikit'
+import { Flex, CardFooter, ExpandableLabel, HelpIcon, useTooltip } from '@heswap/uikit'
 import { Pool } from 'state/types'
 import { CompoundingPoolTag, ManualPoolTag } from 'components/Tags'
 import ExpandedFooter from './ExpandedFooter'
@@ -10,7 +10,6 @@ import ExpandedFooter from './ExpandedFooter'
 interface FooterProps {
   pool: Pool
   account: string
-  totalCakeInVault?: BigNumber
 }
 
 const ExpandableButtonWrapper = styled(Flex)`
@@ -22,7 +21,6 @@ const ExpandableButtonWrapper = styled(Flex)`
 `
 
 const Footer: React.FC<FooterProps> = ({ pool, account }) => {
-  const { isAutoVault } = pool
   const { t } = useTranslation()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -31,7 +29,7 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
     'Any funds you stake in this pool will be automagically harvested and restaked (compounded) for you.',
   )
 
-  const { targetRef, tooltip, tooltipVisible } = useTooltip(isAutoVault ? autoTooltipText : manualTooltipText, {
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(manualTooltipText, {
     placement: 'bottom',
   })
 
@@ -39,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
     <CardFooter>
       <ExpandableButtonWrapper>
         <Flex alignItems="center">
-          {isAutoVault ? <CompoundingPoolTag /> : <ManualPoolTag />}
+          {<ManualPoolTag />}
           {tooltipVisible && tooltip}
           <Flex ref={targetRef}>
             <HelpIcon ml="4px" width="20px" height="20px" color="textSubtle" />
