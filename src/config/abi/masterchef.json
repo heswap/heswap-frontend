@@ -2,13 +2,8 @@
   {
     "inputs": [
       {
-        "internalType": "contract CakeToken",
-        "name": "_cake",
-        "type": "address"
-      },
-      {
-        "internalType": "contract SyrupBar",
-        "name": "_syrup",
+        "internalType": "contract HSWToken",
+        "name": "_HSW",
         "type": "address"
       },
       {
@@ -17,13 +12,33 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "_safuaddr",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
-        "name": "_cakePerBlock",
+        "name": "_HSWPerBlock",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
         "name": "_startBlock",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_stakingPercent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_devPercent",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_safuPercent",
         "type": "uint256"
       }
     ],
@@ -86,6 +101,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "previousAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "EmissionRateUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -97,6 +137,31 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "commissionAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "ReferralCommissionPaid",
     "type": "event"
   },
   {
@@ -138,6 +203,45 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "HSW",
+    "outputs": [
+      {
+        "internalType": "contract HSWToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "HSWPerBlock",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MAXIMUM_REFERRAL_COMMISSION_RATE",
+    "outputs": [
+      {
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -161,32 +265,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "cake",
-    "outputs": [
-      {
-        "internalType": "contract CakeToken",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "cakePerBlock",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -197,6 +275,11 @@
         "internalType": "uint256",
         "name": "_amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_referrer",
+        "type": "address"
       }
     ],
     "name": "deposit",
@@ -205,16 +288,29 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "depositedHsw",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "_devaddr",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "dev",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "devPercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -270,6 +366,32 @@
       }
     ],
     "name": "getMultiplier",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "heswapReferral",
+    "outputs": [
+      {
+        "internalType": "contract IHeswapReferral",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastBlockDevWithdraw",
     "outputs": [
       {
         "internalType": "uint256",
@@ -352,7 +474,20 @@
         "type": "address"
       }
     ],
-    "name": "pendingCake",
+    "name": "pendingHSW",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "percentDec",
     "outputs": [
       {
         "internalType": "uint256",
@@ -390,7 +525,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "accCakePerShare",
+        "name": "accHSWPerShare",
         "type": "uint256"
       }
     ],
@@ -412,9 +547,48 @@
   },
   {
     "inputs": [],
+    "name": "referralCommissionRate",
+    "outputs": [
+      {
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "safuPercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "safuaddr",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -443,6 +617,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_devaddr",
+        "type": "address"
+      }
+    ],
+    "name": "setDevAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "contract IMigratorChef",
         "name": "_migrator",
         "type": "address"
@@ -454,8 +641,34 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "_referralCommissionRate",
+        "type": "uint16"
+      }
+    ],
+    "name": "setReferralCommissionRate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_safuaddr",
+        "type": "address"
+      }
+    ],
+    "name": "setSafuAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
-    "name": "startBlock",
+    "name": "stakingPercent",
     "outputs": [
       {
         "internalType": "uint256",
@@ -468,12 +681,12 @@
   },
   {
     "inputs": [],
-    "name": "syrup",
+    "name": "startBlock",
     "outputs": [
       {
-        "internalType": "contract SyrupBar",
+        "internalType": "uint256",
         "name": "",
-        "type": "address"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -501,6 +714,19 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateHswPerBlock",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -574,6 +800,13 @@
       }
     ],
     "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdrawDevFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

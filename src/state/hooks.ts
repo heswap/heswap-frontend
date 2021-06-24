@@ -165,7 +165,7 @@ export const usePoolFromPid = (sousId: number): Pool => {
 
 // Price
 export const usePriceCakeBusd = (): BigNumber => {
-  const cakeBnbFarm = useFarmFromPid(0)
+  const cakeBnbFarm = useFarmFromPid(1)
   return new BigNumber(cakeBnbFarm.token.busdPrice)
 }
 
