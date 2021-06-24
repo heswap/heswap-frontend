@@ -2,12 +2,12 @@ import BigNumber from 'bignumber.js'
 import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
 import { ethers } from 'ethers'
 import { Pair, TokenAmount, Token } from '@heswap/heswap-sdk'
-import { getLpContract, getMasterchefContract } from 'utils/contractHelpers'
+import { getLpContract, getMasterChefContract } from 'utils/contractHelpers'
 import farms from 'config/constants/farms'
 import { getAddress, getCakeAddress } from 'utils/addressHelpers'
 import tokens from 'config/constants/tokens'
 import pools from 'config/constants/pools'
-import smartChefABI from 'config/abi/smartChef.json'
+import sousChefABI from 'config/abi/sousChef.json'
 import { multicallv2 } from './multicall'
 import { web3WithArchivedNodeProvider } from './web3'
 import { getBalanceAmount } from './formatBalance'
@@ -37,8 +37,8 @@ export const stake = async (masterChefContract, pid, amount, account) => {
     })
 }
 
-export const sousStake = async (smartChefContract, amount, decimals = 18, account) => {
-  return smartChefContract.methods
+export const sousStake = async (sousChefContract, amount, decimals = 18, account) => {
+  return sousChefContract.methods
     .deposit(new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString())
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
@@ -46,8 +46,8 @@ export const sousStake = async (smartChefContract, amount, decimals = 18, accoun
     })
 }
 
-export const sousStakeBnb = async (smartChefContract, amount, account) => {
-  return smartChefContract.methods
+export const sousStakeBnb = async (sousChefContract, amount, account) => {
+  return sousChefContract.methods
     .deposit()
     .send({
       from: account,
@@ -77,8 +77,8 @@ export const unstake = async (masterChefContract, pid, amount, account) => {
     })
 }
 
-export const sousUnstake = async (smartChefContract, amount, decimals, account) => {
-  return smartChefContract.methods
+export const sousUnstake = async (sousChefContract, amount, decimals, account) => {
+  return sousChefContract.methods
     .withdraw(new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString())
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
@@ -86,8 +86,8 @@ export const sousUnstake = async (smartChefContract, amount, decimals, account) 
     })
 }
 
-export const sousEmergencyUnstake = async (smartChefContract, account) => {
-  return smartChefContract.methods
+export const sousEmergencyUnstake = async (sousChefContract, account) => {
+  return sousChefContract.methods
     .emergencyWithdraw()
     .send({ from: account })
     .on('transactionHash', (tx) => {
@@ -113,8 +113,8 @@ export const harvest = async (masterChefContract, pid, account) => {
     })
 }
 
-export const soushHarvest = async (smartChefContract, account) => {
-  return smartChefContract.methods
+export const soushHarvest = async (sousChefContract, account) => {
+  return sousChefContract.methods
     .deposit('0')
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
@@ -122,8 +122,8 @@ export const soushHarvest = async (smartChefContract, account) => {
     })
 }
 
-export const soushHarvestBnb = async (smartChefContract, account) => {
-  return smartChefContract.methods
+export const soushHarvestBnb = async (sousChefContract, account) => {
+  return sousChefContract.methods
     .deposit()
     .send({ from: account, gas: DEFAULT_GAS_LIMIT, value: BIG_ZERO })
     .on('transactionHash', (tx) => {
@@ -132,7 +132,7 @@ export const soushHarvestBnb = async (smartChefContract, account) => {
 }
 
 const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10)
-const cakeBnbPid = 251
+const cakeBnbPid = 0
 const cakeBnbFarm = farms.find((farm) => farm.pid === cakeBnbPid)
 
 const CAKE_TOKEN = new Token(chainId, getCakeAddress(), 18)
@@ -144,7 +144,7 @@ const CAKE_BNB_TOKEN = new Token(chainId, getAddress(cakeBnbFarm.lpAddresses), 1
  */
 export const getUserStakeInCakeBnbLp = async (account: string, block?: number) => {
   try {
-    const masterContract = getMasterchefContract(web3WithArchivedNodeProvider)
+    const masterContract = getMasterChefContract(web3WithArchivedNodeProvider)
     const cakeBnbContract = getLpContract(getAddress(cakeBnbFarm.lpAddresses), web3WithArchivedNodeProvider)
     const totalSupplyLP = await cakeBnbContract.methods.totalSupply().call(undefined, block)
     const reservesLP = await cakeBnbContract.methods.getReserves().call(undefined, block)
@@ -173,7 +173,7 @@ export const getUserStakeInCakeBnbLp = async (account: string, block?: number) =
  */
 export const getUserStakeInCakePool = async (account: string, block?: number) => {
   try {
-    const masterContract = getMasterchefContract(web3WithArchivedNodeProvider)
+    const masterContract = getMasterChefContract(web3WithArchivedNodeProvider)
     const response = await masterContract.methods.userInfo(0, account).call(undefined, block)
 
     return getBalanceAmount(new BigNumber(response.amount))
@@ -206,8 +206,8 @@ export const getUserStakeInPools = async (account: string, block?: number) => {
       address: getAddress(eligiblePool.contractAddress),
       name: 'startBlock',
     }))
-    const endBlocks = await multicallv2(smartChefABI, endBlockCalls, multicallOptions)
-    const startBlocks = await multicallv2(smartChefABI, startBlockCalls, multicallOptions)
+    const endBlocks = await multicallv2(sousChefABI, endBlockCalls, multicallOptions)
+    const startBlocks = await multicallv2(sousChefABI, startBlockCalls, multicallOptions)
 
     // Filter out pools that have ended
     const activePools = eligiblePools.filter((eligiblePool, index) => {
@@ -223,7 +223,7 @@ export const getUserStakeInPools = async (account: string, block?: number) => {
       name: 'userInfo',
       params: [account],
     }))
-    const userInfos = await multicallv2(smartChefABI, userInfoCalls, multicallOptions)
+    const userInfos = await multicallv2(sousChefABI, userInfoCalls, multicallOptions)
 
     return userInfos.reduce((accum: BigNumber, userInfo) => {
       return accum.plus(new BigNumber(userInfo.amount._hex))

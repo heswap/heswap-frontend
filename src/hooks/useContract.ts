@@ -3,8 +3,8 @@ import useWeb3 from 'hooks/useWeb3'
 import {
   getBep20Contract,
   getCakeContract,
-  getMasterchefContract,
-  getSmartchefContract,
+  getMasterChefContract,
+  getSousChefContract,
   getErc721Contract,
 } from 'utils/contractHelpers'
 
@@ -30,13 +30,12 @@ export const useCake = () => {
   return useMemo(() => getCakeContract(web3), [web3])
 }
 
-export const useMasterchef = () => {
+export const useMasterChef = () => {
   const web3 = useWeb3()
-  return useMemo(() => getMasterchefContract(web3), [web3])
+  return useMemo(() => getMasterChefContract(web3), [web3])
 }
 
-export const useSmartChef = (id) => {
+export const useSousChef = (id) => {
   const web3 = useWeb3()
-  return useMemo(() => getSmartchefContract(id, web3), [id, web3])
+  return useMemo(() => getSousChefContract(id, web3), [id, web3])
 }
-

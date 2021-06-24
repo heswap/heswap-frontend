@@ -35,7 +35,7 @@
     "@binance-chain/bsc-connector": "^1.0.0",
     "@ethersproject/abi": "^5.1.2",
     "@heswap/heswap-sdk": "1.0.6",
-    "@heswap/uikit": "0.1.2",
+    "@heswap/uikit": "0.1.11",
     "@reduxjs/toolkit": "^1.5.0",
     "@types/react": "^17.0.5",
     "@types/react-dom": "^17.0.4",

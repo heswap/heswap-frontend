@@ -18,7 +18,6 @@ export enum PoolIds {
   poolUnlimited = 'poolUnlimited',
 }
 
-
 export enum PoolCategory {
   'COMMUNITY' = 'Community',
   'CORE' = 'Core',

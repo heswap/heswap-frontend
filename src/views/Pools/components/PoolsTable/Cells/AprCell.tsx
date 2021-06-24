@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Text, useMatchBreakpoints } from '@heswap/uikit'
 import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import BaseCell, { CellContent } from './BaseCell'
@@ -27,12 +27,7 @@ const AprCell: React.FC<AprCellProps> = ({ pool, performanceFee }) => {
         <Text fontSize="12px" color="textSubtle" textAlign="left">
           {t('APR')}
         </Text>
-        <Apr
-          pool={pool}
-          performanceFee={0}
-          showIcon={!isXs && !isSm}
-          alignItems="flex-start"
-        />
+        <Apr pool={pool} performanceFee={0} showIcon={!isXs && !isSm} alignItems="flex-start" />
       </CellContent>
     </StyledCell>
   )

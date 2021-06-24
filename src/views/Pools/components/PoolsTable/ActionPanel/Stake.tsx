@@ -28,16 +28,8 @@ interface StackedActionProps {
 }
 
 const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoaded }) => {
-  const {
-    sousId,
-    stakingToken,
-    earningToken,
-    stakingLimit,
-    isFinished,
-    poolCategory,
-    userData,
-    stakingTokenPrice,
-  } = pool
+  const { sousId, stakingToken, earningToken, stakingLimit, isFinished, poolCategory, userData, stakingTokenPrice } =
+    pool
   const { t } = useTranslation()
   const { account } = useWeb3React()
 
@@ -163,13 +155,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
         </ActionTitles>
         <ActionContent>
           <Flex flex="1" pt="16px" flexDirection="column" alignSelf="flex-start">
-            <Balance
-              lineHeight="1"
-              bold
-              fontSize="20px"
-              decimals={5}
-              value={stakedTokenBalance}
-            />
+            <Balance lineHeight="1" bold fontSize="20px" decimals={5} value={stakedTokenBalance} />
             <Balance
               fontSize="12px"
               display="inline"

@@ -3,11 +3,11 @@ import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { updateUserStakedBalance, updateUserBalance, updateUserPendingReward } from 'state/actions'
 import { unstake, sousUnstake, sousEmergencyUnstake } from 'utils/callHelpers'
-import { useMasterchef, useSousChef } from './useContract'
+import { useMasterChef, useSousChef } from './useContract'
 
 const useUnstake = (pid: number) => {
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterChef()
 
   const handleUnstake = useCallback(
     async (amount: string) => {
@@ -23,7 +23,7 @@ const useUnstake = (pid: number) => {
 export const useSousUnstake = (sousId, enableEmergencyWithdraw = false) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterChef()
   const sousChefContract = useSousChef(sousId)
 
   const handleUnstake = useCallback(

@@ -13,12 +13,10 @@ import { ConnectorNames, connectorLocalStorageKey } from '@heswap/uikit'
 import { connectorsByName } from 'utils/web3React'
 import { setupNetwork } from 'utils/wallet'
 import useToast from 'hooks/useToast'
-import { useAppDispatch } from 'state'
 import { useTranslation } from 'contexts/Localization'
 
 const useAuth = () => {
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
 
@@ -64,7 +62,7 @@ const useAuth = () => {
       connectorsByName.walletconnect.close()
       connectorsByName.walletconnect.walletConnectProvider = null
     }
-  }, [deactivate, dispatch])
+  }, [deactivate])
 
   return { login, logout }
 }

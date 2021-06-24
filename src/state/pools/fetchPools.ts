@@ -6,7 +6,7 @@ import wbnbABI from 'config/abi/weth.json'
 import multicall from 'utils/multicall'
 import { getAddress, getWbnbAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { getSouschefV2Contract } from 'utils/contractHelpers'
+import { getSousChefV2Contract } from 'utils/contractHelpers'
 
 export const fetchPoolsBlockLimits = async () => {
   const poolsWithEnd = poolsConfig.filter((p) => p.sousId !== 0)
@@ -74,7 +74,7 @@ export const fetchPoolsTotalStaking = async () => {
 
 export const fetchPoolStakingLimit = async (sousId: number): Promise<BigNumber> => {
   try {
-    const sousContract = getSouschefV2Contract(sousId)
+    const sousContract = getSousChefV2Contract(sousId)
     const stakingLimit = await sousContract.methods.poolLimitPerUser().call()
     return new BigNumber(stakingLimit)
   } catch (error) {

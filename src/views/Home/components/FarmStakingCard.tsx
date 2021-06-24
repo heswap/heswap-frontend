@@ -5,7 +5,7 @@ import { harvest } from 'utils/callHelpers'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
-import { useMasterchef } from 'hooks/useContract'
+import { useMasterChef } from 'hooks/useContract'
 import UnlockButton from 'components/UnlockButton'
 import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'
@@ -39,7 +39,7 @@ const FarmedStakingCard = () => {
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const farmsWithBalance = useFarmsWithBalance()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterChef()
   const balancesWithValue = farmsWithBalance.filter((balanceType) => balanceType.balance.toNumber() > 0)
 
   const harvestAllFarms = useCallback(async () => {

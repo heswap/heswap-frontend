@@ -7,14 +7,14 @@ import { useAppDispatch } from 'state'
 import { updateUserAllowance } from 'state/actions'
 import { approve } from 'utils/callHelpers'
 import { useTranslation } from 'contexts/Localization'
-import { useMasterchef, useCake, useSousChef} from './useContract'
+import { useMasterChef, useCake, useSousChef } from './useContract'
 import useToast from './useToast'
 import useLastUpdated from './useLastUpdated'
 
 // Approve a Farm
 export const useApprove = (lpContract: Contract) => {
   const { account } = useWeb3React()
-  const masterChefContract = useMasterchef()
+  const masterChefContract = useMasterChef()
 
   const handleApprove = useCallback(async () => {
     try {
@@ -61,4 +61,3 @@ export const useSousApprove = (lpContract: Contract, sousId, earningTokenSymbol)
 
   return { handleApprove, requestedApproval }
 }
-

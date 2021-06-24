@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { Button, ChevronUpIcon } from '@pancakeswap/uikit'
+import { Button, ChevronUpIcon } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { Pool } from 'state/types'
 import PoolRow from './PoolRow'
@@ -46,12 +46,7 @@ const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account 
     <StyledTableBorder>
       <StyledTable role="table" ref={tableWrapperEl}>
         {pools.map((pool) => (
-          <PoolRow
-            key={pool.sousId}
-            pool={pool}
-            account={account}
-            userDataLoaded={userDataLoaded}
-          />
+          <PoolRow key={pool.sousId} pool={pool} account={account} userDataLoaded={userDataLoaded} />
         ))}
         <ScrollButtonContainer>
           <Button variant="text" onClick={scrollToTop}>

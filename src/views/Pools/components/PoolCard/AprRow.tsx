@@ -34,7 +34,7 @@ const AprRow: React.FC<AprRowProps> = ({ pool }) => {
       earningTokenSymbol={earningToken.symbol}
       roundingDecimals={roundingDecimals}
       compoundFrequency={compoundFrequency}
-      performanceFee={performanceFee}
+      performanceFee={0}
     />,
   )
 

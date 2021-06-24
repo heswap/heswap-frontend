@@ -8,7 +8,7 @@ import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
 import usePersistState from 'hooks/usePersistState'
-import { usePools, useFetchPublicPoolsData, usePollFarmsData} from 'state/hooks'
+import { usePools, useFetchPublicPoolsData, usePollFarmsData } from 'state/hooks'
 import { latinise } from 'utils/latinise'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
@@ -68,14 +68,14 @@ const Pools: React.FC = () => {
       finishedPools.filter((pool) => {
         return pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       }),
-    [finishedPools]
+    [finishedPools],
   )
   const stakedOnlyOpenPools = useMemo(
     () =>
       openPools.filter((pool) => {
         return pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
       }),
-    [openPools]
+    [openPools],
   )
   const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0
 
@@ -114,11 +114,7 @@ const Pools: React.FC = () => {
     switch (sortOption) {
       case 'apr':
         // Ternary is needed to prevent pools without APR (like MIX) getting top spot
-        return orderBy(
-          poolsToSort,
-          (pool: Pool) => (pool.apr ? getAprData(pool).apr : 0),
-          'desc',
-        )
+        return orderBy(poolsToSort, (pool: Pool) => (pool.apr ? getAprData(pool).apr : 0), 'desc')
       case 'earned':
         return orderBy(
           poolsToSort,
@@ -131,11 +127,7 @@ const Pools: React.FC = () => {
           'desc',
         )
       case 'totalStaked':
-        return orderBy(
-          poolsToSort,
-          (pool: Pool) => (pool.totalStaked.toNumber()),
-          'desc',
-        )
+        return orderBy(poolsToSort, (pool: Pool) => pool.totalStaked.toNumber(), 'desc')
       default:
         return poolsToSort
     }
@@ -161,11 +153,9 @@ const Pools: React.FC = () => {
 
   const cardLayout = (
     <CardLayout>
-      {poolsToShow().map((pool) =>
-        (
-          <PoolCard key={pool.sousId} pool={pool} account={account} />
-        ),
-      )}
+      {poolsToShow().map((pool) => (
+        <PoolCard key={pool.sousId} pool={pool} account={account} />
+      ))}
     </CardLayout>
   )
 

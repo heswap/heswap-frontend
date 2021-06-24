@@ -157,9 +157,6 @@ export const PoolsSlice = createSlice({
       }
     },
   },
-  extraReducers: (builder) => {
-    })
-  },
 })
 
 // Actions

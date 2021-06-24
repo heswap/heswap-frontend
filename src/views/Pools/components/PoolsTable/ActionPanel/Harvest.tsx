@@ -29,15 +29,14 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
 
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
   // These will be reassigned later if its Auto CAKE vault
-  let earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
-  let earningTokenDollarBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
-  let hasEarnings = earnings.gt(0)
+  const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
+  const earningTokenDollarBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
+  const hasEarnings = earnings.gt(0)
   const fullBalance = getFullDisplayBalance(earnings, earningToken.decimals)
   const formattedBalance = formatNumber(earningTokenBalance, 3, 3)
   const earningsDollarValue = formatNumber(earningTokenDollarBalance)
   const isCompoundPool = sousId === 0
   const isBnbPool = poolCategory === PoolCategory.BINANCE
-
 
   const displayBalance = hasEarnings ? earningTokenBalance : 0
   const [onPresentCollect] = useModal(
@@ -113,11 +112,9 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
             </Text>
           )}
         </Flex>
-        {(
-          <Button disabled={!hasEarnings} onClick={onPresentCollect}>
-            {isCompoundPool ? t('Collect') : t('Harvest')}
-          </Button>
-        )}
+        <Button disabled={!hasEarnings} onClick={onPresentCollect}>
+          {isCompoundPool ? t('Collect') : t('Harvest')}
+        </Button>
       </ActionContent>
     </ActionContainer>
   )

@@ -107,11 +107,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
       </Flex>
       {poolContractAddress && (
         <Flex mb="2px" justifyContent="flex-end">
-          <LinkExternal
-            bold={false}
-            small
-            href={`${BASE_BSC_SCAN_URL}/address/${poolContractAddress}`}
-          >
+          <LinkExternal bold={false} small href={`${BASE_BSC_SCAN_URL}/address/${poolContractAddress}`}>
             {t('View Contract')}
           </LinkExternal>
         </Flex>
