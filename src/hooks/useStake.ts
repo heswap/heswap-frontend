@@ -10,8 +10,8 @@ const useStake = (pid: number) => {
   const masterChefContract = useMasterChef()
 
   const handleStake = useCallback(
-    async (amount: string) => {
-      const txHash = await stake(masterChefContract, pid, amount, account)
+    async (amount: string, referrer: string) => {
+      const txHash = await stake(masterChefContract, pid, amount, referrer, account)
       console.info(txHash)
     },
     [account, masterChefContract, pid],
@@ -29,7 +29,7 @@ export const useSousStake = (sousId: number, isUsingBnb = false) => {
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
       if (sousId === 0) {
-        await stake(masterChefContract, 0, amount, account)
+        await stake(masterChefContract, 0, amount, '0', account)
       } else if (isUsingBnb) {
         await sousStakeBnb(sousChefContract, amount, account)
       } else {
