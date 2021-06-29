@@ -19,18 +19,9 @@ export const approve = async (lpContract, masterChefContract, account) => {
     .send({ from: account })
 }
 
-export const stake = async (masterChefContract, pid, amount, account) => {
-  if (pid === 0) {
-    return masterChefContract.methods
-      .enterStaking(new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString())
-      .send({ from: account, gas: DEFAULT_GAS_LIMIT })
-      .on('transactionHash', (tx) => {
-        return tx.transactionHash
-      })
-  }
-
+export const stake = async (masterChefContract, pid, amount, referrer, account) => {
   return masterChefContract.methods
-    .deposit(pid, new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString())
+    .deposit(pid, new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString(), referrer)
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
       return tx.transactionHash
@@ -60,15 +51,6 @@ export const sousStakeBnb = async (sousChefContract, amount, account) => {
 }
 
 export const unstake = async (masterChefContract, pid, amount, account) => {
-  if (pid === 0) {
-    return masterChefContract.methods
-      .leaveStaking(new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString())
-      .send({ from: account, gas: DEFAULT_GAS_LIMIT })
-      .on('transactionHash', (tx) => {
-        return tx.transactionHash
-      })
-  }
-
   return masterChefContract.methods
     .withdraw(pid, new BigNumber(amount).times(DEFAULT_TOKEN_DECIMAL).toString())
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
@@ -98,7 +80,7 @@ export const sousEmergencyUnstake = async (sousChefContract, account) => {
 export const harvest = async (masterChefContract, pid, account) => {
   if (pid === 0) {
     return masterChefContract.methods
-      .leaveStaking('0')
+      .withdraw(pid, '0')
       .send({ from: account, gas: DEFAULT_GAS_LIMIT })
       .on('transactionHash', (tx) => {
         return tx.transactionHash
@@ -106,7 +88,7 @@ export const harvest = async (masterChefContract, pid, account) => {
   }
 
   return masterChefContract.methods
-    .deposit(pid, '0')
+    .deposit(pid, '0', 0)
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
       return tx.transactionHash

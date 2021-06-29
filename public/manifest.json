@@ -1,7 +1,7 @@
 {
-  "short_name": "PancakeSwap",
-  "name": "PancakeSwap",
-  "description": "Farm CAKE with Pancake LP Tokens",
+  "short_name": "Heswap",
+  "name": "Heswap",
+  "description": "Farm HSW with Heswap LP Tokens",
   "icons": [
     {
       "src": "favicon.ico",
