@@ -14,7 +14,6 @@ const Block = styled.div`
   margin: 16px 0;
 `
 
-
 const UnlockCard = () => {
   const { t } = useTranslation()
 
@@ -22,12 +21,12 @@ const UnlockCard = () => {
     <StyledFarmStakingCard>
       <CardBody>
         <Block>
-            <UnlockButton />
+          <UnlockButton />
         </Block>
         <Block>
-            <Text>{t('Unlock wallet to get your unique referral link')}</Text>
+          <Text>{t('Unlock wallet to get your unique referral link')}</Text>
         </Block>
-    </CardBody>
+      </CardBody>
     </StyledFarmStakingCard>
   )
 }

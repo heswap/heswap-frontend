@@ -20,3 +20,6 @@ export const getMulticallAddress = () => {
 export const getWbnbAddress = () => {
   return getAddress(tokens.wbnb.address)
 }
+export const getReferralAddress = () => {
+  return getAddress(addresses.referrals)
+}

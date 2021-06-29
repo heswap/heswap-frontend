@@ -5,7 +5,13 @@ import { poolsConfig } from 'config/constants'
 import { PoolCategory } from 'config/constants/types'
 
 // Addresses
-import { getAddress, getCakeAddress, getMasterChefAddress, getMulticallAddress } from 'utils/addressHelpers'
+import {
+  getAddress,
+  getCakeAddress,
+  getMasterChefAddress,
+  getMulticallAddress,
+  getReferralAddress,
+} from 'utils/addressHelpers'
 
 // ABI
 import bep20Abi from 'config/abi/erc20.json'
@@ -16,6 +22,7 @@ import masterChef from 'config/abi/masterchef.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import MultiCallAbi from 'config/abi/Multicall.json'
+import referralsAbi from 'config/abi/referrals.json'
 import { DEFAULT_GAS_PRICE, TESTNET_CHAIN_ID } from 'config'
 import { getSettings, getGasPriceInWei } from './settings'
 
@@ -61,4 +68,7 @@ export const getSousChefContract = (id: number, web3?: Web3) => {
 export const getSousChefV2Contract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
   return getContract(sousChefV2, getAddress(config.contractAddress), web3)
+}
+export const getReferralContract = (web3?: Web3) => {
+  return getContract(referralsAbi, getReferralAddress(), web3)
 }

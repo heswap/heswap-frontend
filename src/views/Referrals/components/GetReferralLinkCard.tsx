@@ -16,11 +16,11 @@ const Block = styled.div`
 `
 
 interface LinkCard {
-  invite: string;
-  header: string;
+  invite: string
+  header: string
 }
 
-const GetReferralLinkCard = ({invite, header}:LinkCard) => {
+const GetReferralLinkCard = ({ invite, header }: LinkCard) => {
   const { account } = useWeb3React()
   const { t } = useTranslation()
 
@@ -28,19 +28,21 @@ const GetReferralLinkCard = ({invite, header}:LinkCard) => {
     <StyledFarmStakingCard>
       <CardBody>
         <Heading scale="xl" mb="24px">
-            {t(header)}
+          {t(header)}
         </Heading>
         <Block>
-            <Text
+          <Text
             fontSize="16px"
             bold
-            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "8px" }}
-            >
-              {`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}
-            </Text>
+            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '8px' }}
+          >
+            {`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}
+          </Text>
         </Block>
-            <CopyToClipboard toCopy={`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}>Copy</CopyToClipboard>
-    </CardBody>
+        <CopyToClipboard toCopy={`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}>
+          Copy
+        </CopyToClipboard>
+      </CardBody>
     </StyledFarmStakingCard>
   )
 }

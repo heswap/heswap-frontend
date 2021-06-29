@@ -79,22 +79,21 @@ const Referrals: React.FC = () => {
         </Heading>
         <Text>{t('Earn a certain commission reward from your friends swaps on Heswap.')}</Text>
       </Hero>
-      {
-        account ?
-          <>
-            <Cards>
-              <GetReferralLinkCard invite="farms" header="Invite your friends to farm"/>
-              <GetReferralLinkCard invite="pools" header="Invite your friends to pool"/>
-            </Cards>
-            <Newcards>
-              <ReferralDashboard />
-            </Newcards>
-          </>
-        :
+      {account ? (
+        <>
+          <Cards>
+            <GetReferralLinkCard invite="farms" header="Invite your friends to farm" />
+            <GetReferralLinkCard invite="pools" header="Invite your friends to pool" />
+          </Cards>
           <Newcards>
-            <UnlockCard />
+            <ReferralDashboard />
           </Newcards>
-      }
+        </>
+      ) : (
+        <Newcards>
+          <UnlockCard />
+        </Newcards>
+      )}
     </Page>
   )
 }

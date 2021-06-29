@@ -51,7 +51,7 @@ const App: React.FC = () => {
             <Route path="/staking">
               <Redirect to="/pools" />
             </Route>
-			<Route path="/referrals">
+            <Route path="/referrals">
               <Referrals />
             </Route>
             <Route path="/syrup">
