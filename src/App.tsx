@@ -18,6 +18,7 @@ import history from './routerHistory'
 const Home = lazy(() => import('./views/Home'))
 const Farms = lazy(() => import('./views/Farms'))
 const NotFound = lazy(() => import('./views/NotFound'))
+const Referrals = lazy(() => import('./views/Referrals'))
 
 // This config is required for number formatting
 BigNumber.config({
@@ -49,6 +50,9 @@ const App: React.FC = () => {
             {/* Redirect */}
             <Route path="/staking">
               <Redirect to="/pools" />
+            </Route>
+			<Route path="/referrals">
+              <Referrals />
             </Route>
             <Route path="/syrup">
               <Redirect to="/pools" />

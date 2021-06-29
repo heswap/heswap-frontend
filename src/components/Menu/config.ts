@@ -32,6 +32,11 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/pools',
   },
   {
+    label: t('Referrals'),
+    icon: 'GroupsIcon',
+    href: '/referrals',
+  },
+  {
     label: t('More'),
     icon: 'MoreIcon',
     items: [
