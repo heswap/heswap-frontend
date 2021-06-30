@@ -11,6 +11,16 @@ import EarnAssetCard from 'views/Home/components/EarnAssetCard'
 import WinCard from 'views/Home/components/WinCard'
 
 const Hero = styled.div`
+  margin-top: -32px;
+  margin-right: -24px;
+  margin-left: -24px;
+  padding-top: 32px;
+  padding-right: 24px;
+  padding-left: 24px;
+  background: linear-gradient(180deg, #071c3c, #002b6f);
+`;
+
+const Banner = styled.div`
   align-items: center;
   // background-image: url('/images/pan-bg-mobile.svg');
   // background-repeat: no-repeat;
@@ -34,7 +44,7 @@ const Hero = styled.div`
 const Cards = styled(BaseLayout)`
   align-items: stretch;
   justify-content: stretch;
-  margin-bottom: 24px;
+  padding-bottom: 24px;
   grid-gap: 24px;
 
   & > div {
@@ -49,7 +59,7 @@ const Cards = styled(BaseLayout)`
   }
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    margin-bottom: 32px;
+    padding-bottom: 32px;
     grid-gap: 32px;
 
     & > div {
@@ -60,6 +70,7 @@ const Cards = styled(BaseLayout)`
 
 const CTACards = styled(BaseLayout)`
   align-items: start;
+  margin-top: 24px;
   margin-bottom: 24px;
   grid-gap: 24px;
 
@@ -89,25 +100,25 @@ const Home: React.FC = () => {
   return (
     <Page>
       <Hero>
-        <Heading as="h1" scale="xl" mb="24px" color="secondary">
-          {t('Heswap')}
-        </Heading>
-        <Text>{t('The First DEX on BSC network with the lowest fees in Defi.')}</Text>
-      </Hero>
-      <div>
+        <Banner>
+          <Heading as="h1" scale="xl" mb="24px" color="secondary">
+            {t('HeSwap')}
+          </Heading>
+          <Text>{t('The #1 AMM and yield farm on Binance Smart Chain.')}</Text>
+        </Banner>
         <Cards>
           <FarmStakingCard />
         </Cards>
-        <CTACards>
-          <EarnAPRCard />
-          <EarnAssetCard />
-          <WinCard />
-        </CTACards>
-        <Cards>
-          <CakeStats />
-          <TotalValueLockedCard />
-        </Cards>
-      </div>
+      </Hero>
+      <CTACards>
+        <EarnAPRCard />
+        <EarnAssetCard />
+        <WinCard />
+      </CTACards>
+      <Cards>
+        <CakeStats />
+        <TotalValueLockedCard />
+      </Cards>
     </Page>
   )
 }
