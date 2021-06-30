@@ -44,6 +44,9 @@ const App: React.FC = () => {
             <Route path="/farms">
               <Farms />
             </Route>
+            <Route path="/farms/:referrer">
+              <Farms />
+            </Route>
             <Route path="/pools">
               <Pools />
             </Route>

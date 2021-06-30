@@ -36,10 +36,10 @@ const GetReferralLinkCard = ({ invite, header }: LinkCard) => {
             bold
             style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '8px' }}
           >
-            {`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}
+            {`${window.location.protocol}//${window.location.host}/${invite}/${account}`}
           </Text>
         </Block>
-        <CopyToClipboard toCopy={`${window.location.protocol}//${window.location.host}/${invite}?ref=${account}`}>
+        <CopyToClipboard toCopy={`${window.location.protocol}//${window.location.host}/${invite}/${account}`}>
           Copy
         </CopyToClipboard>
       </CardBody>

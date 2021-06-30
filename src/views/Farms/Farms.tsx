@@ -102,6 +102,11 @@ const NUMBER_OF_FARMS_VISIBLE = 12
 const Farms: React.FC = () => {
   const { path } = useRouteMatch()
   const { pathname } = useLocation()
+  if (pathname.substring(7)) {
+    console.log(`referral link, ref=${pathname.substring(7)}`)
+  } else {
+    console.log('not referral link')
+  }
   const { t } = useTranslation()
   const { data: farmsLP, userDataLoaded } = useFarms()
   const cakePrice = usePriceCakeBusd()
