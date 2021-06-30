@@ -10,6 +10,7 @@ export interface ITableProps {
   columns: ColumnType<RowProps>[]
   userDataReady: boolean
   sortColumn?: string
+  referrer: string
 }
 
 const Container = styled.div`

@@ -27,7 +27,7 @@ export interface RowProps {
 
 interface RowPropsWithLoading extends RowProps {
   userDataReady: boolean
-  referrer: referrer
+  referrer: string
 }
 
 const cells = {
