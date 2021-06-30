@@ -17,7 +17,6 @@ const Hero = styled.div`
   padding-top: 32px;
   padding-right: 24px;
   padding-left: 24px;
-  background: linear-gradient(180deg, #071c3c, #002b6f);
 `;
 
 const Banner = styled.div`
@@ -98,28 +97,34 @@ const Home: React.FC = () => {
   const { t } = useTranslation()
 
   return (
-    <Page>
-      <Hero>
-        <Banner>
-          <Heading as="h1" scale="xl" mb="24px" color="secondary">
-            {t('HeSwap')}
-          </Heading>
-          <Text>{t('The #1 AMM and yield farm on Binance Smart Chain.')}</Text>
-        </Banner>
+    <div>
+      <div style={{ background: 'linear-gradient(180deg, #071c3c, #002b6f)', marginTop: '-64px' }}>
+        <Page>
+          <Hero>
+            <Banner>
+              <Heading as="h1" scale="xl" mb="24px" color="secondary">
+                {t('HeSwap')}
+              </Heading>
+              <Text>{t('The #1 AMM and yield farm on Binance Smart Chain.')}</Text>
+            </Banner>
+            <Cards>
+              <FarmStakingCard />
+            </Cards>
+          </Hero>
+        </Page>
+      </div>
+      <Page>
+        <CTACards>
+          <EarnAPRCard />
+          <EarnAssetCard />
+          <WinCard />
+        </CTACards>
         <Cards>
-          <FarmStakingCard />
+          <CakeStats />
+          <TotalValueLockedCard />
         </Cards>
-      </Hero>
-      <CTACards>
-        <EarnAPRCard />
-        <EarnAssetCard />
-        <WinCard />
-      </CTACards>
-      <Cards>
-        <CakeStats />
-        <TotalValueLockedCard />
-      </Cards>
-    </Page>
+      </Page>
+    </div>
   )
 }
 
