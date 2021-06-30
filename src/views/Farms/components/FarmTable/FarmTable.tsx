@@ -77,7 +77,14 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           <StyledTable>
             <TableBody>
               {rows.map((row) => {
-                return <Row {...row.original} userDataReady={userDataReady} referrer={referrer} key={`table-row-${row.id}`} />
+                return (
+                  <Row
+                    {...row.original}
+                    userDataReady={userDataReady}
+                    referrer={referrer}
+                    key={`table-row-${row.id}`}
+                  />
+                )
               })}
             </TableBody>
           </StyledTable>

@@ -68,7 +68,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         tokenName={farm.lpSymbol}
         pid={pid}
         addLiquidityUrl={addLiquidityUrl}
-		referrer={referrer}
+        referrer={referrer}
       />
     ) : (
       <Button mt="8px" width="100%" disabled={requestedApproval} onClick={handleApprove}>

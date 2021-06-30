@@ -106,7 +106,7 @@ const Farms: React.FC = () => {
   const { pathname } = useLocation()
   let referrer = AddressZero
   if (pathname.substring(7) && isAddress(pathname.substring(7))) {
-	referrer = pathname.substring(7)
+    referrer = pathname.substring(7)
     console.log(`referral link, ref=${referrer}`)
   } else {
     console.log('not referral link')
@@ -325,7 +325,14 @@ const Farms: React.FC = () => {
         <FlexLayout>
           <Route exact path={`${path}`}>
             {farmsStakedMemoized.map((farm) => (
-              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed={false} referrer={referrer} />
+              <FarmCard
+                key={farm.pid}
+                farm={farm}
+                cakePrice={cakePrice}
+                account={account}
+                removed={false}
+                referrer={referrer}
+              />
             ))}
           </Route>
           <Route exact path={`${path}/history`}>
