@@ -20,6 +20,7 @@ export interface ActionPanelProps {
   details: FarmWithStakedValue
   userDataReady: boolean
   expanded: boolean
+  referrer: referrer
 }
 
 const expandAnimation = keyframes`
@@ -136,6 +137,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
   liquidity,
   userDataReady,
   expanded,
+  referrer,
 }) => {
   const farm = details
 
@@ -184,7 +186,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
       </ValueContainer>
       <ActionContainer>
         <HarvestAction {...farm} userDataReady={userDataReady} />
-        <StakedAction {...farm} userDataReady={userDataReady} />
+        <StakedAction {...farm} userDataReady={userDataReady} referrer={referrer} />
       </ActionContainer>
     </Container>
   )

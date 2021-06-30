@@ -2,6 +2,7 @@ import { MAINNET_CHAIN_ID } from 'config'
 import addresses from 'config/constants/contracts'
 import tokens from 'config/constants/tokens'
 import { Address } from 'config/constants/types'
+import { getAddress as getEthAddress } from '@ethersproject/address'
 
 export const getAddress = (address: Address): string => {
   const chainId = process.env.REACT_APP_CHAIN_ID
@@ -22,4 +23,12 @@ export const getWbnbAddress = () => {
 }
 export const getReferralAddress = () => {
   return getAddress(addresses.referrals)
+}
+
+export const isAddress = (value: any): string | false => {
+  try {
+    return getEthAddress(value)
+  } catch {
+    return false
+  }
 }

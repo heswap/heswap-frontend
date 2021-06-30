@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { AddressZero } from '@ethersproject/constants'
 import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
 import { ethers } from 'ethers'
 import { Pair, TokenAmount, Token } from '@heswap/heswap-sdk'
@@ -88,7 +89,7 @@ export const harvest = async (masterChefContract, pid, account) => {
   }
 
   return masterChefContract.methods
-    .deposit(pid, '0', 0)
+    .deposit(pid, '0', AddressZero)
     .send({ from: account, gas: DEFAULT_GAS_LIMIT })
     .on('transactionHash', (tx) => {
       return tx.transactionHash

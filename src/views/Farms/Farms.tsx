@@ -15,6 +15,8 @@ import { getFarmApr } from 'utils/apr'
 import { orderBy } from 'lodash'
 import isArchivedPid from 'utils/farmHelpers'
 import { latinise } from 'utils/latinise'
+import { isAddress } from 'utils/addressHelpers'
+import { AddressZero } from '@ethersproject/constants'
 import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
 import Select, { OptionProps } from 'components/Select/Select'
@@ -102,8 +104,10 @@ const NUMBER_OF_FARMS_VISIBLE = 12
 const Farms: React.FC = () => {
   const { path } = useRouteMatch()
   const { pathname } = useLocation()
-  if (pathname.substring(7)) {
-    console.log(`referral link, ref=${pathname.substring(7)}`)
+  let referrer = AddressZero
+  if (pathname.substring(7) && isAddress(pathname.substring(7))) {
+	referrer = pathname.substring(7)
+    console.log(`referral link, ref=${referrer}`)
   } else {
     console.log('not referral link')
   }
@@ -313,7 +317,7 @@ const Farms: React.FC = () => {
         sortable: column.sortable,
       }))
 
-      return <Table data={rowData} columns={columns} userDataReady={userDataReady} />
+      return <Table data={rowData} columns={columns} userDataReady={userDataReady} referrer={referrer} />
     }
 
     return (
@@ -321,7 +325,7 @@ const Farms: React.FC = () => {
         <FlexLayout>
           <Route exact path={`${path}`}>
             {farmsStakedMemoized.map((farm) => (
-              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed={false} />
+              <FarmCard key={farm.pid} farm={farm} cakePrice={cakePrice} account={account} removed={false} referrer={referrer} />
             ))}
           </Route>
           <Route exact path={`${path}/history`}>

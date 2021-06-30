@@ -60,7 +60,7 @@ const ScrollButtonContainer = styled.div`
 const FarmTable: React.FC<ITableProps> = (props) => {
   const tableWrapperEl = useRef<HTMLDivElement>(null)
   const { t } = useTranslation()
-  const { data, columns, userDataReady } = props
+  const { data, columns, userDataReady, referrer } = props
 
   const { rows } = useTable(columns, data, { sortable: true, sortColumn: 'farm' })
 
@@ -77,7 +77,7 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           <StyledTable>
             <TableBody>
               {rows.map((row) => {
-                return <Row {...row.original} userDataReady={userDataReady} key={`table-row-${row.id}`} />
+                return <Row {...row.original} userDataReady={userDataReady} referrer={referrer} key={`table-row-${row.id}`} />
               })}
             </TableBody>
           </StyledTable>

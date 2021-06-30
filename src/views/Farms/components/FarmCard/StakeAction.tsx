@@ -21,6 +21,7 @@ interface FarmCardActionsProps {
   tokenName?: string
   pid?: number
   addLiquidityUrl?: string
+  referrer?: string
 }
 
 const IconButtonWrapper = styled.div`
@@ -36,6 +37,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   tokenName,
   pid,
   addLiquidityUrl,
+  referrer,
 }) => {
   const { t } = useTranslation()
   const { onStake } = useStake(pid)
@@ -46,7 +48,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const lpPrice = useLpTokenPrice(tokenName)
 
   const handleStake = async (amount: string) => {
-    await onStake(amount, '0')
+    await onStake(amount, referrer)
     dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
   }
 

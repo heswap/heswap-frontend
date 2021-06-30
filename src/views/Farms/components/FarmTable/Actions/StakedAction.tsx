@@ -28,6 +28,7 @@ const IconButtonWrapper = styled.div`
 
 interface StackedActionProps extends FarmWithStakedValue {
   userDataReady: boolean
+  referrer?: string
 }
 
 const Staked: React.FunctionComponent<StackedActionProps> = ({
@@ -37,6 +38,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
   quoteToken,
   token,
   userDataReady,
+  referrer,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -57,7 +59,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
 
   const handleStake = async (amount: string) => {
-    await onStake(amount, '0')
+    await onStake(amount, referrer)
     dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
   }
 
