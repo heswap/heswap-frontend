@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Text, BaseLayout } from '@heswap/uikit'
+import { Heading, BaseLayout } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
@@ -93,6 +93,20 @@ const CTACards = styled(BaseLayout)`
   }
 `
 
+const Title = styled(Heading)`
+  color: #fff;
+  font-family: "CodecPro";
+  font-weight: 300;
+  line-height: 1.4;
+`;
+
+const Description = styled(Heading)`
+  color: #749bd8;
+  font-family: "CodecPro";
+  font-weight: 300;
+  line-height: 1.4;
+`;
+
 const Home: React.FC = () => {
   const { t } = useTranslation()
 
@@ -102,10 +116,12 @@ const Home: React.FC = () => {
         <Page>
           <Hero>
             <Banner>
-              <Heading as="h1" scale="xl" mb="24px" color="secondary">
+              <Title as="h1" scale="xl" mb="8px">
                 {t('HeSwap')}
-              </Heading>
-              <Text>{t('The #1 AMM and yield farm on Binance Smart Chain.')}</Text>
+              </Title>
+              <Description as="h2" scale="md">
+                {t('The best of its kind on chain. Invite friends through refer system')}
+              </Description>
             </Banner>
             <Cards>
               <FarmStakingCard />
