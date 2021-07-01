@@ -10,11 +10,15 @@ import UnlockButton from 'components/UnlockButton'
 import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'
 
-const StyledFarmStakingCard = styled(Card)`
+const StyledCard = styled(Card)`
+  background: linear-gradient(135deg, #031640, #2e52bf);
+  min-height: 376px;
+`
+
+const StyledCardBody = styled(CardBody)`
   background-image: url('/images/cake-bg.svg');
   background-repeat: no-repeat;
   background-position: top right;
-  min-height: 376px;
 `
 
 const Block = styled.div`
@@ -26,7 +30,7 @@ const CardImage = styled.img`
 `
 
 const Label = styled.div`
-  color: ${({ theme }) => theme.colors.textSubtle};
+  color: #fff;
   font-size: 14px;
 `
 
@@ -57,9 +61,9 @@ const FarmedStakingCard = () => {
   }, [account, balancesWithValue, masterChefContract])
 
   return (
-    <StyledFarmStakingCard>
-      <CardBody>
-        <Heading scale="xl" mb="24px">
+    <StyledCard>
+      <StyledCardBody>
+        <Heading scale="xl" mb="24px" color="#fff">
           {t('Farms & Staking')}
         </Heading>
         <CardImage src="/images/cake.svg" alt="cake logo" width={64} height={64} />
@@ -81,16 +85,15 @@ const FarmedStakingCard = () => {
             >
               {pendingTx
                 ? t('Collecting CAKE')
-                : t('Harvest all (%count%)', {
-                    count: balancesWithValue.length,
-                  })}
+                : t('Harvest all (%count%)', { count: balancesWithValue.length })
+              }
             </Button>
           ) : (
             <UnlockButton width="100%" />
           )}
         </Actions>
-      </CardBody>
-    </StyledFarmStakingCard>
+      </StyledCardBody>
+    </StyledCard>
   )
 }
 

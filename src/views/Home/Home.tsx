@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Heading, BaseLayout } from '@heswap/uikit'
+import { BaseLayout, Heading, IconButton } from '@heswap/uikit'
+import Carousel, { Dots, arrowsPlugin, autoplayPlugin } from '@brainhubeu/react-carousel'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { useTranslation } from 'contexts/Localization'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
@@ -95,20 +97,32 @@ const CTACards = styled(BaseLayout)`
 
 const Title = styled(Heading)`
   color: #fff;
-  font-family: "CodecPro";
-  font-weight: 300;
+  font-weight: 600;
   line-height: 1.4;
-`;
+`
 
 const Description = styled(Heading)`
   color: #749bd8;
-  font-family: "CodecPro";
   font-weight: 300;
   line-height: 1.4;
-`;
+`
+
+const slides = []
+const thumbs = []
+
+for (let i = 0; i < 4; i++) {
+  slides.push(<FarmStakingCard />);
+  thumbs.push(<div style={{
+    width: 18,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#fff'
+  }} />);
+}
 
 const Home: React.FC = () => {
   const { t } = useTranslation()
+  const [activeSlide, setActiveSlide] = useState(0)
 
   return (
     <div>
@@ -123,9 +137,38 @@ const Home: React.FC = () => {
                 {t('The best of its kind on chain. Invite friends through refer system')}
               </Description>
             </Banner>
-            <Cards>
-              <FarmStakingCard />
-            </Cards>
+            <div>
+              <Carousel
+                plugins={[
+                  'infinite',
+                  {
+                    resolve: arrowsPlugin,
+                    options: {
+                      arrowLeft: <IconButton><FaArrowLeft /></IconButton>,
+                      arrowLeftDisabled: <IconButton><FaArrowLeft /></IconButton>,
+                      arrowRight: <IconButton><FaArrowRight /></IconButton>,
+                      arrowRightDisabled: <IconButton><FaArrowRight /></IconButton>,
+                      addArrowClickHandler: true
+                    }
+                  },
+                  {
+                    resolve: autoplayPlugin,
+                    options: {
+                      interval: 2000
+                    }
+                  }
+                ]}
+                value={activeSlide}
+                slides={slides}
+                onChange={value => setActiveSlide(value)}
+              />
+              <Dots
+                number={slides.length}
+                value={activeSlide}
+                onChange={value => setActiveSlide(value)}
+                thumbnails={thumbs}
+              />
+            </div>
           </Hero>
         </Page>
       </div>

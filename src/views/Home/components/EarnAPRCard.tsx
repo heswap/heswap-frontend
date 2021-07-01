@@ -10,16 +10,15 @@ import { useFarms, usePriceCakeBusd } from 'state/hooks'
 import { fetchFarmsPublicDataAsync, nonArchivedFarms } from 'state/farms'
 import { getFarmApr } from 'utils/apr'
 
-const StyledFarmStakingCard = styled(Card)`
+const StyledCard = styled(Card)`
+  background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-
   ${({ theme }) => theme.mediaQueries.lg} {
     margin: 0;
     max-width: none;
   }
-
   transition: opacity 200ms;
   &:hover {
     opacity: 0.65;
@@ -70,10 +69,10 @@ const EarnAPRCard = () => {
   const [earnUpTo, InFarms] = earnAprText.split(aprText)
 
   return (
-    <StyledFarmStakingCard>
+    <StyledCard>
       <NavLink exact activeClassName="active" to="/farms" id="farm-apr-cta">
         <CardBody>
-          <Heading color="contrast" scale="lg">
+          <Heading color="#fff" scale="lg">
             {earnUpTo}
           </Heading>
           <CardMidContent color="#7645d9">
@@ -84,14 +83,14 @@ const EarnAPRCard = () => {
             )}
           </CardMidContent>
           <Flex justifyContent="space-between">
-            <Heading color="contrast" scale="lg">
+            <Heading color="#fff" scale="lg">
               {InFarms}
             </Heading>
             <ArrowForwardIcon mt={30} color="primary" />
           </Flex>
         </CardBody>
       </NavLink>
-    </StyledFarmStakingCard>
+    </StyledCard>
   )
 }
 

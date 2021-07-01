@@ -4,7 +4,7 @@ import { Card, CardBody, Heading, Skeleton, Text } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useGetStats } from 'hooks/api'
 
-const StyledTotalValueLockedCard = styled(Card)`
+const StyledCard = styled(Card)`
   align-items: center;
   display: flex;
   flex: 1;
@@ -16,9 +16,9 @@ const TotalValueLockedCard = () => {
   const tvl = data ? data.tvl.toLocaleString('en-US', { maximumFractionDigits: 0 }) : null
 
   return (
-    <StyledTotalValueLockedCard>
+    <StyledCard>
       <CardBody>
-        <Heading scale="lg" mb="24px">
+        <Heading scale="lg" mb="24px" color="primary">
           {t('Total Value Locked (TVL)')}
         </Heading>
         {data ? (
@@ -30,7 +30,7 @@ const TotalValueLockedCard = () => {
           <Skeleton height={66} />
         )}
       </CardBody>
-    </StyledTotalValueLockedCard>
+    </StyledCard>
   )
 }
 

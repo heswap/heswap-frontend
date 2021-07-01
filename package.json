@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "^1.0.0",
+    "@brainhubeu/react-carousel": "^2.0.4",
     "@ethersproject/abi": "^5.1.2",
     "@ethersproject/experimental": "^5.0.1",
     "@heswap/heswap-sdk": "1.0.6",
