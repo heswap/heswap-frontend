@@ -95,6 +95,7 @@ interface ActionPanelProps {
   userDataLoaded: boolean
   expanded: boolean
   breakpoints: MediaBreakpoints
+  referrer: string
 }
 
 const InfoSection = styled(Box)`
@@ -108,7 +109,14 @@ const InfoSection = styled(Box)`
   }
 `
 
-const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded, expanded, breakpoints }) => {
+const ActionPanel: React.FC<ActionPanelProps> = ({
+  account,
+  pool,
+  userDataLoaded,
+  expanded,
+  breakpoints,
+  referrer,
+}) => {
   const { sousId, stakingToken, earningToken, totalStaked, endBlock, stakingLimit } = pool
   const { t } = useTranslation()
   const { currentBlock } = useBlock()
@@ -237,8 +245,8 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
             {`${t('Earn')} CAKE ${t('Stake').toLocaleLowerCase()} CAKE`}
           </Text>
         )}
-        <Harvest {...pool} userDataLoaded={userDataLoaded} />
-        <Stake pool={pool} userDataLoaded={userDataLoaded} />
+        <Harvest {...pool} userDataLoaded={userDataLoaded} referrer={referrer} />
+        <Stake pool={pool} userDataLoaded={userDataLoaded} referrer={referrer} />
       </ActionContainer>
     </StyledActionPanel>
   )

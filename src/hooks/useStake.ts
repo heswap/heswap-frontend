@@ -27,9 +27,9 @@ export const useSousStake = (sousId: number, isUsingBnb = false) => {
   const sousChefContract = useSousChef(sousId)
 
   const handleStake = useCallback(
-    async (amount: string, decimals: number) => {
+    async (amount: string, decimals: number, referrer: string) => {
       if (sousId === 0) {
-        await stake(masterChefContract, 0, amount, '0', account)
+        await stake(masterChefContract, 0, amount, referrer, account)
       } else if (isUsingBnb) {
         await sousStakeBnb(sousChefContract, amount, account)
       } else {

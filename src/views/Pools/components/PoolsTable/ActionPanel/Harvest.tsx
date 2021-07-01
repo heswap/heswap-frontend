@@ -14,6 +14,7 @@ import CollectModal from '../../PoolCard/Modals/CollectModal'
 
 interface HarvestActionProps extends Pool {
   userDataLoaded: boolean
+  referrer: string
 }
 
 const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
@@ -23,6 +24,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   userData,
   userDataLoaded,
   earningTokenPrice,
+  referrer,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -48,6 +50,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
       sousId={sousId}
       isBnbPool={isBnbPool}
       isCompoundPool={isCompoundPool}
+      referrer={referrer}
     />,
   )
 

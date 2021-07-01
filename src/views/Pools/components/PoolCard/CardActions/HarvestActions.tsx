@@ -12,6 +12,7 @@ interface HarvestActionsProps {
   earningToken: Token
   sousId: number
   earningTokenPrice: number
+  referrer: string
   isBnbPool: boolean
   isLoading?: boolean
 }
@@ -22,6 +23,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   sousId,
   isBnbPool,
   earningTokenPrice,
+  referrer,
   isLoading = false,
 }) => {
   const { t } = useTranslation()
@@ -44,6 +46,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
       sousId={sousId}
       isBnbPool={isBnbPool}
       isCompoundPool={isCompoundPool}
+      referrer={referrer}
     />,
   )
 

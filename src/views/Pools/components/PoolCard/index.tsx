@@ -11,7 +11,7 @@ import CardFooter from './CardFooter'
 import StyledCardHeader from './StyledCardHeader'
 import CardActions from './CardActions'
 
-const PoolCard: React.FC<{ pool: Pool; account: string }> = ({ pool, account }) => {
+const PoolCard: React.FC<{ pool: Pool; account: string; referrer: string }> = ({ pool, account, referrer }) => {
   const { sousId, stakingToken, earningToken, isFinished, userData } = pool
   const { t } = useTranslation()
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
@@ -33,7 +33,7 @@ const PoolCard: React.FC<{ pool: Pool; account: string }> = ({ pool, account }) 
           <AprRow pool={pool} />
           <Flex mt="24px" flexDirection="column">
             {account ? (
-              <CardActions pool={pool} stakedBalance={stakedBalance} />
+              <CardActions pool={pool} stakedBalance={stakedBalance} referrer={referrer} />
             ) : (
               <>
                 <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>

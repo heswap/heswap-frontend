@@ -20,7 +20,7 @@ export interface ActionPanelProps {
   details: FarmWithStakedValue
   userDataReady: boolean
   expanded: boolean
-  referrer: referrer
+  referrer: string
 }
 
 const expandAnimation = keyframes`

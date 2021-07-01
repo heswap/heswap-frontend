@@ -50,6 +50,9 @@ const App: React.FC = () => {
             <Route path="/pools">
               <Pools />
             </Route>
+            <Route path="/pools/:referrer">
+              <Pools />
+            </Route>
             {/* Redirect */}
             <Route path="/staking">
               <Redirect to="/pools" />

@@ -14,6 +14,7 @@ interface StakeActionsProps {
   stakedBalance: BigNumber
   isBnbPool: boolean
   isStaked: ConstrainBoolean
+  referrer: string
   isLoading?: boolean
 }
 
@@ -23,6 +24,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   stakedBalance,
   isBnbPool,
   isStaked,
+  referrer,
   isLoading = false,
 }) => {
   const { stakingToken, stakingTokenPrice, stakingLimit, isFinished, userData } = pool
@@ -41,6 +43,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
       pool={pool}
       stakingTokenBalance={stakingTokenBalance}
       stakingTokenPrice={stakingTokenPrice}
+      referrer={referrer}
     />,
   )
 
@@ -50,6 +53,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
       isBnbPool={isBnbPool}
       pool={pool}
       stakingTokenPrice={stakingTokenPrice}
+      referrer={referrer}
       isRemovingStake
     />,
   )

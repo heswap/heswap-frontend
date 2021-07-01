@@ -9,6 +9,7 @@ interface PoolsTableProps {
   pools: Pool[]
   userDataLoaded: boolean
   account: string
+  referrer: string
 }
 
 const StyledTable = styled.div`
@@ -34,7 +35,7 @@ const ScrollButtonContainer = styled.div`
   padding-bottom: 5px;
 `
 
-const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account }) => {
+const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account, referrer }) => {
   const { t } = useTranslation()
   const tableWrapperEl = useRef<HTMLDivElement>(null)
   const scrollToTop = (): void => {
@@ -46,7 +47,13 @@ const PoolsTable: React.FC<PoolsTableProps> = ({ pools, userDataLoaded, account 
     <StyledTableBorder>
       <StyledTable role="table" ref={tableWrapperEl}>
         {pools.map((pool) => (
-          <PoolRow key={pool.sousId} pool={pool} account={account} userDataLoaded={userDataLoaded} />
+          <PoolRow
+            key={pool.sousId}
+            pool={pool}
+            account={account}
+            userDataLoaded={userDataLoaded}
+            referrer={referrer}
+          />
         ))}
         <ScrollButtonContainer>
           <Button variant="text" onClick={scrollToTop}>

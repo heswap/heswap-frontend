@@ -15,6 +15,7 @@ interface PoolRowProps {
   pool: Pool
   account: string
   userDataLoaded: boolean
+  referrer: string
 }
 
 const StyledRow = styled.div`
@@ -23,7 +24,7 @@ const StyledRow = styled.div`
   cursor: pointer;
 `
 
-const PoolRow: React.FC<PoolRowProps> = ({ pool, account, userDataLoaded }) => {
+const PoolRow: React.FC<PoolRowProps> = ({ pool, account, userDataLoaded, referrer }) => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const [expanded, setExpanded] = useState(false)
   const shouldRenderActionPanel = useDelayedUnmount(expanded, 300)
@@ -36,7 +37,7 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, account, userDataLoaded }) => {
     <>
       <StyledRow role="row" onClick={toggleExpanded}>
         <NameCell pool={pool} />
-        <EarningsCell pool={pool} account={account} userDataLoaded={userDataLoaded} />
+        <EarningsCell pool={pool} account={account} userDataLoaded={userDataLoaded} referrer={referrer} />
         <AprCell pool={pool} performanceFee={0} />
         {(isLg || isXl) && <TotalStakedCell pool={pool} />}
         {isXl && <EndsInCell pool={pool} />}
@@ -49,6 +50,7 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, account, userDataLoaded }) => {
           userDataLoaded={userDataLoaded}
           expanded={expanded}
           breakpoints={{ isXs, isSm, isMd, isLg, isXl }}
+          referrer={referrer}
         />
       )}
     </>

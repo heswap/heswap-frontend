@@ -25,6 +25,7 @@ interface CollectModalProps {
   earningsDollarValue: string
   sousId: number
   isBnbPool: boolean
+  referrer: string
   isCompoundPool?: boolean
   onDismiss?: () => void
 }
@@ -36,6 +37,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
   earningsDollarValue,
   sousId,
   isBnbPool,
+  referrer,
   isCompoundPool = false,
   onDismiss,
 }) => {
@@ -59,7 +61,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
     // compounding
     if (shouldCompound) {
       try {
-        await onStake(fullBalance, earningToken.decimals)
+        await onStake(fullBalance, earningToken.decimals, referrer)
         toastSuccess(
           `${t('Compounded')}!`,
           t('Your %symbol% earnings have been re-invested into the pool!', { symbol: earningToken.symbol }),

@@ -10,6 +10,8 @@ import { useTranslation } from 'contexts/Localization'
 import usePersistState from 'hooks/usePersistState'
 import { usePools, useFetchPublicPoolsData, usePollFarmsData } from 'state/hooks'
 import { latinise } from 'utils/latinise'
+import { isAddress } from 'utils/addressHelpers'
+import { AddressZero } from '@ethersproject/constants'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
 import PageHeader from 'components/PageHeader'
@@ -50,6 +52,14 @@ const NUMBER_OF_POOLS_VISIBLE = 12
 
 const Pools: React.FC = () => {
   const location = useLocation()
+  let referrer = AddressZero
+  if (location.pathname.substring(7) && isAddress(location.pathname.substring(7))) {
+    referrer = location.pathname.substring(7)
+    console.log(`referral link, ref=${referrer}`)
+  } else {
+    console.log('not referral link')
+  }
+
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const { pools, userDataLoaded } = usePools(account)
@@ -154,12 +164,14 @@ const Pools: React.FC = () => {
   const cardLayout = (
     <CardLayout>
       {poolsToShow().map((pool) => (
-        <PoolCard key={pool.sousId} pool={pool} account={account} />
+        <PoolCard key={pool.sousId} pool={pool} account={account} referrer={referrer} />
       ))}
     </CardLayout>
   )
 
-  const tableLayout = <PoolsTable pools={poolsToShow()} account={account} userDataLoaded={userDataLoaded} />
+  const tableLayout = (
+    <PoolsTable pools={poolsToShow()} account={account} userDataLoaded={userDataLoaded} referrer={referrer} />
+  )
 
   return (
     <>

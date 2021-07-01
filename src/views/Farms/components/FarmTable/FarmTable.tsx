@@ -9,6 +9,7 @@ export interface ITableProps {
   data: RowProps[]
   columns: ColumnType<RowProps>[]
   userDataReady: boolean
+  referrer: string
   sortColumn?: string
 }
 

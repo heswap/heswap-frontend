@@ -15,6 +15,7 @@ interface EarningsCellProps {
   pool: Pool
   account: string
   userDataLoaded: boolean
+  referrer: string
 }
 
 const StyledCell = styled(BaseCell)`
@@ -28,7 +29,7 @@ const HelpIconWrapper = styled.div`
   align-self: center;
 `
 
-const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoaded }) => {
+const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoaded, referrer }) => {
   const { t } = useTranslation()
   const { isXs, isSm } = useMatchBreakpoints()
   const { sousId, earningToken, poolCategory, userData, earningTokenPrice } = pool
@@ -55,6 +56,7 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
       sousId={sousId}
       isBnbPool={isBnbPool}
       isCompoundPool={isManualCakePool}
+      referrer={referrer}
     />,
   )
 

@@ -25,9 +25,10 @@ const IconButtonWrapper = styled.div`
 interface StackedActionProps {
   pool: Pool
   userDataLoaded: boolean
+  referrer: string
 }
 
-const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoaded }) => {
+const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoaded, referrer }) => {
   const { sousId, stakingToken, earningToken, stakingLimit, isFinished, poolCategory, userData, stakingTokenPrice } =
     pool
   const { t } = useTranslation()
@@ -66,6 +67,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
       pool={pool}
       stakingTokenBalance={stakingTokenBalance}
       stakingTokenPrice={stakingTokenPrice}
+      referrer={referrer}
     />,
   )
 
@@ -75,6 +77,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
       isBnbPool={isBnbPool}
       pool={pool}
       stakingTokenPrice={stakingTokenPrice}
+      referrer={referrer}
       isRemovingStake
     />,
   )

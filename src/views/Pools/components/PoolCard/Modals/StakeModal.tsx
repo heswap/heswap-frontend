@@ -18,6 +18,7 @@ interface StakeModalProps {
   pool: Pool
   stakingTokenBalance: BigNumber
   stakingTokenPrice: number
+  referrer: string
   isRemovingStake?: boolean
   onDismiss?: () => void
 }
@@ -31,6 +32,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
   pool,
   stakingTokenBalance,
   stakingTokenPrice,
+  referrer,
   isRemovingStake = false,
   onDismiss,
 }) => {
@@ -104,7 +106,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
     } else {
       try {
         // staking
-        await onStake(stakeAmount, stakingToken.decimals)
+        await onStake(stakeAmount, stakingToken.decimals, referrer)
         toastSuccess(
           `${t('Staked')}!`,
           t('Your %symbol% funds have been staked in the pool!', {
