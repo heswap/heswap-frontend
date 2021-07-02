@@ -11,6 +11,7 @@ import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'
 
 const StyledCard = styled(Card)`
+  display: inline-block;
   background: linear-gradient(135deg, #031640, #2e52bf);
   min-height: 376px;
 `

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import Providers from './Providers'
 import 'index.css'
-import '@brainhubeu/react-carousel/lib/style.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 ReactDOM.render(
   <React.StrictMode>

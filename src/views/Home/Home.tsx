@@ -1,26 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { BaseLayout, Heading, IconButton } from '@heswap/uikit'
-import Carousel, { Dots, arrowsPlugin, autoplayPlugin } from '@brainhubeu/react-carousel'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { BaseLayout, Heading } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import Page from 'components/layout/Page'
+import Slider from 'views/Home/components/Slider'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 import CakeStats from 'views/Home/components/CakeStats'
 import TotalValueLockedCard from 'views/Home/components/TotalValueLockedCard'
 import EarnAPRCard from 'views/Home/components/EarnAPRCard'
 import EarnAssetCard from 'views/Home/components/EarnAssetCard'
 import WinCard from 'views/Home/components/WinCard'
+import useTheme from 'hooks/useTheme'
 
 const Hero = styled.div`
-  padding-top: 32px;
-  padding-bottom: 32px;
-  padding-right: 24px;
-  padding-left: 24px;
-  margin-top: 0;
-  margin-right: auto;
-  margin-bottom: 0;
-  margin-left: auto;
+  padding: 96px 32px 48px 32px;
+  margin: 0 auto;
   max-width: 1200px;
   border: none;
 `
@@ -75,7 +69,6 @@ const Cards = styled(BaseLayout)`
 
 const CTACards = styled(BaseLayout)`
   align-items: start;
-  margin-top: 24px;
   margin-bottom: 24px;
   grid-gap: 24px;
 
@@ -111,28 +104,13 @@ const Description = styled(Heading)`
   line-height: 1.4;
 `
 
-const CarouselThumb = styled.div`
-  width: 18px;
-  height: 6px;
-  border-radius: 3px;
-  background-color: #fff;
-`
-
 const Home: React.FC = () => {
+  const { theme } = useTheme()
   const { t } = useTranslation()
-  const [activeSlide, setActiveSlide] = useState(0)
-  const [slides, setSlides] = useState([
-    <FarmStakingCard />,
-    <FarmStakingCard />
-  ])
-  const [thumbs, setThumbs] = useState([
-    <CarouselThumb />,
-    <CarouselThumb />
-  ])
 
   return (
-    <div>
-      <div style={{ background: 'linear-gradient(180deg, #071c3c, #002b6f)', marginTop: '-64px' }}>
+    <>
+      <div style={{ background: theme.colors.gradients.bubblegum }}>
         <Hero>
           <Banner>
             <Title as="h1" scale="xl" mb="8px">
@@ -142,38 +120,10 @@ const Home: React.FC = () => {
               {t('The best of its kind on chain. Invite friends through refer system')}
             </Description>
           </Banner>
-          <div>
-            <Carousel
-              plugins={[
-                'infinite',
-                {
-                  resolve: arrowsPlugin,
-                  options: {
-                    arrowLeft: <IconButton><FaArrowLeft /></IconButton>,
-                    arrowLeftDisabled: <IconButton><FaArrowLeft /></IconButton>,
-                    arrowRight: <IconButton><FaArrowRight /></IconButton>,
-                    arrowRightDisabled: <IconButton><FaArrowRight /></IconButton>,
-                    addArrowClickHandler: true
-                  }
-                },
-                {
-                  resolve: autoplayPlugin,
-                  options: {
-                    interval: 2000
-                  }
-                }
-              ]}
-              value={activeSlide}
-              slides={slides}
-              onChange={value => setActiveSlide(value)}
-            />
-            <Dots
-              number={slides.length}
-              value={activeSlide}
-              onChange={value => setActiveSlide(value)}
-              thumbnails={thumbs}
-            />
-          </div>
+          <Slider>
+            <FarmStakingCard />
+            <FarmStakingCard />
+          </Slider>
         </Hero>
       </div>
       <Page>
@@ -187,7 +137,7 @@ const Home: React.FC = () => {
           <TotalValueLockedCard />
         </Cards>
       </Page>
-    </div>
+    </>
   )
 }
 
