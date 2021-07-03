@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { BaseLayout, Text, Heading } from '@heswap/uikit'
+import { BaseLayout, Heading } from '@heswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import Page from 'components/layout/Page'
+import useTheme from 'hooks/useTheme'
 import GetReferralLinkCard from './components/GetReferralLinkCard'
 import ReferralDashboard from './components/ReferralDashboard'
 import UnlockCard from './components/UnlockCard'
@@ -48,6 +49,13 @@ const Newcards = styled(BaseLayout)`
 `
 
 const Hero = styled.div`
+  padding: 96px 32px 48px 32px;
+  margin: 0 auto;
+  max-width: 1200px;
+  border: none;
+`
+
+const Banner = styled.div`
   align-items: center;
   background-image: url('/images/pan-bg-mobile.svg');
   background-repeat: no-repeat;
@@ -67,34 +75,62 @@ const Hero = styled.div`
     padding-top: 0;
   }
 `
+
+const Title = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl'
+})`
+  color: ${({ theme }) => theme.colors.backgroundAlt};
+  font-weight: 600;
+  line-height: 1.4;
+`
+
+const Description = styled(Heading).attrs({
+  as: 'h2',
+  scale: 'md',
+  color: 'textSubtle'
+})`
+  font-weight: 300;
+  line-height: 1.4;
+`
+
 const Referrals: React.FC = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
+  const { theme } = useTheme()
 
   return (
-    <Page>
-      <Hero>
-        <Heading as="h1" scale="xl" mb="24px" color="secondary">
-          {t('Invite Your Friends. Earn Cryptocurrency Together.')}
-        </Heading>
-        <Text>{t('Earn a certain commission reward from your friends swaps on Heswap.')}</Text>
-      </Hero>
-      {account ? (
-        <>
-          <Cards>
-            <GetReferralLinkCard invite="farms" header="Invite your friends to farm" />
-            <GetReferralLinkCard invite="pools" header="Invite your friends to pool" />
-          </Cards>
+    <>
+      <div style={{ background: theme.colors.gradients.bubblegum }}>
+        <Hero>
+          <Banner>
+            <Title mb="24px">
+              {t('Invite Your Friends. Earn Cryptocurrency Together.')}
+            </Title>
+            <Description>
+              {t('Earn a certain commission reward from your friends swaps on Heswap.')}
+            </Description>
+          </Banner>
+        </Hero>
+      </div>
+      <Page>
+        {account ? (
+          <>
+            <Cards>
+              <GetReferralLinkCard invite="farms" header="Invite your friends to farm" />
+              <GetReferralLinkCard invite="pools" header="Invite your friends to pool" />
+            </Cards>
+            <Newcards>
+              <ReferralDashboard />
+            </Newcards>
+          </>
+        ) : (
           <Newcards>
-            <ReferralDashboard />
+            <UnlockCard />
           </Newcards>
-        </>
-      ) : (
-        <Newcards>
-          <UnlockCard />
-        </Newcards>
-      )}
-    </Page>
+        )}
+      </Page>
+    </>
   )
 }
 
