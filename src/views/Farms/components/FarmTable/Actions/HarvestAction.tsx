@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { Button, Skeleton, Text } from '@heswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
@@ -17,6 +18,10 @@ import { ActionContainer, ActionTitles, ActionContent, Earned } from './styles'
 interface HarvestActionProps extends FarmWithStakedValue {
   userDataReady: boolean
 }
+
+const StyledButton = styled(Button)`
+  border-radius: 8px;
+`
 
 const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ pid, userData, userDataReady }) => {
   const earningsBigNumber = new BigNumber(userData.earnings)
@@ -55,7 +60,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ pid, userD
             <Balance fontSize="12px" color="textSubtle" decimals={2} value={earningsBusd} unit=" USD" prefix="~" />
           )}
         </div>
-        <Button
+        <StyledButton
           disabled={earnings.eq(0) || pendingTx || !userDataReady}
           onClick={async () => {
             setPendingTx(true)
@@ -67,7 +72,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ pid, userD
           ml="4px"
         >
           {t('Harvest')}
-        </Button>
+        </StyledButton>
       </ActionContent>
     </ActionContainer>
   )

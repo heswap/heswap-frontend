@@ -92,14 +92,20 @@ const CTACards = styled(BaseLayout)`
   }
 `
 
-const Title = styled(Heading)`
+const Title = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl'
+})`
   color: #fff;
   font-weight: 600;
   line-height: 1.4;
 `
 
-const Description = styled(Heading)`
-  color: #749bd8;
+const Description = styled(Heading).attrs({
+  as: 'h2',
+  scale: 'md',
+  color: 'textSubtle'
+})`
   font-weight: 300;
   line-height: 1.4;
 `
@@ -113,10 +119,10 @@ const Home: React.FC = () => {
       <div style={{ background: theme.colors.gradients.bubblegum }}>
         <Hero>
           <Banner>
-            <Title as="h1" scale="xl" mb="8px">
+            <Title mb="8px">
               {t('HeSwap')}
             </Title>
-            <Description as="h2" scale="md">
+            <Description>
               {t('The best of its kind on chain. Invite friends through refer system')}
             </Description>
           </Banner>

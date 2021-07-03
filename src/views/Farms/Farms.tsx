@@ -19,12 +19,12 @@ import { isAddress } from 'utils/addressHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
-import Select, { OptionProps } from 'components/Select/Select'
+import Select, { OptionProps } from 'components/Select'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
 import FarmTabButtons from './components/FarmTabButtons'
 import { RowProps } from './components/FarmTable/Row'
-import ToggleView from './components/ToggleView/ToggleView'
+import ToggleView from './components/ToggleView'
 import { DesktopColumnSchema, ViewMode } from './components/types'
 
 const ControlContainer = styled.div`
@@ -100,6 +100,24 @@ const StyledImage = styled(Image)`
   margin-top: 58px;
 `
 const NUMBER_OF_FARMS_VISIBLE = 12
+
+const Title = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl'
+})`
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.4;
+`
+
+const Description = styled(Heading).attrs({
+  as: 'h2',
+  scale: 'md',
+  color: 'textSubtle'
+})`
+  font-weight: 300;
+  line-height: 1.4;
+`
 
 const Farms: React.FC = () => {
   const { path } = useRouteMatch()
@@ -357,12 +375,12 @@ const Farms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+        <Title mb="24px">
           {t('Farms')}
-        </Heading>
-        <Heading scale="lg" color="text">
+        </Title>
+        <Description>
           {t('Stake Liquidity Pool (LP) tokens to earn.')}
-        </Heading>
+        </Description>
       </PageHeader>
       <Page>
         <ControlContainer>
@@ -370,7 +388,7 @@ const Farms: React.FC = () => {
             <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-              <Text> {t('Staked only')}</Text>
+              <Text color="textSubtle"> {t('Staked only')}</Text>
             </ToggleWrapper>
             <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
           </ViewControls>

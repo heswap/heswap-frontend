@@ -31,6 +31,10 @@ interface StackedActionProps extends FarmWithStakedValue {
   referrer?: string
 }
 
+const StyledButton = styled(Button)`
+  border-radius: 8px;
+`
+
 const Staked: React.FunctionComponent<StackedActionProps> = ({
   pid,
   lpSymbol,
@@ -167,14 +171,14 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
           </Text>
         </ActionTitles>
         <ActionContent>
-          <Button
+          <StyledButton
             width="100%"
             onClick={onPresentDeposit}
             variant="secondary"
             disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
           >
             {t('Stake LP')}
-          </Button>
+          </StyledButton>
         </ActionContent>
       </ActionContainer>
     )
@@ -203,9 +207,9 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
         </Text>
       </ActionTitles>
       <ActionContent>
-        <Button width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">
+        <StyledButton width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">
           {t('Enable')}
-        </Button>
+        </StyledButton>
       </ActionContent>
     </ActionContainer>
   )
