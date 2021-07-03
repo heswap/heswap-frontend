@@ -39,12 +39,12 @@ const EarnAssetCard = () => {
     <StyledFarmStakingCard>
       <NavLink exact activeClassName="active" to="/syrup" id="pool-cta">
         <CardBody>
-          <Heading color="#fff" scale="lg">
+          <Heading color="backgroundAlt" scale="lg">
             {earn}
           </Heading>
           <CardMidContent color="rgb(255, 219, 28)">{assets}</CardMidContent>
           <Flex justifyContent="space-between">
-            <Heading color="#fff" scale="lg">
+            <Heading color="backgroundAlt" scale="lg">
               {InPools}
             </Heading>
             <ArrowForwardIcon mt={30} color="primary" />

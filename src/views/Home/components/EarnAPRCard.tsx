@@ -72,7 +72,7 @@ const EarnAPRCard = () => {
     <StyledCard>
       <NavLink exact activeClassName="active" to="/farms" id="farm-apr-cta">
         <CardBody>
-          <Heading color="#fff" scale="lg">
+          <Heading color="backgroundAlt" scale="lg">
             {earnUpTo}
           </Heading>
           <CardMidContent color="#7645d9">
@@ -83,7 +83,7 @@ const EarnAPRCard = () => {
             )}
           </CardMidContent>
           <Flex justifyContent="space-between">
-            <Heading color="#fff" scale="lg">
+            <Heading color="backgroundAlt" scale="lg">
               {InFarms}
             </Heading>
             <ArrowForwardIcon mt={30} color="primary" />

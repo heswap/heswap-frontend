@@ -96,7 +96,7 @@ const Title = styled(Heading).attrs({
   as: 'h1',
   scale: 'xl'
 })`
-  color: #fff;
+  color: ${({ theme }) => theme.colors.backgroundAlt};
   font-weight: 600;
   line-height: 1.4;
 `
