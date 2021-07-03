@@ -7,7 +7,7 @@ import { useTranslation } from 'contexts/Localization'
 const StyledInput = styled(Input)`
   background-color: rgb(2, 17, 39);
   border-radius: 8px;
-  border: 1px solid rgb(28, 50, 84);
+  border: ${({ theme }) => `1px solid ${theme.colors.inputFocusedBorder}`};
   color: rgb(112, 141, 183);
   font-size: 12px;
   height: 40px;

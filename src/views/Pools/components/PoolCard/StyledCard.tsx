@@ -25,7 +25,7 @@ export const StyledCard = styled(Card)<{ isPromoted?: PromotedStyleCardProps; is
   align-self: baseline;
   position: relative;
   color: ${({ isFinished, theme }) => theme.colors[isFinished ? 'textDisabled' : 'secondary']};
-  box-shadow: 0px 1px 4px rgba(25, 19, 38, 0.15);
+  box-shadow: ${({ theme }) => theme.shadows.step};
 
   ${({ isPromoted, theme }) =>
     isPromoted
