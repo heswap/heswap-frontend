@@ -24,8 +24,8 @@ import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
 import FarmTabButtons from './components/FarmTabButtons'
 import { RowProps } from './components/FarmTable/Row'
-import ToggleView from './components/ToggleView'
-import { DesktopColumnSchema, ViewMode } from './components/types'
+import ToggleView, { ViewMode } from './components/ToggleView'
+import { DesktopColumnSchema } from './components/types'
 
 const ControlContainer = styled.div`
   display: flex;

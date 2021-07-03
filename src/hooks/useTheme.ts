@@ -17,6 +17,7 @@ const useTheme = () => {
   theme.colors.gradients.bubblegum = 'linear-gradient(180deg, #071c3c, #002b6f)'
   theme.leftBar.background = 'rgb(16, 38, 72)'
   theme.leftBar.footerBackground = 'rgb(28, 50, 84)'
+  theme.radii.card = '16px'
   theme.shadows.inset = 'rgb(74 74 104 / 10%) 0px 2px 2px -1px inset'
   theme.toggle.checkedHandleColor = theme.colors.success
   theme.toggle.uncheckedHandleColor = theme.colors.textSubtle

@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Button, Text, useModal, Flex, TooltipText, useTooltip, Skeleton } from '@heswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
@@ -15,6 +16,10 @@ import CollectModal from '../../PoolCard/Modals/CollectModal'
 interface HarvestActionProps extends Pool {
   userDataLoaded: boolean
 }
+
+const StyledButton = styled(Button)`
+  border-radius: 8px;
+`
 
 const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   sousId,
@@ -73,7 +78,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
         <ActionTitles>{actionTitle}</ActionTitles>
         <ActionContent>
           <Balance pt="8px" lineHeight="1" bold fontSize="20px" decimals={5} value={0} />
-          <Button disabled>{isCompoundPool ? t('Collect') : t('Harvest')}</Button>
+          <StyledButton disabled>{isCompoundPool ? t('Collect') : t('Harvest')}</StyledButton>
         </ActionContent>
       </ActionContainer>
     )
