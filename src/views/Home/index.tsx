@@ -21,7 +21,7 @@ const Hero = styled.div`
 
 const Banner = styled.div`
   align-items: center;
-  // background-image: url('/images/pan-bg-mobile.svg');
+  // background-image: url('${process.env.PUBLIC_URL}/images/pan-bg-mobile.svg');
   // background-repeat: no-repeat;
   // background-position: top center;
   display: flex;
@@ -33,7 +33,7 @@ const Banner = styled.div`
   text-align: center;
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    // background-image: url('/images/pan-bg2.svg'), url('/images/pan-bg.svg');
+    // background-image: url('${process.env.PUBLIC_URL}/images/pan-bg2.svg'), url('${process.env.PUBLIC_URL}/images/pan-bg.svg');
     // background-position: left center, right center;
     height: 165px;
     padding-top: 0;

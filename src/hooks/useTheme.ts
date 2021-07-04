@@ -21,7 +21,6 @@ const useTheme = () => {
   theme.shadows.inset = 'rgb(74 74 104 / 10%) 0px 2px 2px -1px inset'
   theme.toggle.checkedHandleColor = theme.colors.success
   theme.toggle.uncheckedHandleColor = theme.colors.textSubtle
-  console.warn('theme', theme)
   return { isDark, toggleTheme, theme }
 }
 

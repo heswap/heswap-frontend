@@ -17,7 +17,7 @@ const StyledCard = styled(Card)`
 `
 
 const StyledCardBody = styled(CardBody)`
-  background-image: url('/images/cake-bg.svg');
+  background-image: url('${process.env.PUBLIC_URL}/images/cake-bg.svg');
   background-repeat: no-repeat;
   background-position: top right;
 `
@@ -67,7 +67,7 @@ const FarmedStakingCard = () => {
         <Heading scale="xl" mb="24px" color="backgroundAlt">
           {t('Farms & Staking')}
         </Heading>
-        <CardImage src="/images/cake.svg" alt="cake logo" width={64} height={64} />
+        <CardImage src={`${process.env.PUBLIC_URL}/images/cake.svg`} alt="cake logo" width={64} height={64} />
         <Block>
           <Label>{t('CAKE to Harvest')}:</Label>
           <CakeHarvestBalance />

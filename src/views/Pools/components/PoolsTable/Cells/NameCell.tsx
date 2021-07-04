@@ -47,7 +47,7 @@ const NameCell: React.FC<NameCellProps> = ({ pool }) => {
 
   return (
     <StyledCell role="cell">
-      <Image src={`/images/pools/${iconFile}`} alt="icon" width={40} height={40} mr="8px" />
+      <Image src={`${process.env.PUBLIC_URL}/images/pools/${iconFile}`} alt="icon" width={40} height={40} mr="8px" />
       <CellContent>
         {showStakedTag && (
           <Text fontSize="12px" bold color={isFinished ? 'failure' : 'secondary'} textTransform="uppercase">

@@ -6,7 +6,7 @@ import { useTranslation } from 'contexts/Localization'
 import CopyToClipboard from './CopyToClipboard'
 
 const StyledFarmStakingCard = styled(Card)`
-  background-image: url('/images/cake-bg.svg');
+  background-image: url('${process.env.PUBLIC_URL}/images/cake-bg.svg');
   background-repeat: no-repeat;
   background-position: top right;
 `
