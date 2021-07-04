@@ -257,7 +257,7 @@ const Pools: React.FC = () => {
         <Image
           mx="auto"
           mt="12px"
-          src="/images/3d-syrup-bunnies.png"
+          src={`${process.env.PUBLIC_URL}/images/3d-syrup-bunnies.png`}
           alt="Pancake illustration"
           width={192}
           height={184.5}

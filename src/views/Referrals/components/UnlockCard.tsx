@@ -5,7 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import UnlockButton from 'components/UnlockButton'
 
 const StyledFarmStakingCard = styled(Card)`
-  background-image: url('/images/cake-bg.svg');
+  background-image: url('${process.env.PUBLIC_URL}/images/cake-bg.svg');
   background-repeat: no-repeat;
   background-position: top right;
 `

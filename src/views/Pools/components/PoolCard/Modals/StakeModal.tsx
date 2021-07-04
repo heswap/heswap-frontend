@@ -138,7 +138,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
         <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>
         <Flex alignItems="center" minWidth="70px">
           <Image
-            src={`/images/tokens/${getAddress(stakingToken.address)}.png`}
+            src={`${process.env.PUBLIC_URL}/images/tokens/${getAddress(stakingToken.address)}.png`}
             width={24}
             height={24}
             alt={stakingToken.symbol}
