@@ -103,7 +103,7 @@ const NUMBER_OF_FARMS_VISIBLE = 12
 
 const Title = styled(Heading).attrs({
   as: 'h1',
-  scale: 'xl'
+  scale: 'xl',
 })`
   color: ${({ theme }) => theme.colors.backgroundAlt};
   font-weight: 600;
@@ -113,7 +113,7 @@ const Title = styled(Heading).attrs({
 const Description = styled(Heading).attrs({
   as: 'h2',
   scale: 'md',
-  color: 'textSubtle'
+  color: 'textSubtle',
 })`
   font-weight: 300;
   line-height: 1.4;
@@ -375,12 +375,8 @@ const Farms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Title mb="24px">
-          {t('Farms')}
-        </Title>
-        <Description>
-          {t('Stake Liquidity Pool (LP) tokens to earn.')}
-        </Description>
+        <Title mb="24px">{t('Farms')}</Title>
+        <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description>
       </PageHeader>
       <Page>
         <ControlContainer>

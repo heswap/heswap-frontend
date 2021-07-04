@@ -78,7 +78,7 @@ const Banner = styled.div`
 
 const Title = styled(Heading).attrs({
   as: 'h1',
-  scale: 'xl'
+  scale: 'xl',
 })`
   color: ${({ theme }) => theme.colors.backgroundAlt};
   font-weight: 600;
@@ -88,7 +88,7 @@ const Title = styled(Heading).attrs({
 const Description = styled(Heading).attrs({
   as: 'h2',
   scale: 'md',
-  color: 'textSubtle'
+  color: 'textSubtle',
 })`
   font-weight: 300;
   line-height: 1.4;
@@ -104,12 +104,8 @@ const Referrals: React.FC = () => {
       <div style={{ background: theme.colors.gradients.bubblegum }}>
         <Hero>
           <Banner>
-            <Title mb="24px">
-              {t('Invite Your Friends. Earn Cryptocurrency Together.')}
-            </Title>
-            <Description>
-              {t('Earn a certain commission reward from your friends swaps on Heswap.')}
-            </Description>
+            <Title mb="24px">{t('Invite Your Friends. Earn Cryptocurrency Together.')}</Title>
+            <Description>{t('Earn a certain commission reward from your friends swaps on Heswap.')}</Description>
           </Banner>
         </Hero>
       </div>

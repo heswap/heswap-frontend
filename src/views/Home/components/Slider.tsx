@@ -55,12 +55,12 @@ export interface ArrowProps {
 }
 
 const Arrow = (props: ArrowProps) => {
-  const { direction, onClick } = props;
+  const { direction, onClick } = props
   const style: CSSProperties = {
     width: '32px',
     height: '32px',
     position: 'absolute',
-    top: 'calc(50% - 16px)'
+    top: 'calc(50% - 16px)',
   }
   if (direction === 'prev') {
     style.left = '-32px'
@@ -70,32 +70,31 @@ const Arrow = (props: ArrowProps) => {
   }
   return (
     <IconButton onClick={onClick} style={style}>
-      {direction === 'prev' && (
-        <FaArrowLeft />
-      )}
-      {direction === 'next' && (
-        <FaArrowRight />
-      )}
+      {direction === 'prev' && <FaArrowLeft />}
+      {direction === 'next' && <FaArrowRight />}
     </IconButton>
-  );
+  )
 }
 
 function useRefWithCallback(onMount, onUnmount) {
-  const nodeRef = useRef(null);
+  const nodeRef = useRef(null)
 
-  const setRef = useCallback(node => {
-    if (nodeRef.current) {
-      onUnmount(nodeRef.current);
-    }
+  const setRef = useCallback(
+    (node) => {
+      if (nodeRef.current) {
+        onUnmount(nodeRef.current)
+      }
 
-    nodeRef.current = node;
+      nodeRef.current = node
 
-    if (nodeRef.current) {
-      onMount(nodeRef.current);
-    }
-  }, [onMount, onUnmount]);
+      if (nodeRef.current) {
+        onMount(nodeRef.current)
+      }
+    },
+    [onMount, onUnmount],
+  )
 
-  return setRef;
+  return setRef
 }
 
 const Slider = ({ children }) => {
@@ -108,28 +107,28 @@ const Slider = ({ children }) => {
     slidesToScroll: 1,
     prevArrow: <Arrow direction="prev" />,
     nextArrow: <Arrow direction="next" />,
-    appendDots: dots => <ul>{dots}</ul>,
+    appendDots: (dots) => <ul>{dots}</ul>,
     customPaging: () => (
       <div className="ft-slick__dots--custom">
         <div className="loading" />
       </div>
-    )
+    ),
   }
   // if autoplay is true and user navigates to other page, an error occurs in setState
   // when user navigates to other page, autoplay should be stopped
   // so we will use method, not props to play on mount and pause on unmount
   const ref = useRefWithCallback(
-    node => {
+    (node) => {
       // componentDidMount
       // do delayed call to avoid deadlock
       setTimeout(() => {
         node.slickPlay()
       }, 100)
     },
-    node => {
+    (node) => {
       // componentWillUnmount
       node.slickPause()
-    }
+    },
   )
 
   return (
@@ -139,4 +138,4 @@ const Slider = ({ children }) => {
   )
 }
 
-export default Slider;
+export default Slider

@@ -52,7 +52,7 @@ const NUMBER_OF_POOLS_VISIBLE = 12
 
 const Title = styled(Heading).attrs({
   as: 'h1',
-  scale: 'xl'
+  scale: 'xl',
 })`
   color: ${({ theme }) => theme.colors.backgroundAlt};
   font-weight: 600;
@@ -62,7 +62,7 @@ const Title = styled(Heading).attrs({
 const Description = styled(Heading).attrs({
   as: 'h2',
   scale: 'md',
-  color: 'textSubtle'
+  color: 'textSubtle',
 })`
   font-weight: 300;
   line-height: 1.4;
@@ -196,15 +196,9 @@ const Pools: React.FC = () => {
       <PageHeader>
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-            <Title mb="24px">
-              {t('Syrup Pools')}
-            </Title>
-            <Description>
-              {t('Just stake some tokens to earn.')}
-            </Description>
-            <Description>
-              {t('High APR, low risk.')}
-            </Description>
+            <Title mb="24px">{t('Syrup Pools')}</Title>
+            <Description>{t('Just stake some tokens to earn.')}</Description>
+            <Description>{t('High APR, low risk.')}</Description>
           </Flex>
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
             <HelpButton />

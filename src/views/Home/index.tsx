@@ -94,7 +94,7 @@ const CTACards = styled(BaseLayout)`
 
 const Title = styled(Heading).attrs({
   as: 'h1',
-  scale: 'xl'
+  scale: 'xl',
 })`
   color: ${({ theme }) => theme.colors.backgroundAlt};
   font-weight: 600;
@@ -104,7 +104,7 @@ const Title = styled(Heading).attrs({
 const Description = styled(Heading).attrs({
   as: 'h2',
   scale: 'md',
-  color: 'textSubtle'
+  color: 'textSubtle',
 })`
   font-weight: 300;
   line-height: 1.4;
@@ -119,12 +119,8 @@ const Home: React.FC = () => {
       <div style={{ background: theme.colors.gradients.bubblegum }}>
         <Hero>
           <Banner>
-            <Title mb="8px">
-              {t('HeSwap')}
-            </Title>
-            <Description>
-              {t('The best of its kind on chain. Invite friends through refer system')}
-            </Description>
+            <Title mb="8px">{t('HeSwap')}</Title>
+            <Description>{t('The best of its kind on chain. Invite friends through refer system')}</Description>
           </Banner>
           <Slider>
             <FarmStakingCard />

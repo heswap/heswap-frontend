@@ -11,7 +11,6 @@ export interface ITableProps {
   userDataReady: boolean
   referrer: string
   sortColumn?: string
-  referrer: string
 }
 
 const Container = styled.div`

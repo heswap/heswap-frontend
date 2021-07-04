@@ -50,7 +50,7 @@ const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, vi
             paddingLeft: '16px',
             paddingRight: '16px',
             backgroundColor: isExact ? theme.colors.primary : 'transparent',
-            fontSize: '14px'
+            fontSize: '14px',
           }}
         >
           {t('Live')}
@@ -67,7 +67,7 @@ const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, vi
               paddingLeft: '16px',
               paddingRight: '16px',
               backgroundColor: !isExact ? theme.colors.primary : 'transparent',
-              fontSize: '14px'
+              fontSize: '14px',
             }}
           >
             {t('Finished')}
