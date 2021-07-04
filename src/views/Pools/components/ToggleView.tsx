@@ -14,13 +14,8 @@ interface ToggleViewProps {
 }
 
 const Container = styled.div`
-  margin-left: -8px;
   border-radius: 8px;
   background-color: rgb(16, 38, 72);
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    margin-left: 0;
-  }
 `
 
 const CardButton = styled(IconButton)<{ toggled: boolean }>`

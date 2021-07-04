@@ -29,15 +29,7 @@ const Banner = styled.div`
   flex-direction: column;
   margin: auto;
   margin-bottom: 32px;
-  padding-top: 116px;
   text-align: center;
-
-  ${({ theme }) => theme.mediaQueries.lg} {
-    // background-image: url('${process.env.PUBLIC_URL}/images/pan-bg2.svg'), url('${process.env.PUBLIC_URL}/images/pan-bg.svg');
-    // background-position: left center, right center;
-    height: 165px;
-    padding-top: 0;
-  }
 `
 
 const Cards = styled(BaseLayout)`

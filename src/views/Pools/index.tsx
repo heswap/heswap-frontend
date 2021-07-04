@@ -30,6 +30,7 @@ const CardLayout = styled(FlexLayout)`
 `
 
 const PoolControls = styled(Flex)`
+  gap: 8px;
   flex-direction: column;
   margin-bottom: 24px;
   ${({ theme }) => theme.mediaQueries.md} {
