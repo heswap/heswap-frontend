@@ -16,13 +16,13 @@ import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
 import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
-import Select, { OptionProps } from 'components/Select/Select'
+import Select, { OptionProps } from 'components/Select'
 import { Pool } from 'state/types'
 import PoolCard from './components/PoolCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
-import { ViewMode } from './components/ToggleView/ToggleView'
+import { ViewMode } from './components/ToggleView'
 import { getAprData } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
@@ -49,6 +49,24 @@ const ControlStretch = styled(Flex)`
 `
 
 const NUMBER_OF_POOLS_VISIBLE = 12
+
+const Title = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl'
+})`
+  color: ${({ theme }) => theme.colors.backgroundAlt};
+  font-weight: 600;
+  line-height: 1.4;
+`
+
+const Description = styled(Heading).attrs({
+  as: 'h2',
+  scale: 'md',
+  color: 'textSubtle'
+})`
+  font-weight: 300;
+  line-height: 1.4;
+`
 
 const Pools: React.FC = () => {
   const location = useLocation()
@@ -178,15 +196,15 @@ const Pools: React.FC = () => {
       <PageHeader>
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-            <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+            <Title mb="24px">
               {t('Syrup Pools')}
-            </Heading>
-            <Heading scale="md" color="text">
+            </Title>
+            <Description>
               {t('Just stake some tokens to earn.')}
-            </Heading>
-            <Heading scale="md" color="text">
+            </Description>
+            <Description>
               {t('High APR, low risk.')}
-            </Heading>
+            </Description>
           </Flex>
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
             <HelpButton />

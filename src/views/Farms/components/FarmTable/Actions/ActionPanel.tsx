@@ -51,7 +51,7 @@ const Container = styled.div<{ expanded }>`
           ${collapseAnimation} 300ms linear forwards
         `};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.background};
+  background: rgb(242, 246, 252);
   display: flex;
   width: 100%;
   flex-direction: column-reverse;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu as UikitMenu } from '@heswap/uikit'
+import { AppMenu } from '@heswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { languageList } from 'config/localization/languages'
 import { useTranslation } from 'contexts/Localization'
@@ -16,7 +16,7 @@ const Menu = (props) => {
   const { currentLanguage, setLanguage, t } = useTranslation()
 
   return (
-    <UikitMenu
+    <AppMenu
       account={account}
       login={login}
       logout={logout}

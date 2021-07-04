@@ -11,13 +11,14 @@ export interface ITableProps {
   userDataReady: boolean
   referrer: string
   sortColumn?: string
+  referrer: string
 }
 
 const Container = styled.div`
   filter: ${({ theme }) => theme.card.dropShadow};
   width: 100%;
   background: ${({ theme }) => theme.card.background};
-  border-radius: 16px;
+  border-radius: ${({ theme }) => theme.radii.card};
   margin: 16px 0px;
 `
 
