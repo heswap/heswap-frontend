@@ -19,11 +19,13 @@ const Container = styled.div`
 `
 
 const CardButton = styled(IconButton)<{ toggled: boolean }>`
+  height: 40px;
   border-radius: 8px;
   background-color: ${({ theme, toggled }) => (toggled ? theme.colors.primary : 'transparent')};
 `
 
 const TableButton = styled(IconButton)<{ toggled: boolean }>`
+  height: 40px;
   border-radius: 8px;
   background-color: ${({ theme, toggled }) => (toggled ? theme.colors.primary : 'transparent')};
 `
@@ -39,6 +41,7 @@ const ToggleView: React.FunctionComponent<ToggleViewProps> = ({ viewMode, onTogg
   return (
     <Container>
       <CardButton
+        width="40px"
         toggled={viewMode === ViewMode.CARD}
         id="clickFarmCardView"
         onClick={() => handleToggle(ViewMode.CARD)}
@@ -46,6 +49,7 @@ const ToggleView: React.FunctionComponent<ToggleViewProps> = ({ viewMode, onTogg
         <CardViewIcon color={theme.colors[viewMode === ViewMode.CARD ? 'backgroundAlt' : 'text']} />
       </CardButton>
       <TableButton
+        width="40px"
         toggled={viewMode === ViewMode.TABLE}
         id="clickFarmTableView"
         onClick={() => handleToggle(ViewMode.TABLE)}

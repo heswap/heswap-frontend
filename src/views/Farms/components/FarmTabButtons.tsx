@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { useLocation, Link, useRouteMatch } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, NotificationDot } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import useTheme from 'hooks/useTheme'
 
 interface FarmTabButtonsProps {
   hasStakeInFinishedFarms: boolean
@@ -15,11 +14,25 @@ const StyledMenu = styled(ButtonMenu)`
   background-color: rgb(16, 38, 72);
 `
 
+const StyledMenuItem = styled(ButtonMenuItem).attrs(({ isActive }) => ({
+  as: Link,
+  variant: isActive ? 'primary' : 'text'
+}))`
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: ${({ isActive, theme }) => isActive ? theme.colors.primary : 'transparent'};
+  color: ${({ isActive, theme }) => theme.colors[isActive ? 'backgroundAlt' : 'text']};
+  font-size: 14px;
+`
+
 const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms }) => {
   const { url } = useRouteMatch()
   const location = useLocation()
   const { t } = useTranslation()
-  const { theme } = useTheme()
 
   let activeIndex
   switch (location.pathname) {
@@ -40,38 +53,19 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
   return (
     <Wrapper>
       <StyledMenu activeIndex={activeIndex} scale="sm" variant="subtle">
-        <ButtonMenuItem
-          height="48px"
-          paddingX="16px"
-          as={Link}
+        <StyledMenuItem
           to={`${url}`}
-          variant={activeIndex === 0 ? 'primary' : 'text'}
-          style={{
-            borderRadius: '8px',
-            paddingLeft: '16px',
-            paddingRight: '16px',
-            backgroundColor: activeIndex === 0 ? theme.colors.primary : 'transparent',
-            fontSize: '14px',
-          }}
+          isActive={activeIndex === 0}
         >
           {t('Live')}
-        </ButtonMenuItem>
+        </StyledMenuItem>
         <NotificationDot show={hasStakeInFinishedFarms}>
-          <ButtonMenuItem
-            height="48px"
-            paddingX="16px"
-            as={Link}
+          <StyledMenuItem
             to={`${url}/history`}
-            style={{
-              borderRadius: '8px',
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              backgroundColor: activeIndex === 1 ? theme.colors.primary : 'transparent',
-              fontSize: '14px',
-            }}
+            isActive={activeIndex === 1}
           >
             {t('Finished')}
-          </ButtonMenuItem>
+          </StyledMenuItem>
         </NotificationDot>
       </StyledMenu>
     </Wrapper>
