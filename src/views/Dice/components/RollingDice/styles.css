@@ -64,7 +64,7 @@
     width: 200px;
     height: 200px;
     transform-style: preserve-3d;
-    animation: spin 50s infinite linear;
+    transition: transform 0.5s;
 }
 .side {
     position: absolute;
