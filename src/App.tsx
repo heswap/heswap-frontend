@@ -11,6 +11,7 @@ import ToastListener from './components/ToastListener'
 import PageLoader from './components/PageLoader'
 import EasterEgg from './components/EasterEgg'
 import Pools from './views/Pools'
+import Dice from './views/Dice'
 import history from './routerHistory'
 
 // Route-based code splitting
@@ -62,6 +63,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/syrup">
               <Redirect to="/pools" />
+            </Route>
+            <Route path="/dice">
+              <Dice />
             </Route>
             {/* 404 */}
             <Route component={NotFound} />
