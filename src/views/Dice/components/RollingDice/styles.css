@@ -1,47 +1,5 @@
 /* The idea for this component was taken from the code snippen of Tamer Aydn https://codepen.io/tameraydin/pen/CADvB */
 
-@keyframes spin {
-    0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    16% { transform: translateZ(-100px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
-    33% { transform: translateZ(-100px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
-    50% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-    66% { transform: translateZ(-100px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
-    83% { transform: translateZ(-100px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
-    100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-}
-@keyframes spin-duplicate {
-    0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    16% { transform: translateZ(-100px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
-    33% { transform: translateZ(-100px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
-    50% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-    66% { transform: translateZ(-100px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
-    83% { transform: translateZ(-100px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
-    100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-}
-@keyframes roll {
-    0% { transform: translate3d(-200px,-50px,-400px) }
-    12% { transform: translate3d(0px,0,-100px) }
-    25% { transform: translate3d(200px,-50px,-400px) }
-    37% { transform: translate3d(0px,-100px,-800px) }
-    50% { transform: translate3d(-200px,-50px,-400px) }
-    62% { transform: translate3d(0px,0,-100px) }
-    75% { transform: translate3d(200px,-50px,-400px) }
-    87% { transform: translate3d(0px,-100px,-800px) }
-    100% { transform: translate3d(-200px,-50px,-400px) }
-}
-#roll:checked ~ #platform > #dice {
-    animation: spin-duplicate 2s infinite linear;
-}
-#roll:checked ~ #platform {
-    width: 200px;
-    height: 200px;
-    transform-style: preserve-3d;
-    animation: roll 1.6s infinite linear;
-}
-#secondroll:checked ~ #roll:checked ~ #platform > #dice,
-#secondroll:checked ~ #roll:checked ~ #platform {
-    animation-play-state: paused;
-}
 #wrapper {
     position: relative;
     width: 200px;
@@ -64,7 +22,7 @@
     width: 200px;
     height: 200px;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
+    transition: transform 6s;
 }
 .side {
     position: absolute;
@@ -169,19 +127,6 @@
     margin: 77px 0 0 134px;
 }
 
-#background {
-    top: 0px;
-    left: 0px;
-	position: fixed;
-	z-index: -1;
-	width: 100%;
-	height: 100%;
-	background: #071a1e;
-	background: -moz-linear-gradient(top, #071a1e 0%, #274249 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#071a1e), color-stop(100%,#274249));
-	background: -webkit-linear-gradient(top, #071a1e 0%,#274249 100%);
-	background: linear-gradient(to bottom, #071a1e 0%,#274249 100%);
-}
 label, input[type=checkbox]:before {
 	position: absolute;
 	overflow: hidden;
@@ -212,47 +157,4 @@ label {
 label:hover {
 	opacity: 1;
 	box-shadow: 0 0 18px rgba(255,255,255,.5);
-}
-label[for=roll] {
-    margin: 0 auto;
-	z-index: 1;
-	text-shadow: 0 -1px 0 #006699;
-	border-color: #17C7EC;
-	background: -moz-linear-gradient(top, #0099CC 0%, #006699 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099CC), color-stop(100%,#006699));
-	background: -webkit-linear-gradient(top, #0099CC 0%,#006699 100%);
-	background: linear-gradient(to bottom, #0099CC 0%,#006699 100%);
-}
-label[for=secondroll] {
-    z-index: 0;
-    margin: 0 auto;
-	text-shadow: 0 -1px 0 #CC0033;
-	border-color: #FF8298;
-	background: -moz-linear-gradient(top, #FF6666 0%, #CC0033 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FF6666), color-stop(100%,#CC0033));
-	background: -webkit-linear-gradient(top, #FF6666 0%,#CC0033 100%);
-	background: linear-gradient(to bottom, #FF6666 0%,#CC0033 100%);
-}
-#roll:checked ~ label[for=roll] {
-	height: 0;
-    margin: 0;
-    border: none;
-    padding: 0;
-}
-#roll:checked ~ label[for=secondroll] {
-    height: auto;
-}
-#secondroll:checked ~ label[for=secondroll] {
-	text-shadow: 0 -1px 0 #336633;
-	border-color: #66FF99;
-	background: -moz-linear-gradient(top, #66CC66 0%, #336633 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#66CC66), color-stop(100%,#336633));
-	background: -webkit-linear-gradient(top, #66CC66 0%,#336633 100%);
-	background: linear-gradient(to bottom, #66CC66 0%,#336633 100%);
-}
-#secondroll:checked ~ label[for=secondroll] span {
-	display: none;
-}
-#secondroll:checked ~ label[for=secondroll]:after {
-	content: "Keep rollin'!";
 }

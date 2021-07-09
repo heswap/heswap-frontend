@@ -1,62 +1,28 @@
 import React, { useRef } from 'react'
 import { noop } from 'lodash'
-import { keyframes } from 'styled-components'
 import './styles.css'
 
-function makeRandomTransform() {
-  const rnd = Math.floor(Math.random() * 6 + 1)
-  let x
-  let y
-  switch (rnd) {
-    case 1:
-      x = 720
-      y = 810
-      break
-    case 6:
-      x = 720
-      y = 990
-      break
-    default:
-      x = 720 + (6 - rnd) * 90
-      y = 900
-      break
-  }
-  return `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
+function getRandom(min, max) {
+  return (Math.floor(Math.random() * (max - min)) + min) * 90
 }
+
+let xRnd = 0
+let yRnd = 0
 
 const RollingDice: React.FC = () => {
   const cubeRef = useRef(null)
 
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault()
-    const rnd = Math.floor(Math.random() * 6 + 1)
-    let x
-    let y
-    switch (rnd) {
-      case 1:
-        x = 720
-        y = 810
-        break
-      case 6:
-        x = 720
-        y = 990
-        break
-      default:
-        x = 720 + (6 - rnd) * 90
-        y = 900
-        break
-    }
-    cubeRef.current.style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
+    xRnd += getRandom(12, 24)
+    yRnd += getRandom(12, 24)
+    cubeRef.current.style.webkitTransform = `translateZ(-100px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
+    cubeRef.current.style.transform = `translateZ(-100px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
   }
 
   return (
     <>
-      <div id="background" />
       <div id="wrapper">
-        <input id="secondroll" name="roll" type="checkbox" />
-        <input id="roll" name="roll" type="checkbox" />
-        {/* <label for="roll">Roll it!</label>
-        <label for="secondroll"><span>Stop!</span></label> */}
         <div id="platform" role="button" tabIndex={0} onClick={handleClick} onKeyPress={noop}>
           <div id="dice" ref={cubeRef}>
             <div className="side front">
