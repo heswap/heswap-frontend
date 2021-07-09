@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { noop } from 'lodash'
-import './styles.css'
 
 function getRandom(min, max) {
   return (Math.floor(Math.random() * (max - min)) + min) * 90
@@ -16,8 +15,9 @@ const RollingDice: React.FC = () => {
     evt.preventDefault()
     xRnd += getRandom(12, 24)
     yRnd += getRandom(12, 24)
-    cubeRef.current.style.webkitTransform = `translateZ(-100px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
-    cubeRef.current.style.transform = `translateZ(-100px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
+    const transform = `translateZ(-500px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
+    cubeRef.current.style.webkitTransform = transform
+    cubeRef.current.style.transform = transform
   }
 
   return (

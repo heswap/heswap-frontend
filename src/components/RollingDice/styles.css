@@ -21,6 +21,7 @@
     position: absolute;
     width: 200px;
     height: 200px;
+    transform: translateZ(-500px);
     transform-style: preserve-3d;
     transition: transform 6s;
 }
