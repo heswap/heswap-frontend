@@ -2168,7 +2168,7 @@
 
 "@heswap/uikit@git://github.com/bitfriend/heswap-uikit.git":
   version "0.1.10"
-  resolved "git://github.com/bitfriend/heswap-uikit.git#3b20f021d72aa488d2495e79355f27d132b87313"
+  resolved "git://github.com/bitfriend/heswap-uikit.git#8f9522cb836565c740f54039525190a01b79b3af"
   dependencies:
     "@popperjs/core" "^2.9.2"
     "@types/lodash" "^4.14.168"
