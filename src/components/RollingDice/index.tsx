@@ -22,40 +22,40 @@ const RollingDice: React.FC = () => {
 
   return (
     <>
-      <div id="wrapper">
-        <div id="platform" role="button" tabIndex={0} onClick={handleClick} onKeyPress={noop}>
-          <div id="dice" ref={cubeRef}>
-            <div className="side front">
+      <div id="rolling-dice-wrapper">
+        <div id="rolling-dice-platform" role="button" tabIndex={0} onClick={handleClick} onKeyPress={noop}>
+          <div id="rolling-dice-cube" ref={cubeRef}>
+            <div className="rolling-dice-side front">
               <div className="dot center" />
             </div>
-            <div className="side front inner" />
-            <div className="side top">
+            <div className="rolling-dice-side front inner" />
+            <div className="rolling-dice-side top">
               <div className="dot dtop dleft" />
               <div className="dot dbottom dright" />
             </div>
-            <div className="side top inner" />
-            <div className="side right">
+            <div className="rolling-dice-side top inner" />
+            <div className="rolling-dice-side right">
               <div className="dot dtop dleft" />
               <div className="dot center" />
               <div className="dot dbottom dright" />
             </div>
-            <div className="side right inner" />
-            <div className="side left">
+            <div className="rolling-dice-side right inner" />
+            <div className="rolling-dice-side left">
               <div className="dot dtop dleft" />
               <div className="dot dtop dright" />
               <div className="dot dbottom dleft" />
               <div className="dot dbottom dright" />
             </div>
-            <div className="side left inner" />
-            <div className="side bottom">
+            <div className="rolling-dice-side left inner" />
+            <div className="rolling-dice-side bottom">
               <div className="dot center" />
               <div className="dot dtop dleft" />
               <div className="dot dtop dright" />
               <div className="dot dbottom dleft" />
               <div className="dot dbottom dright" />
             </div>
-            <div className="side bottom inner" />
-            <div className="side back">
+            <div className="rolling-dice-side bottom inner" />
+            <div className="rolling-dice-side back">
               <div className="dot dtop dleft" />
               <div className="dot dtop dright" />
               <div className="dot dbottom dleft" />
@@ -63,10 +63,10 @@ const RollingDice: React.FC = () => {
               <div className="dot center dleft" />
               <div className="dot center dright" />
             </div>
-            <div className="side back inner" />
-            <div className="side cover x" />
-            <div className="side cover y" />
-            <div className="side cover z" />
+            <div className="rolling-dice-side back inner" />
+            <div className="rolling-dice-side cover x" />
+            <div className="rolling-dice-side cover y" />
+            <div className="rolling-dice-side cover z" />
           </div>
         </div>
       </div>

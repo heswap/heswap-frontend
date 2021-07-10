@@ -21,7 +21,11 @@ const StyledFarmStakingCard = styled(Card)`
     opacity: 0.65;
   }
 `
-const CardMidContent = styled(Heading).attrs({ scale: 'xl' })`
+
+const CardMidContent = styled(Heading).attrs({
+  scale: 'xl',
+})`
+  color: ${({ theme }) => theme.colors.warning};
   line-height: 44px;
 `
 
@@ -42,7 +46,7 @@ const EarnAssetCard = () => {
           <Heading color="backgroundAlt" scale="lg">
             {earn}
           </Heading>
-          <CardMidContent color="rgb(255, 219, 28)">{assets}</CardMidContent>
+          <CardMidContent>{assets}</CardMidContent>
           <Flex justifyContent="space-between">
             <Heading color="backgroundAlt" scale="lg">
               {InPools}

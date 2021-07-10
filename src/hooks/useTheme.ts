@@ -8,6 +8,7 @@ const useTheme = () => {
   theme.colors.primary = 'rgb(18, 99, 241)'
   theme.colors.secondary = 'rgb(249, 59, 93)'
   theme.colors.success = 'rgb(29, 200, 114)'
+  theme.colors.warning = 'rgb(255, 219, 28)'
   theme.colors.background = 'rgb(7, 22, 45)'
   theme.colors.backgroundDisabled = 'rgb(200, 212, 230)'
   theme.colors.inputFocusedBorder = 'rgb(28, 50, 84)'

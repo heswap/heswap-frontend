@@ -1,23 +1,16 @@
 /* The idea for this component was taken from the code snippen of Tamer Aydn https://codepen.io/tameraydin/pen/CADvB */
 
-#wrapper {
+#rolling-dice-wrapper {
     position: relative;
     width: 200px;
     padding-top: 100px;
     margin: 0 auto;
     perspective: 1200px;
 }
-#platform {
+#rolling-dice-platform {
     margin-top: 100px;
 }
-#dice span {
-    position: absolute;
-    margin: 100px 0 0 100px;
-    display: block;
-    font-size: 2.5em;
-    padding: 10px;
-}
-#dice {
+#rolling-dice-cube {
     position: absolute;
     width: 200px;
     height: 200px;
@@ -25,76 +18,78 @@
     transform-style: preserve-3d;
     transition: transform 6s;
 }
-.side {
-    position: absolute;
+.rolling-dice-side {
     width: 200px;
     height: 200px;
     background: #fff;
     box-shadow: inset 0 0 40px #ccc;
     border-radius: 40px;
 }
-#dice .cover, #dice .inner {
+#rolling-dice-cube .rolling-dice-side {
+    position: absolute;
+}
+#rolling-dice-cube .cover, #rolling-dice-cube .inner {
     background: #e0e0e0;
     box-shadow:  none;
 }
-#dice .cover {
+#rolling-dice-cube .cover {
     border-radius: 0;
     transform-origin: center;
     transform: translateZ(0px);
 }
-#dice .cover.x {
+#rolling-dice-cube .cover.x {
     transform-origin: center;
     transform: rotateY(90deg);
 }
-#dice .cover.z {
+#rolling-dice-cube .cover.z {
     transform-origin: center;
     transform: rotateX(90deg);
 }
-#dice .front  {
+#rolling-dice-cube .front  {
     transform-origin: center;
     transform: translateZ(100px);
 }
-#dice .front.inner  {
+#rolling-dice-cube .front.inner  {
     transform-origin: center;
     transform: translateZ(98px);
 }
-#dice .back {
+#rolling-dice-cube .back {
     transform-origin: center;
     transform: rotateX(-180deg) translateZ(100px);
 }
-#dice .back.inner {
+#rolling-dice-cube .back.inner {
     transform-origin: center;
     transform: rotateX(-180deg) translateZ(98px);
 }
-#dice .right {
+#rolling-dice-cube .right {
     transform-origin: center;
     transform: rotateY(90deg) translateZ(100px);
 }
-#dice .right.inner {
+#rolling-dice-cube .right.inner {
     transform-origin: center;
     transform: rotateY(90deg) translateZ(98px);
 }
-#dice .left {
+#rolling-dice-cube .left {
     transform-origin: center;
     transform: rotateY(-90deg) translateZ(100px);
 }
-#dice .left.inner {
+#rolling-dice-cube .left.inner {
     transform-origin: center;
     transform: rotateY(-90deg) translateZ(98px);
 }
-#dice .top {
+#rolling-dice-cube .top {
     transform-origin: center;
     transform: rotateX(90deg) translateZ(100px);
 }
-#dice .top.inner {
+#rolling-dice-cube .top.inner {
     transform-origin: center;
     transform: rotateX(90deg) translateZ(98px);
 }
-#dice .bottom {
+#rolling-dice-cube .bottom {
     transform-origin: center;
     transform: rotateX(-90deg) translateZ(100px);
 }
-#dice .bottom.inner {
+#rolling-dice-cube .bottom.inner {
     transform-origin: center;
     transform: rotateX(-90deg) translateZ(98px);
 }
@@ -126,36 +121,4 @@
 }
 .dot.center.dright {
     margin: 77px 0 0 134px;
-}
-
-label, input[type=checkbox]:before {
-	position: absolute;
-	overflow: hidden;
-	top: 40px;
-	left: 40px;
-	display: block;
-	width: 120px;
-	padding-top: 9px;
-	height: 31px;
-	cursor: pointer;
-	text-align: center;
-	font-size: 1.2em;
-	font-weight: bold;
-	color: #fff;
-	border-radius: 6px;
-	border: 1px solid;
-}
-input[type=checkbox]:before {
-	background: transparent;
-	border-color: transparent;
-}
-input[type=checkbox] {
-	display: none;
-}
-label {
-	transition: all .3s ease;
-}
-label:hover {
-	opacity: 1;
-	box-shadow: 0 0 18px rgba(255,255,255,.5);
 }
