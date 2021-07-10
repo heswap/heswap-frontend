@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useRouteMatch, Link } from 'react-router-dom'
 import { ButtonMenu, ButtonMenuItem, Toggle, Text, Flex, NotificationDot, useMatchBreakpoints } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
+import useTheme from 'hooks/useTheme'
 import ToggleView, { ViewMode } from './ToggleView'
 
 const Wrapper = styled.div`
@@ -27,45 +28,55 @@ const StyledMenu = styled(ButtonMenu)`
   background-color: rgb(16, 38, 72);
 `
 
-const StyledMenuItem = styled(ButtonMenuItem).attrs(({ isActive }) => ({
-  as: Link,
-  variant: isActive ? 'primary' : 'text'
-}))`
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  border-radius: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background-color: ${({ isActive, theme }) => isActive ? theme.colors.primary : 'transparent'};
-  color: ${({ isActive, theme }) => theme.colors[isActive ? 'backgroundAlt' : 'text']};
-  font-size: 14px;
-`
-
 const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, viewMode, setViewMode }) => {
   const { url, isExact } = useRouteMatch()
   const { isXs, isSm } = useMatchBreakpoints()
   const { t } = useTranslation()
+  const { theme } = useTheme()
 
   const viewModeToggle = <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
 
   const liveOrFinishedSwitch = (
     <Wrapper>
       <StyledMenu activeIndex={isExact ? 0 : 1} scale="sm" variant="subtle">
-        <StyledMenuItem
-          to={`${url}`}
-          isActive={isExact}
+        <ButtonMenuItem
+          as={Link}
+          to={url}
+          variant={isExact ? 'primary' : 'text'}
+          style={{
+            height: '40px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            borderRadius: '8px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            backgroundColor: isExact ? theme.colors.primary : 'transparent',
+            color: theme.colors[isExact ? 'backgroundAlt' : 'text'],
+            fontSize: '14px'
+          }}
         >
           {t('Live')}
-        </StyledMenuItem>
-        <NotificationDot show={hasStakeInFinishedPools}>
-          <StyledMenuItem
-            to={`${url}/history`}
-            isActive={isExact}
-          >
-            {t('Finished')}
-          </StyledMenuItem>
-        </NotificationDot>
+        </ButtonMenuItem>
+        <ButtonMenuItem
+          as={Link}
+          to={`${url}/history`}
+          variant={!isExact ? 'primary' : 'text'}
+          style={{
+            height: '40px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            borderRadius: '8px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            backgroundColor: !isExact ? theme.colors.primary : 'transparent',
+            color: theme.colors[!isExact ? 'backgroundAlt' : 'text'],
+            fontSize: '14px'
+          }}
+        >
+          <NotificationDot show={hasStakeInFinishedPools}>
+            <span>{t('Finished')}</span>
+          </NotificationDot>
+        </ButtonMenuItem>
       </StyledMenu>
     </Wrapper>
   )
