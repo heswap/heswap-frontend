@@ -9,7 +9,7 @@ let xRnd = 0
 let yRnd = 0
 
 const RollingDice: React.FC = () => {
-  const cubeRef = useRef(null)
+  const cubeRef = useRef<HTMLDivElement>(null)
 
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault()

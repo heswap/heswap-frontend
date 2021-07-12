@@ -4,10 +4,17 @@ import { Box, Button, Flex, Grid, Heading } from '@heswap/uikit'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import PageHeader from './PageHeader'
+import HistoryTable from './HistoryTable'
 
-const Panel = styled(Box)`
+const GradientPanel = styled(Box)`
   border-radius: ${({ theme }) => theme.radii.card};
   background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
+  padding: 32px;
+`
+
+const WhitePanel = styled(Box)`
+  border-radius: ${({ theme }) => theme.radii.card};
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
   padding: 32px;
 `
 
@@ -49,6 +56,15 @@ const StyledButton = styled(Button)`
 
 const Dice: React.FC = () => {
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
+  const [records, setRecords] = useState([{
+    id: 1,
+    bets: [1, 3, 6],
+    outcome: 2
+  },{
+    id: 2,
+    bets: [1, 2, 5],
+    outcome: 5
+  }])
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -68,7 +84,7 @@ const Dice: React.FC = () => {
         <RollingDice />
       </PageHeader>
       <Page>
-        <Panel>
+        <GradientPanel>
           <Flex>
             <Box width={[1, 1/3]} style={{ textAlign: 'center' }}>
               <Label>Winning Chance</Label>
@@ -85,8 +101,8 @@ const Dice: React.FC = () => {
               <Value>5.88x</Value>
             </Box>
           </Flex>
-        </Panel>
-        <Panel mt="32px">
+        </GradientPanel>
+        <GradientPanel mt="32px">
           <Grid
             justifyItems="center"
             alignContent="center"
@@ -132,9 +148,12 @@ const Dice: React.FC = () => {
             <StyledButton>Unlock Wallet</StyledButton>
           </Box>
           <Box mt="16px" style={{ textAlign: 'center' }}>
-            <Label>Unlock wallet to Bet</Label>
+            <Label>Unlock wallet to bet</Label>
           </Box>
-        </Panel>
+        </GradientPanel>
+        <WhitePanel mt="32px">
+          <HistoryTable records={records} />
+        </WhitePanel>
       </Page>
     </>
   )
