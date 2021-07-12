@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Box, Button, Flex, Grid, Heading } from '@heswap/uikit'
+import { Box, Button, Flex, Grid, Heading, Image } from '@heswap/uikit'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import PageHeader from './PageHeader'
@@ -81,7 +81,31 @@ const Dice: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <RollingDice />
+        <Flex position="relative">
+          <RollingDice />
+          <Image
+            src={`${process.env.PUBLIC_URL}/images/luckychip-token.png`}
+            alt=""
+            width={120}
+            height={120}
+            style={{
+              position: 'absolute',
+              top: '96px',
+              left: '32px'
+            }}
+          />
+          <Image
+            src={`${process.env.PUBLIC_URL}/images/luckychip-token.png`}
+            alt=""
+            width={120}
+            height={120}
+            style={{
+              position: 'absolute',
+              top: '96px',
+              right: '32px'
+            }}
+          />
+        </Flex>
       </PageHeader>
       <Page>
         <GradientPanel>
