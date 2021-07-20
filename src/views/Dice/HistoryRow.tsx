@@ -23,81 +23,76 @@ const StyledFlex = styled(Flex)`
   padding-bottom: 8px;
 `
 
-const RowNo = styled(Box)`
-  width: 64px;
-  text-align: center;
-`
-
-const Betting = styled(Box)`
-  flex: 1;
-  padding-left: 16px;
-  padding-right: 16px;
-`
-
 const Outcome = styled(Box)`
   text-align: center;
-`
 
-const renderSide = (side: number, filled: boolean, color: string) => {
-  if (side === 1) {
-    if (filled) {
-      return <GiDiceSixFacesOne size="32px" color={color} />
+  > ${Flex} {
+    width: 88px;
+
+    ${({ theme }) => theme.mediaQueries.sm} {
+      width: 96px;
     }
-    return <GiInvertedDice1 size="32px" color={color} />
-  }
-  if (side === 2) {
-    if (filled) {
-      return <GiDiceSixFacesTwo size="32px" color={color} />
+
+    > ${Text} {
+      flex: 1;
     }
-    return <GiInvertedDice2 size="32px" color={color} />
   }
-  if (side === 3) {
-    if (filled) {
-      return <GiDiceSixFacesThree size="32px" color={color} />
-    }
-    return <GiInvertedDice3 size="32px" color={color} />
-  }
-  if (side === 4) {
-    if (filled) {
-      return <GiDiceSixFacesFour size="32px" color={color} />
-    }
-    return <GiInvertedDice4 size="32px" color={color} />
-  }
-  if (side === 5) {
-    if (filled) {
-      return <GiDiceSixFacesFive size="32px" color={color} />
-    }
-    return <GiInvertedDice5 size="32px" color={color} />
-  }
-  if (side === 6) {
-    if (filled) {
-      return <GiDiceSixFacesSix size="32px" color={color} />
-    }
-    return <GiInvertedDice6 size="32px" color={color} />
-  }
-  return null
-}
+`
 
 const HistoryRow: React.FC<HistoryRowProps> = ({ id, bets, outcome }) => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const { theme } = useTheme()
+
+  const renderSide = (side: number, filled: boolean, color: string) => {
+    let size = '0'
+    if (isXs) {
+      size = '24px'
+    } else if (isSm) {
+      size = '24px'
+    } else if (isMd) {
+      size = '32px'
+    } else if (isLg) {
+      size = '32px'
+    } else if (isXl) {
+      size = '32px'
+    }
+    if (side === 1) {
+      return React.createElement(filled ? GiDiceSixFacesOne : GiInvertedDice1, { size, color })
+    }
+    if (side === 2) {
+      return React.createElement(filled ? GiDiceSixFacesTwo : GiInvertedDice2, { size, color })
+    }
+    if (side === 3) {
+      return React.createElement(filled ? GiDiceSixFacesThree : GiInvertedDice3, { size, color })
+    }
+    if (side === 4) {
+      return React.createElement(filled ? GiDiceSixFacesFour : GiInvertedDice4, { size, color })
+    }
+    if (side === 5) {
+      return React.createElement(filled ? GiDiceSixFacesFive : GiInvertedDice5, { size, color })
+    }
+    if (side === 6) {
+      return React.createElement(filled ? GiDiceSixFacesSix : GiInvertedDice6, { size, color })
+    }
+    return null
+  }
   
   return (
     <StyledFlex>
-      <RowNo>
+      <div style={{ textAlign: 'center' }}>
         <Text fontSize="16px" bold color="primary">#</Text>
-        <Text fontSize="24px" bold color="textSubtle">{id}</Text>
-      </RowNo>
-      <Betting>
+        <Text fontSize="24px" bold color="textSubtle" width="40px">{id}</Text>
+      </div>
+      <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
         <Text fontSize="16px" bold color="primary">Betting</Text>
-        <Flex>
+        <Flex justifyContent="space-between">
           {[1, 2, 3, 4, 5, 6].map((side, index) => (
-            <Box key={index.toString()} style={{ flex: 1 }}>
+            <Box key={index.toString()}>
               {renderSide(side, bets.includes(side), theme.colors[bets.includes(side) ? 'primary' : 'textSubtle'])}
             </Box>
           ))}
         </Flex>
-      </Betting>
+      </Box>
       <Outcome>
         <Text fontSize="16px" bold color="primary">Outcome</Text>
         <Flex alignItems="center">
@@ -107,7 +102,6 @@ const HistoryRow: React.FC<HistoryRowProps> = ({ id, bets, outcome }) => {
             bold
             color={bets.includes(outcome) ? 'success' : 'failure'}
             display="inline-block"
-            width="64px"
           >
             {bets.includes(outcome) ? 'WIN' : 'LOSS'}
           </Text>
