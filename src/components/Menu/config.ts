@@ -42,27 +42,22 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     items: [
       {
         label: 'LKCP',
-        icon: 'LkcpIcon',
         href: '/dice?coin=LKCP',
       },
       {
         label: 'BNB',
-        icon: 'BnbIcon',
         href: '/dice?coin=BNB',
       },
       {
         label: 'BUSD',
-        icon: 'BusdIcon',
         href: '/dice?coin=BUSD',
       },
       {
         label: 'BTCB',
-        icon: 'BtcbIcon',
         href: '/dice?coin=BTCB',
       },
       {
         label: 'ETH',
-        icon: 'EthIcon',
         href: '/dice?coin=ETH',
       },
     ],
