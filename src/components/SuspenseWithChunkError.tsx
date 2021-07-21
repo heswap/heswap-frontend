@@ -2,12 +2,22 @@ import React, { Suspense, SuspenseProps } from 'react'
 
 interface State {
   hasError: boolean
+  animationDone: boolean
 }
 
 class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
   constructor(props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = {
+      hasError: false,
+      animationDone: false
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ animationDone: true })
+    }, 6000) // animation takes a bit of time
   }
 
   static getDerivedStateFromError() {
@@ -36,10 +46,10 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
   }
 
   render() {
-    const { hasError } = this.state
+    const { hasError, animationDone } = this.state
     const { fallback } = this.props
 
-    if (hasError) {
+    if (hasError || !animationDone) {
       return fallback
     }
 
