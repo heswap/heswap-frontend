@@ -11,7 +11,7 @@ const DropDownHeader = styled.div`
   padding: 0px 16px;
   box-shadow: ${({ theme }) => theme.shadows.inset};
   border-radius: 8px;
-  background: rgb(16, 38, 72);
+  background: ${({ theme }) => theme.colors.dropdown};
   transition: border-radius 0.15s;
 `
 
@@ -37,7 +37,7 @@ const DropDownContainer = styled.div<{ isOpen: boolean; width: number; height: n
   cursor: pointer;
   width: ${({ width }) => width}px;
   position: relative;
-  background: rgb(16, 38, 72);
+  background: ${({ theme }) => theme.colors.dropdown};
   border-radius: 8px;
   height: 40px;
   min-width: 96px;
@@ -74,7 +74,7 @@ const DropDownContainer = styled.div<{ isOpen: boolean; width: number; height: n
 `
 
 const DropDownList = styled.ul`
-  background-color: rgb(16, 38, 72);
+  background-color: ${({ theme }) => theme.colors.dropdown};
   padding: 0;
   margin: 0;
   box-sizing: border-box;

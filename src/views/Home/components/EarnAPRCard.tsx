@@ -11,7 +11,7 @@ import { fetchFarmsPublicDataAsync, nonArchivedFarms } from 'state/farms'
 import { getFarmApr } from 'utils/apr'
 
 const StyledCard = styled(Card)`
-  background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
+  background: ${({ theme }) => theme.colors.gradients.homeCard};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -90,7 +90,7 @@ const EarnAPRCard = () => {
             <Heading color="backgroundAlt" scale="lg">
               {InFarms}
             </Heading>
-            <ArrowForwardIcon mt={30} color="primary" />
+            <ArrowForwardIcon mt={30} color="warning" />
           </Flex>
         </CardBody>
       </NavLink>

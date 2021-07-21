@@ -5,9 +5,9 @@ import debounce from 'lodash/debounce'
 import { useTranslation } from 'contexts/Localization'
 
 const StyledInput = styled(Input)`
-  background-color: rgb(2, 17, 39);
+  background-color: ${({ theme }) => theme.colors.dropdown};
   border-radius: 8px;
-  border: ${({ theme }) => `1px solid ${theme.colors.inputFocusedBorder}`};
+  border: ${({ theme }) => `1px solid ${theme.colors.inputBorder}`};
   color: rgb(112, 141, 183);
   font-size: 12px;
   height: 40px;
@@ -18,7 +18,7 @@ const StyledInput = styled(Input)`
 
   &:focus:not(:disabled) {
     box-shadow: none;
-    border: 1px solid rgb(18, 99, 241);
+    border: ${({ theme }) => `1px solid ${theme.colors.inputFocusedBorder}`};
   }
 `
 

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 
 const StyledFarmStakingCard = styled(Card)`
-  background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
+  background: ${({ theme }) => theme.colors.gradients.homeCard};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -38,7 +38,7 @@ const WinCard = () => {
           <CardMidContent>{t('Coming Soon')}</CardMidContent>
           <Flex justifyContent="space-between">
             <Heading color="backgroundAlt" scale="lg" />
-            <ArrowForwardIcon mt={30} color="success" />
+            <ArrowForwardIcon mt={30} color="warning" />
           </Flex>
         </CardBody>
       </NavLink>
