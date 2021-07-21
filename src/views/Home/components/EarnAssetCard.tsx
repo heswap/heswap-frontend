@@ -8,7 +8,7 @@ import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 
 const StyledFarmStakingCard = styled(Card)`
-  background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
+  background: ${({ theme }) => theme.colors.gradients.homeCard};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -47,7 +47,7 @@ const EarnAssetCard = () => {
             <Heading color="backgroundAlt" scale="lg">
               {InPools}
             </Heading>
-            <ArrowForwardIcon mt={30} color="primary" />
+            <ArrowForwardIcon mt={30} color="warning" />
           </Flex>
         </CardBody>
       </NavLink>

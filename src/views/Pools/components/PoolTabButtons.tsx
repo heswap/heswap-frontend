@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const StyledMenu = styled(ButtonMenu)`
   border: none;
   border-radius: 8px;
-  background-color: rgb(16, 38, 72);
+  background-color: ${({ theme }) => theme.colors.dropdown};
 `
 
 const StyledMenuItem = styled(ButtonMenuItem).attrs(({ isActive }) => ({

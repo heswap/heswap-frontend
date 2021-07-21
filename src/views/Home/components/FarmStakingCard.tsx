@@ -12,7 +12,7 @@ import CakeWalletBalance from './CakeWalletBalance'
 
 const StyledCard = styled(Card)`
   display: inline-block;
-  background: linear-gradient(135deg, #031640, #2e52bf);
+  background: ${({ theme }) => theme.colors.gradients.cardHeader};
   min-height: 376px;
 `
 
