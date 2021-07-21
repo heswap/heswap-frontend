@@ -27,7 +27,7 @@ const LeftLogo = styled(Image).attrs(() => {
     height = 128
   }
   return {
-    src: `${process.env.PUBLIC_URL}/images/luckychip-token.png`,
+    src: `${process.env.PUBLIC_URL}/images/luckychip-token3.png`,
     alt: '',
     width,
     height,
@@ -59,7 +59,7 @@ const RightLogo = styled(Image).attrs(() => {
     height = 128
   }
   return {
-    src: `${process.env.PUBLIC_URL}/images/luckychip-token.png`,
+    src: `${process.env.PUBLIC_URL}/images/luckychip-token4.png`,
     alt: '',
     width,
     height,
