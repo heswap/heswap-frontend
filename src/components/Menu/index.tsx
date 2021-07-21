@@ -17,6 +17,7 @@ const Menu = (props) => {
 
   return (
     <AppMenu
+      logoTitle="LuckyChip"
       account={account}
       login={login}
       logout={logout}

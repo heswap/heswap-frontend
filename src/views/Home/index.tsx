@@ -111,7 +111,7 @@ const Home: React.FC = () => {
       <div style={{ background: theme.colors.gradients.bubblegum }}>
         <Hero>
           <Banner>
-            <Title mb="8px">{t('HeSwap')}</Title>
+            <Title mb="8px">{t('LuckyChip')}</Title>
             <Description>{t('The best of its kind on chain. Invite friends through refer system')}</Description>
           </Banner>
           <Slider>
