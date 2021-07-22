@@ -22,7 +22,7 @@ const useTheme = () => {
   theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${teal[700]}, ${teal[400]})`
   theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${teal[800]}, ${teal[600]})`
   theme.colors.gradients.slickDotLoading = `linear-gradient(270deg, ${amber[400]}, ${amber[600]})`
-  theme.colors.gradients.homeCard = `linear-gradient(235deg, ${teal[400]} 4.05%, ${teal[600]} 103.52%)`
+  theme.colors.gradients.cardDiagonal = `linear-gradient(235deg, ${teal[400]} 4.05%, ${teal[600]} 103.52%)`
   theme.menu.topBarColor = teal[900]
   theme.menu.leftBarColor = teal[700]
   theme.radii.card = '16px'
