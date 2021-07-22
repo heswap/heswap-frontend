@@ -72,7 +72,7 @@ const RightLogo = styled(Image).attrs(() => {
 
 const GradientPanel = styled(Box)`
   border-radius: ${({ theme }) => theme.radii.card};
-  background: linear-gradient(235deg, rgb(51, 111, 245) 4.05%, rgba(17, 81, 225, 0.32) 103.52%);
+  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
   padding: 32px;
 `
 
