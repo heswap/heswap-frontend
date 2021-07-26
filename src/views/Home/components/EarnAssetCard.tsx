@@ -8,7 +8,7 @@ import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 
 const StyledFarmStakingCard = styled(Card)`
-  background: ${({ theme }) => theme.colors.gradients.homeCard};
+  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
