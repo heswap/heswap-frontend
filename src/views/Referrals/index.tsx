@@ -105,7 +105,7 @@ const Referrals: React.FC = () => {
         <Hero>
           <Banner>
             <Title mb="24px">{t('Invite Your Friends. Earn Cryptocurrency Together.')}</Title>
-            <Description>{t('Earn a certain commission reward from your friends swaps on Heswap.')}</Description>
+            <Description>{t('Earn a certain commission reward from your friends swaps on LuckyChip.')}</Description>
           </Banner>
         </Hero>
       </div>

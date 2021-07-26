@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Heading, Flex, Image, Text } from '@heswap/uikit'
+import { Box, Flex, Heading, Image, Text } from '@heswap/uikit'
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
@@ -195,15 +195,21 @@ const Pools: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Title mb="24px">{t('Syrup Pools')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
           </Flex>
-          <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+          <Image
+            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
+            alt=""
+            width={360}
+            height={180}
+          />
+          <Box position="absolute" top={32} right={32}>
             <HelpButton />
-          </Flex>
+          </Box>
         </Flex>
       </PageHeader>
       <Page>
@@ -264,7 +270,7 @@ const Pools: React.FC = () => {
         <Image
           mx="auto"
           mt="12px"
-          src="/images/3d-syrup-bunnies.png"
+          src={`${process.env.PUBLIC_URL}/images/3d-syrup-bunnies.png`}
           alt="Pancake illustration"
           width={192}
           height={184.5}

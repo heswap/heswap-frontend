@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 import { Route, useRouteMatch, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Image, Heading, RowType, Toggle, Text } from '@heswap/uikit'
+import { Box, Flex, Heading, Image, RowType, Text, Toggle } from '@heswap/uikit'
 import styled from 'styled-components'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
@@ -87,11 +87,6 @@ const ViewControls = styled.div`
   }
 `
 
-const StyledImage = styled(Image)`
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 58px;
-`
 const NUMBER_OF_FARMS_VISIBLE = 12
 
 const Title = styled(Heading).attrs({
@@ -368,8 +363,18 @@ const Farms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Title mb="24px">{t('Farms')}</Title>
-        <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description>
+        <Flex>
+          <Box style={{ flex: 1 }}>
+            <Title mb="24px">{t('Farms')}</Title>
+            <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description>
+          </Box>
+          <Image
+            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
+            alt=""
+            width={360}
+            height={180}
+          />
+        </Flex>
       </PageHeader>
       <Page>
         <ControlContainer>
@@ -418,7 +423,14 @@ const Farms: React.FC = () => {
         </ControlContainer>
         {renderContent()}
         <div ref={loadMoreRef} />
-        <StyledImage src="/images/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        <Image
+          src={`${process.env.PUBLIC_URL}/images/3dpan.png`}
+          alt="Pancake illustration"
+          width={120}
+          height={103}
+          mx="auto"
+          marginTop="58px"
+        />
       </Page>
     </>
   )

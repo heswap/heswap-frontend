@@ -24,9 +24,13 @@ const StyledCard = styled(Card)`
     opacity: 0.65;
   }
 `
-const CardMidContent = styled(Heading).attrs({ scale: 'xl' })`
+
+const CardMidContent = styled(Heading).attrs({
+  scale: 'xl',
+})`
   line-height: 44px;
 `
+
 const EarnAPRCard = () => {
   const [isFetchingFarmData, setIsFetchingFarmData] = useState(true)
   const { t } = useTranslation()

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Spinner } from '@heswap/uikit'
+import { Image } from '@heswap/uikit'
 import Page from './layout/Page'
 
 const Wrapper = styled(Page)`
@@ -12,7 +12,12 @@ const Wrapper = styled(Page)`
 const PageLoader: React.FC = () => {
   return (
     <Wrapper>
-      <Spinner />
+      <Image
+        src={`${process.env.PUBLIC_URL}/images/luckychip-logo.gif`}
+        alt=""
+        width={600}
+        height={540}
+      />
     </Wrapper>
   )
 }

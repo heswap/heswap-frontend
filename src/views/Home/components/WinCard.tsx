@@ -18,7 +18,11 @@ const StyledFarmStakingCard = styled(Card)`
     opacity: 0.65;
   }
 `
-const CardMidContent = styled(Heading).attrs({ scale: 'xl' })`
+
+const CardMidContent = styled(Heading).attrs({
+  scale: 'xl',
+})`
+  color: ${({ theme }) => theme.colors.warning};
   line-height: 44px;
 `
 const WinCard = () => {
@@ -31,7 +35,7 @@ const WinCard = () => {
           <Heading color="backgroundAlt" scale="lg">
             {t('Lottery')}
           </Heading>
-          <CardMidContent color="rgb(255, 219, 28)">{t('Coming Soon')}</CardMidContent>
+          <CardMidContent>{t('Coming Soon')}</CardMidContent>
           <Flex justifyContent="space-between">
             <Heading color="backgroundAlt" scale="lg" />
             <ArrowForwardIcon mt={30} color="warning" />

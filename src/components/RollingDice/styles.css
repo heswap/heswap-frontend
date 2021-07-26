@@ -1,0 +1,124 @@
+/* The idea for this component was taken from the code snippen of Tamer Aydn https://codepen.io/tameraydin/pen/CADvB */
+
+#rolling-dice-wrapper {
+    position: relative;
+    width: 200px;
+    padding-top: 100px;
+    margin: 0 auto;
+    perspective: 1200px;
+}
+#rolling-dice-platform {
+    margin-top: 100px;
+}
+#rolling-dice-cube {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    transform: translateZ(-500px);
+    transform-style: preserve-3d;
+    transition: transform 6s;
+}
+.rolling-dice-side {
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    box-shadow: inset 0 0 40px #ccc;
+    border-radius: 40px;
+}
+#rolling-dice-cube .rolling-dice-side {
+    position: absolute;
+}
+#rolling-dice-cube .cover, #rolling-dice-cube .inner {
+    background: #e0e0e0;
+    box-shadow:  none;
+}
+#rolling-dice-cube .cover {
+    border-radius: 0;
+    transform-origin: center;
+    transform: translateZ(0px);
+}
+#rolling-dice-cube .cover.x {
+    transform-origin: center;
+    transform: rotateY(90deg);
+}
+#rolling-dice-cube .cover.z {
+    transform-origin: center;
+    transform: rotateX(90deg);
+}
+#rolling-dice-cube .front  {
+    transform-origin: center;
+    transform: translateZ(100px);
+}
+#rolling-dice-cube .front.inner  {
+    transform-origin: center;
+    transform: translateZ(98px);
+}
+#rolling-dice-cube .back {
+    transform-origin: center;
+    transform: rotateX(-180deg) translateZ(100px);
+}
+#rolling-dice-cube .back.inner {
+    transform-origin: center;
+    transform: rotateX(-180deg) translateZ(98px);
+}
+#rolling-dice-cube .right {
+    transform-origin: center;
+    transform: rotateY(90deg) translateZ(100px);
+}
+#rolling-dice-cube .right.inner {
+    transform-origin: center;
+    transform: rotateY(90deg) translateZ(98px);
+}
+#rolling-dice-cube .left {
+    transform-origin: center;
+    transform: rotateY(-90deg) translateZ(100px);
+}
+#rolling-dice-cube .left.inner {
+    transform-origin: center;
+    transform: rotateY(-90deg) translateZ(98px);
+}
+#rolling-dice-cube .top {
+    transform-origin: center;
+    transform: rotateX(90deg) translateZ(100px);
+}
+#rolling-dice-cube .top.inner {
+    transform-origin: center;
+    transform: rotateX(90deg) translateZ(98px);
+}
+#rolling-dice-cube .bottom {
+    transform-origin: center;
+    transform: rotateX(-90deg) translateZ(100px);
+}
+#rolling-dice-cube .bottom.inner {
+    transform-origin: center;
+    transform: rotateX(-90deg) translateZ(98px);
+}
+.dot {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
+    background: #444;
+    box-shadow: inset 5px 0 10px #000;
+}
+.dot.center {
+    margin: 77px 0 0 77px;
+}
+.dot.dtop {
+    margin-top: 20px;
+}
+.dot.dleft {
+    margin-left: 134px;
+}
+.dot.dright {
+    margin-left: 20px;
+}
+.dot.dbottom {
+    margin-top: 134px;
+}
+.dot.center.dleft {
+    margin: 77px 0 0 20px;
+}
+.dot.center.dright {
+    margin: 77px 0 0 134px;
+}

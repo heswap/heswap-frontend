@@ -37,6 +37,32 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/referrals',
   },
   {
+    label: t('Dice'),
+    icon: 'DiceIcon',
+    items: [
+      {
+        label: 'LKCP',
+        href: '/dice?coin=LKCP',
+      },
+      {
+        label: 'BNB',
+        href: '/dice?coin=BNB',
+      },
+      {
+        label: 'BUSD',
+        href: '/dice?coin=BUSD',
+      },
+      {
+        label: 'BTCB',
+        href: '/dice?coin=BTCB',
+      },
+      {
+        label: 'ETH',
+        href: '/dice?coin=ETH',
+      },
+    ],
+  },
+  {
     label: t('More'),
     icon: 'MoreIcon',
     items: [
