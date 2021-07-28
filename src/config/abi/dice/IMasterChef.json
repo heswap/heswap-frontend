@@ -1,0 +1,342 @@
+{
+  "contractName": "IMasterChef",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateBonus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_pid\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"updateBonus\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"updateBonus(uint256,uint256)\":{\"details\":\"Update bonus.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/libs/IMasterChef.sol\":\"IMasterChef\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":999999},\"remappings\":[]},\"sources\":{\"project:/contracts/libs/IMasterChef.sol\":{\"keccak256\":\"0x0e1a0b997a7a21ca42d168c125d96cc9547bab7942b7a7a4fb1cf78a59d75c5f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a4029fcfb8ef2c67fa1c28a22f4738ad5078e687f423f9897de03815baccc3e5\",\"dweb:/ipfs/QmVsdFM6Hye76Qsc3XTwrWNyccP7AkAaRz2NbfV7TuusA7\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\n\r\npragma solidity 0.6.12;\r\n\r\ninterface IMasterChef {\r\n    /**\r\n     * @dev Update bonus.\r\n     */\r\n    function updateBonus(uint256 _pid, uint256 _amount) external;\r\n}\r\n",
+  "sourcePath": "D:\\falseman\\2021-06-25\\dice\\contracts\\libs\\IMasterChef.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/libs/IMasterChef.sol",
+    "exportedSymbols": {
+      "IMasterChef": [
+        7477
+      ]
+    },
+    "id": 7478,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7468,
+        "literals": [
+          "solidity",
+          "0.6",
+          ".12"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "35:23:14"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 7477,
+        "linearizedBaseContracts": [
+          7477
+        ],
+        "name": "IMasterChef",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": {
+              "id": 7469,
+              "nodeType": "StructuredDocumentation",
+              "src": "91:39:14",
+              "text": " @dev Update bonus."
+            },
+            "functionSelector": "21a8e00b",
+            "id": 7476,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "updateBonus",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 7474,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7471,
+                  "mutability": "mutable",
+                  "name": "_pid",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7476,
+                  "src": "157:12:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7470,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "157:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 7473,
+                  "mutability": "mutable",
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7476,
+                  "src": "171:15:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7472,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "171:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "156:31:14"
+            },
+            "returnParameters": {
+              "id": 7475,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "196:0:14"
+            },
+            "scope": 7477,
+            "src": "136:61:14",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7478,
+        "src": "62:138:14"
+      }
+    ],
+    "src": "35:167:14"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/libs/IMasterChef.sol",
+      "exportedSymbols": {
+        "IMasterChef": [
+          7477
+        ]
+      },
+      "license": "MIT"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "0.6",
+            ".12"
+          ]
+        },
+        "id": 7468,
+        "name": "PragmaDirective",
+        "src": "35:23:14"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            7477
+          ],
+          "name": "IMasterChef",
+          "scope": 7478
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "functionSelector": "21a8e00b",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "updateBonus",
+              "overrides": null,
+              "scope": 7477,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": " @dev Update bonus."
+                },
+                "id": 7469,
+                "name": "StructuredDocumentation",
+                "src": "91:39:14"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_pid",
+                      "overrides": null,
+                      "scope": 7476,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7470,
+                        "name": "ElementaryTypeName",
+                        "src": "157:7:14"
+                      }
+                    ],
+                    "id": 7471,
+                    "name": "VariableDeclaration",
+                    "src": "157:12:14"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_amount",
+                      "overrides": null,
+                      "scope": 7476,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7472,
+                        "name": "ElementaryTypeName",
+                        "src": "171:7:14"
+                      }
+                    ],
+                    "id": 7473,
+                    "name": "VariableDeclaration",
+                    "src": "171:15:14"
+                  }
+                ],
+                "id": 7474,
+                "name": "ParameterList",
+                "src": "156:31:14"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 7475,
+                "name": "ParameterList",
+                "src": "196:0:14"
+              }
+            ],
+            "id": 7476,
+            "name": "FunctionDefinition",
+            "src": "136:61:14"
+          }
+        ],
+        "id": 7477,
+        "name": "ContractDefinition",
+        "src": "62:138:14"
+      }
+    ],
+    "id": 7478,
+    "name": "SourceUnit",
+    "src": "35:167:14"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.2",
+  "updatedAt": "2021-07-27T21:30:04.262Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "updateBonus(uint256,uint256)": {
+        "details": "Update bonus."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
