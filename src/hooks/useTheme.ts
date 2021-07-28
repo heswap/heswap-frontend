@@ -20,6 +20,7 @@ const useTheme = () => {
   theme.colors.textDisabled = grey[400]
   theme.colors.textSubtle = indigo[200]
   theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${indigo[700]}, ${indigo[400]})`
+  theme.colors.gradients.diceHeader = `linear-gradient(180deg, ${teal[700]}, ${teal[400]})`
   theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${indigo[800]}, ${indigo[600]})`
   theme.colors.gradients.slickDotLoading = `linear-gradient(270deg, ${amber[400]}, ${amber[600]})`
   theme.colors.gradients.cardDiagonal = `linear-gradient(235deg, ${indigo[400]} 4.05%, ${indigo[600]} 103.52%)`
