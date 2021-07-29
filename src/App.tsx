@@ -10,8 +10,8 @@ import SuspenseWithChunkError from './components/SuspenseWithChunkError'
 import ToastListener from './components/ToastListener'
 import PageLoader from './components/PageLoader'
 import EasterEgg from './components/EasterEgg'
-import Pools from './views/Pools'
-import Dice from './views/Dice'
+import LuckyFarms from './views/LuckyFarms'
+import LuckyDice from './views/LuckyDice'
 import history from './routerHistory'
 
 // Route-based code splitting
@@ -48,11 +48,11 @@ const App: React.FC = () => {
             <Route path="/farms/:referrer">
               <Farms />
             </Route>
-            <Route path="/pools">
-              <Pools />
+            <Route path="/lucky_farms">
+              <LuckyFarms />
             </Route>
             <Route path="/pools/:referrer">
-              <Pools />
+              <LuckyFarms />
             </Route>
             {/* Redirect */}
             <Route path="/staking">
@@ -64,8 +64,8 @@ const App: React.FC = () => {
             <Route path="/syrup">
               <Redirect to="/pools" />
             </Route>
-            <Route path="/dice">
-              <Dice />
+            <Route path="/lucky_dice">
+              <LuckyDice />
             </Route>
             {/* 404 */}
             <Route component={NotFound} />

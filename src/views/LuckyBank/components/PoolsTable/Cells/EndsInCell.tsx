@@ -6,7 +6,7 @@ import { Pool } from 'state/types'
 import { useBlock } from 'state/hooks'
 import Balance from 'components/Balance'
 import { useTranslation } from 'contexts/Localization'
-import { getPoolBlockInfo } from 'views/Pools/helpers'
+import { getPoolBlockInfo } from '../../../helpers'
 import BaseCell, { CellContent } from './BaseCell'
 
 interface FinishCellProps {
