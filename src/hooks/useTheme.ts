@@ -10,7 +10,7 @@ const useTheme = () => {
   theme.colors.secondary = red[400]
   theme.colors.success = cyan[400]
   theme.colors.warning = amber[400]
-  theme.colors.background = deepPurple[900]
+  theme.colors.background = deepPurple[800]
   theme.colors.backgroundDisabled = deepPurple[100]
   theme.colors.dropdown = deepPurple[900]
   theme.colors.tertiary = deepPurple[100]
@@ -20,7 +20,7 @@ const useTheme = () => {
   theme.colors.textDisabled = grey[400]
   theme.colors.textSubtle = deepPurple[200]
   theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${deepPurple[700]}, ${deepPurple[400]})`
-  theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${deepPurple[800]}, ${deepPurple[600]})`
+  theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${deepPurple[800]}, ${deepPurple[500]})`
   theme.colors.gradients.slickDotLoading = `linear-gradient(270deg, ${amber[400]}, ${amber[600]})`
   theme.colors.gradients.cardDiagonal = `linear-gradient(235deg, ${deepPurple[400]} 4.05%, ${deepPurple[600]} 103.52%)`
   theme.menu.topBarColor = deepPurple[900]
