@@ -11,6 +11,7 @@ import ToastListener from './components/ToastListener'
 import PageLoader from './components/PageLoader'
 import EasterEgg from './components/EasterEgg'
 import LuckyFarms from './views/LuckyFarms'
+import LuckyBank from './views/LuckyBank'
 import LuckyDice from './views/LuckyDice'
 import history from './routerHistory'
 
@@ -50,6 +51,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/lucky_farms">
               <LuckyFarms />
+            </Route>
+            <Route path="/lucky_bank">
+              <LuckyBank />
             </Route>
             <Route path="/pools/:referrer">
               <LuckyFarms />
