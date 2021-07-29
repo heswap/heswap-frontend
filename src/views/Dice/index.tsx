@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints } from '@heswap/uikit'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
+import { red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, grey, blueGrey } from 'utils/palette'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
 
@@ -72,7 +73,7 @@ const RightLogo = styled(Image).attrs(() => {
 
 const GradientPanel = styled(Box)`
   border-radius: ${({ theme }) => theme.radii.card};
-  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
+  background: linear-gradient(235deg, ${teal[400]} 4.05%, ${teal[600]} 103.52%);
   padding: 32px;
 `
 
@@ -180,14 +181,14 @@ const Dice: React.FC = () => {
 
   return (
     <>
-      <PageHeader>
+      <PageHeader background={`linear-gradient(180deg, ${teal[700]}, ${teal[400]})`}>
         <Flex position="relative">
           <RollingDice style={{ zIndex: 1 }} />
           <LeftLogo />
           <RightLogo />
         </Flex>
       </PageHeader>
-      <Page>
+      <Page style={{ backgroundColor: teal[900] }}>
         <GradientPanel>
           <InfoLayout>
             <Box style={{ textAlign: 'center' }}>
