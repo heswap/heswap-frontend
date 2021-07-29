@@ -22,7 +22,7 @@ import { getAddress } from 'utils/addressHelpers'
 import { registerToken } from 'utils/wallet'
 import { getBscScanBlockCountdownUrl } from 'utils/bscscan'
 import Balance from 'components/Balance'
-import { getPoolBlockInfo } from 'views/Pools/helpers'
+import { getPoolBlockInfo } from '../../../helpers'
 
 interface ExpandedFooterProps {
   pool: Pool

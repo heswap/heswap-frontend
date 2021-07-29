@@ -8,7 +8,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/',
   },
   {
-    label: t('Trade'),
+    label: t('Swap'),
     icon: 'TradeIcon',
     items: [
       {
@@ -27,9 +27,40 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/farms',
   },
   {
-    label: t('Pools'),
+    label: t('Lucky Dice'),
+    icon: 'DiceIcon',
+    items: [
+      {
+        label: 'LKCP',
+        href: '/lucky_dice?coin=LKCP',
+      },
+      {
+        label: 'BNB',
+        href: '/lucky_dice?coin=BNB',
+      },
+      {
+        label: 'BUSD',
+        href: '/lucky_dice?coin=BUSD',
+      },
+      {
+        label: 'BTCB',
+        href: '/lucky_dice?coin=BTCB',
+      },
+      {
+        label: 'ETH',
+        href: '/lucky_dice?coin=ETH',
+      },
+    ],
+  },
+  {
+    label: t('Lucky Bank'),
+    icon: 'BankIcon',
+    href: '/lucky_bank',
+  },
+  {
+    label: t('Lucky Farms'),
     icon: 'PoolIcon',
-    href: '/pools',
+    href: '/lucky_farms',
   },
   {
     label: t('Referrals'),
@@ -37,37 +68,19 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/referrals',
   },
   {
-    label: t('Dice'),
-    icon: 'DiceIcon',
-    items: [
-      {
-        label: 'LKCP',
-        href: '/dice?coin=LKCP',
-      },
-      {
-        label: 'BNB',
-        href: '/dice?coin=BNB',
-      },
-      {
-        label: 'BUSD',
-        href: '/dice?coin=BUSD',
-      },
-      {
-        label: 'BTCB',
-        href: '/dice?coin=BTCB',
-      },
-      {
-        label: 'ETH',
-        href: '/dice?coin=ETH',
-      },
-    ],
-  },
-  {
     label: t('More'),
     icon: 'MoreIcon',
     items: [
       {
+        label: t('Docs'),
+        href: 'https://github.com/heswap',
+      },
+      {
         label: t('Github'),
+        href: 'https://github.com/heswap',
+      },
+      {
+        label: t('Audits'),
         href: 'https://github.com/heswap',
       },
     ],
