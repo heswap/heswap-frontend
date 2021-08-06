@@ -1,6 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints } from '@heswap/uikit'
+import {
+  BaseLayout,
+  Box,
+  Button,
+  CardsLayout,
+  Flex,
+  Heading,
+  Image,
+  useMatchBreakpoints,
+  useModal,
+} from '@heswap/uikit'
 import BigNumber from 'bignumber.js'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
@@ -9,6 +19,7 @@ import { useWeb3React } from '@web3-react/core'
 import { getDiceContract, getDiceTokenContract } from 'utils/contractHelpers'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
+import BetModal from './BetModal'
 import { DiceRound, DiceRoundStatus } from './types'
 
 const LeftLogo = styled(Image).attrs(() => {
@@ -171,12 +182,31 @@ const Dice: React.FC = () => {
   const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState(fakeRecords)
+  const callingOptions = useRef({})
+  const paused = useRef(true)
   const rounds = useRef([])
   const userRounds = useRef([])
-  const callingOptions = useRef({})
 
   const web3 = useWeb3()
   const diceContract = useMemo(() => getDiceContract(web3), [web3])
+  const betModalTitle = useMemo(() => {
+    const sideNumbers = []
+    for (let i = 0; i < sideToggles.length; i++) {
+      if (sideToggles[i]) {
+        sideNumbers.push(i + 1)
+      }
+    }
+    return `Bet Numbers: [${sideNumbers.join(', ')}]`
+  }, [sideToggles])
+
+  const handleBet = async (amount: string) => {
+    await diceContract.methods.betNumber(sideToggles, amount).call(callingOptions.current)
+    // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+  }
+
+  const [onPresentBet] = useModal(
+    <BetModal title={betModalTitle} max={new BigNumber(1)} onConfirm={handleBet} tokenName="WBNB" />
+  )
 
   useEffect(() => {
     diceContract.events.StartRound({ fromBlock: 0 })
@@ -222,7 +252,10 @@ const Dice: React.FC = () => {
         gasPrice: await web3.eth.getGasPrice(),
         gasLimit: 500000
       }
-      const currentEpoch = new BigNumber(await diceContract.methods.currentEpoch().call(callingOptions.current))
+      paused.current = await diceContract.methods.paused().call(callingOptions.current)
+      console.log('paused', paused.current)
+      const t = await diceContract.methods.currentEpoch().call(callingOptions.current)
+      const currentEpoch = new BigNumber(t)
 
       // fetch public history
       if (currentEpoch.toString() !== '0') {
@@ -273,93 +306,99 @@ const Dice: React.FC = () => {
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
   }
 
-  const betNumber = async (numbers: Array<boolean>, amount: BigNumber) => {
-    await diceContract.methods.betNumber(numbers, amount).call(callingOptions.current)
-  }
-
   return (
     <>
       <PageHeader>
         <Flex position="relative">
-          <RollingDice style={{ zIndex: 1 }} />
+          {paused.current ? (
+            <div style={{ height: 200 }} />
+          ) : (
+            <RollingDice style={{ zIndex: 1 }} />
+          )}
           <LeftLogo />
           <RightLogo />
         </Flex>
       </PageHeader>
       <Page>
-        <GradientPanel>
-          <InfoLayout>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Chance</Label>
-              <Value>{getWinningChance()}%</Value>
+        {!paused.current && (
+          <GradientPanel>
+            <InfoLayout>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Chance</Label>
+                <Value>{getWinningChance()}%</Value>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Bet Pays</Label>
+                <Value>0.000</Value>
+                <Label>ANT</Label>
+                <Label>(with tax and fee)</Label>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Return Rate</Label>
+                <Value>5.88x</Value>
+              </Box>
+            </InfoLayout>
+          </GradientPanel>
+        )}
+        {!paused.current && (
+          <GradientPanel mt="32px">
+            <PickUpLayout>
+              <SideWrapper>
+                <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
+                  <div className="dot center" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot center" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
+                  <div className="dot center" />
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                  <div className="dot center dleft" />
+                  <div className="dot center dright" />
+                </Side>
+              </SideWrapper>
+            </PickUpLayout>
+            {!account && (
+              <Box mt="16px" style={{ textAlign: 'center' }}>
+                <Label>Connect wallet to bet</Label>
+              </Box>
+            )}
+            <Box mt="24px" style={{ textAlign: 'center' }}>
+              <StyledButton onClick={onPresentBet}>Bet with Amount</StyledButton>
             </Box>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Bet Pays</Label>
-              <Value>0.000</Value>
-              <Label>ANT</Label>
-              <Label>(with tax and fee)</Label>
-            </Box>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Return Rate</Label>
-              <Value>5.88x</Value>
-            </Box>
-          </InfoLayout>
-        </GradientPanel>
-        <GradientPanel mt="32px">
-          <PickUpLayout>
-            <SideWrapper>
-              <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
-                <div className="dot center" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
-                <div className="dot dtop dleft" />
-                <div className="dot center" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
-                <div className="dot center" />
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-                <div className="dot center dleft" />
-                <div className="dot center dright" />
-              </Side>
-            </SideWrapper>
-          </PickUpLayout>
-          <Box mt="24px" style={{ textAlign: 'center' }}>
-            <StyledButton>Unlock Wallet</StyledButton>
-          </Box>
-          <Box mt="16px" style={{ textAlign: 'center' }}>
-            <Label>Unlock wallet to bet</Label>
-          </Box>
-        </GradientPanel>
+          </GradientPanel>
+        )}
         <WhitePanel mt="32px">
           <HistoryTable records={records} />
         </WhitePanel>

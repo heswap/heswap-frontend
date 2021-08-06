@@ -20,11 +20,11 @@ export default {
   },
   dice: {
     56: '',
-    97: '0x2431aB79ea1D7aE477cc1d5B8eB10bdB67b4e4E7',
+    97: '0x2bfDa6888776da8a4E5dBFD70C7891e88a162222',
   },
   diceToken: {
     56: '',
-    97: '0x1826833329faBC17c99627a25BFD37931c066b9d',
+    97: '0xB96AE4eF64B9f57F63dBa7c31f1Ec1d4D4998e1a',
   },
   wbnb: {
     56: '',
