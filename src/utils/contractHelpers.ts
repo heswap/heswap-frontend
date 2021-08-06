@@ -20,7 +20,7 @@ import bep20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
 import lpTokenAbi from 'config/abi/lpToken.json'
 import cakeAbi from 'config/abi/cake.json'
-import masterChef from 'config/abi/masterchef.json'
+import masterChef from 'config/abi/dice/MasterChef.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import MultiCallAbi from 'config/abi/Multicall.json'
@@ -62,7 +62,7 @@ export const getCakeContract = (web3?: Web3) => {
   return getContract(cakeAbi, getCakeAddress(), web3)
 }
 export const getMasterChefContract = (web3?: Web3) => {
-  return getContract(masterChef, getMasterChefAddress(), web3)
+  return getContract(masterChef.abi, getMasterChefAddress(), web3)
 }
 export const getMulticallContract = (web3?: Web3) => {
   return getContract(MultiCallAbi, getMulticallAddress(), web3)

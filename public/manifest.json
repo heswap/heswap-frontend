@@ -1,7 +1,7 @@
 {
-  "short_name": "Heswap",
-  "name": "Heswap",
-  "description": "Farm HSW with Heswap LP Tokens",
+  "short_name": "LuckyChip",
+  "name": "LuckyChip",
+  "description": "Farm LC with LuckyChip LC Tokens",
   "icons": [
     {
       "src": "favicon.ico",

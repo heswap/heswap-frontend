@@ -23,7 +23,7 @@ const StyledCardHeader: React.FC<{
   const getHeadingPrefix = () => {
     if (isCakePool) {
       // manual cake
-      return t('HSW')
+      return t('LC')
     }
     // all other pools
     return t('Earn')
