@@ -11,6 +11,8 @@ import {
   getMasterChefAddress,
   getMulticallAddress,
   getReferralAddress,
+  getDiceAddress,
+  getDiceTokenAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -23,6 +25,10 @@ import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import MultiCallAbi from 'config/abi/Multicall.json'
 import referralsAbi from 'config/abi/referrals.json'
+
+import dice from 'config/abi/dice/Dice.json'
+import diceToken from 'config/abi/dice/DiceToken.json'
+
 import { DEFAULT_GAS_PRICE, TESTNET_CHAIN_ID } from 'config'
 import { getSettings, getGasPriceInWei } from './settings'
 
@@ -71,4 +77,11 @@ export const getSousChefV2Contract = (id: number, web3?: Web3) => {
 }
 export const getReferralContract = (web3?: Web3) => {
   return getContract(referralsAbi, getReferralAddress(), web3)
+}
+
+export const getDiceContract = (web3?: Web3) => {
+  return getContract(dice.abi, getDiceAddress(), web3)
+}
+export const getDiceTokenContract = (web3?: Web3) => {
+  return getContract(diceToken.abi, getDiceTokenAddress(), web3)
 }

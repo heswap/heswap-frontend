@@ -24,6 +24,12 @@ export const getWbnbAddress = () => {
 export const getReferralAddress = () => {
   return getAddress(addresses.referrals)
 }
+export const getDiceAddress = () => {
+  return getAddress(addresses.dice)
+}
+export const getDiceTokenAddress = () => {
+  return getAddress(addresses.diceToken)
+}
 
 export const isAddress = (value: any): string | false => {
   try {

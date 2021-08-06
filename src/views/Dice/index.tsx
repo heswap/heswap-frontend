@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints } from '@heswap/uikit'
+import BigNumber from 'bignumber.js'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
+import useWeb3 from 'hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
+import { getDiceContract, getDiceTokenContract } from 'utils/contractHelpers'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
+import { DiceRound, DiceRoundStatus } from './types'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -163,8 +168,98 @@ for (let i = 0; i < 100; i++) {
 }
 
 const Dice: React.FC = () => {
+  const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState(fakeRecords)
+  const rounds = useRef([])
+  const userRounds = useRef([])
+  const callingOptions = useRef({})
+
+  const web3 = useWeb3()
+  const diceContract = useMemo(() => getDiceContract(web3), [web3])
+
+  useEffect(() => {
+    diceContract.events.StartRound({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.LockRound({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.BetNumber({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.EndPlayerTime({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.EndBankerTime({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.Deposit({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+    diceContract.events.Withdraw({ fromBlock: 0 })
+      .on('data', (event) => {
+        console.log(event)
+      })
+      .on('error', console.error)
+  }, [diceContract])
+
+  useEffect(() => {
+    async function fetchData() {
+      callingOptions.current = {
+        gasPrice: await web3.eth.getGasPrice(),
+        gasLimit: 500000
+      }
+      const currentEpoch = new BigNumber(await diceContract.methods.currentEpoch().call(callingOptions.current))
+
+      // fetch public history
+      if (currentEpoch.toString() !== '0') {
+        const results = []
+        for (let i = 0; i < 100; i++) {
+          const n: BigNumber = currentEpoch.minus(i)
+          if (n.toString() === '0') {
+            break
+          }
+          const result: Promise<DiceRound> = diceContract.methods.rounds(n.toString()).call(callingOptions.current)
+          results.push(result)
+        }
+        const newRounds: Array<DiceRound> = await Promise.all(results)
+        for (let i = 0; i < newRounds.length; i++) {
+          newRounds[i].startBlock = new BigNumber(newRounds[i].startBlock)
+          newRounds[i].lockBlock = new BigNumber(newRounds[i].lockBlock)
+          newRounds[i].secretSentBlock = new BigNumber(newRounds[i].secretSentBlock)
+          newRounds[i].bankSecret = new BigNumber(newRounds[i].bankSecret)
+          newRounds[i].totalAmount = new BigNumber(newRounds[i].totalAmount)
+          newRounds[i].maxBetAmount = new BigNumber(newRounds[i].maxBetAmount)
+          newRounds[i].lcBackAmount = new BigNumber(newRounds[i].lcBackAmount)
+          newRounds[i].bonusAmount = new BigNumber(newRounds[i].bonusAmount)
+          newRounds[i].swapLcAmount = new BigNumber(newRounds[i].swapLcAmount)
+          newRounds[i].betUsers = new BigNumber(newRounds[i].betUsers)
+          newRounds[i].finalNumber = parseInt(newRounds[i].finalNumber)
+          newRounds[i].status = parseInt(newRounds[i].status)
+        }
+        rounds.current = newRounds
+      }
+
+      // fetch private history
+      const newUserRounds: Array<BigNumber> = await diceContract.methods.getUserRounds(account, 0, 100).call(callingOptions.current)
+      userRounds.current = newUserRounds
+    }
+
+    fetchData()
+  }, [web3, account, diceContract])
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -176,6 +271,10 @@ const Dice: React.FC = () => {
     const toggled = sideToggles.filter(x => x)
     const result = toggled.length * 100 / 6
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
+  }
+
+  const betNumber = async (numbers: Array<boolean>, amount: BigNumber) => {
+    await diceContract.methods.betNumber(numbers, amount).call(callingOptions.current)
   }
 
   return (

@@ -6,6 +6,8 @@ import {
   getMasterChefContract,
   getSousChefContract,
   getErc721Contract,
+  getDiceContract,
+  getDiceTokenContract,
 } from 'utils/contractHelpers'
 
 /**
