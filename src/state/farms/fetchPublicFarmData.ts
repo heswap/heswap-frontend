@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import masterchefABI from 'config/abi/masterchef.json'
+import masterChef from 'config/abi/dice/MasterChef.json'
 import erc20 from 'config/abi/erc20.json'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
@@ -77,7 +77,7 @@ const fetchFarm = async (farm: Farm): Promise<PublicFarmData> => {
   // Only make masterchef calls if farm has pid
   const [info, totalAllocPoint] =
     pid || pid === 0
-      ? await multicall(masterchefABI, [
+      ? await multicall(masterChef.abi, [
           {
             address: getMasterChefAddress(),
             name: 'poolInfo',

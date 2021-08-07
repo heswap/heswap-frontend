@@ -4,10 +4,10 @@ const tokens = {
     projectLink: 'https://www.binance.com/',
   },
   cake: {
-    symbol: 'HSW',
+    symbol: 'LC',
     address: {
       56: '',
-      97: '0x10658Fc030f90CFf7608b21eC522A29645D515a3',
+      97: '0x30998b6283D428a1e85068F416a1992365d9e0Db',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
@@ -47,15 +47,6 @@ const tokens = {
     },
     decimals: 18,
     projectLink: 'https://www.paxos.com/busd/',
-  },
-  lc: {
-    symbol: 'LC',
-    address: {
-      56: '',
-      97: '0x30998b6283D428a1e85068F416a1992365d9e0Db',
-    },
-    decimals: 18,
-    projectLink: 'https://pancakeswap.finance/',
   },
 }
 
