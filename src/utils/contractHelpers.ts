@@ -10,24 +10,25 @@ import {
   getCakeAddress,
   getMasterChefAddress,
   getMulticallAddress,
+  getMulticall2Address,
   getReferralAddress,
   getDiceAddress,
   getDiceTokenAddress,
 } from 'utils/addressHelpers'
 
 // ABI
-import bep20Abi from 'config/abi/erc20.json'
-import erc721Abi from 'config/abi/erc721.json'
+import BEP20 from 'config/abi/dice/BEP20.json'
 import lpTokenAbi from 'config/abi/lpToken.json'
 import cakeAbi from 'config/abi/cake.json'
-import masterChef from 'config/abi/dice/MasterChef.json'
+import MasterChef from 'config/abi/dice/MasterChef.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import MultiCallAbi from 'config/abi/Multicall.json'
+import MultiCall2 from 'config/abi/dice/Multicall2.json'
 import referralsAbi from 'config/abi/referrals.json'
 
-import dice from 'config/abi/dice/Dice.json'
-import diceToken from 'config/abi/dice/DiceToken.json'
+import Dice from 'config/abi/dice/Dice.json'
+import DiceToken from 'config/abi/dice/DiceToken.json'
 
 import { DEFAULT_GAS_PRICE, TESTNET_CHAIN_ID } from 'config'
 import { getSettings, getGasPriceInWei } from './settings'
@@ -50,10 +51,7 @@ const getContract = (abi: any, address: string, web3?: Web3, account?: string) =
 }
 
 export const getBep20Contract = (address: string, web3?: Web3) => {
-  return getContract(bep20Abi, address, web3)
-}
-export const getErc721Contract = (address: string, web3?: Web3) => {
-  return getContract(erc721Abi, address, web3)
+  return getContract(BEP20.abi, address, web3)
 }
 export const getLpContract = (address: string, web3?: Web3) => {
   return getContract(lpTokenAbi, address, web3)
@@ -62,10 +60,13 @@ export const getCakeContract = (web3?: Web3) => {
   return getContract(cakeAbi, getCakeAddress(), web3)
 }
 export const getMasterChefContract = (web3?: Web3) => {
-  return getContract(masterChef.abi, getMasterChefAddress(), web3)
+  return getContract(MasterChef.abi, getMasterChefAddress(), web3)
 }
 export const getMulticallContract = (web3?: Web3) => {
   return getContract(MultiCallAbi, getMulticallAddress(), web3)
+}
+export const getMulticall2Contract = (web3?: Web3) => {
+  return getContract(MultiCall2.abi, getMulticall2Address(), web3)
 }
 export const getSousChefContract = (id: number, web3?: Web3) => {
   const config = poolsConfig.find((pool) => pool.sousId === id)
@@ -80,8 +81,8 @@ export const getReferralContract = (web3?: Web3) => {
 }
 
 export const getDiceContract = (web3?: Web3) => {
-  return getContract(dice.abi, getDiceAddress(), web3)
+  return getContract(Dice.abi, getDiceAddress(), web3)
 }
 export const getDiceTokenContract = (web3?: Web3) => {
-  return getContract(diceToken.abi, getDiceTokenAddress(), web3)
+  return getContract(DiceToken.abi, getDiceTokenAddress(), web3)
 }

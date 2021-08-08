@@ -3,15 +3,23 @@
 
 export default {
   masterChef: {
-    97: '0x98ebA625BE3C2a5ea65c9B691f3362d0d3e88179',
     56: '',
+    97: '0x98ebA625BE3C2a5ea65c9B691f3362d0d3e88179',
   },
   sousChef: {
-    97: '',
     56: '',
+    97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
+  },
+  router2: {
+    56: '',
+    97: '0x6B52ff2Fc8d035cb140625C513a15F7Cd570f62d',
   },
   multiCall: {
     56: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
+    97: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
+  },
+  multiCall2: {
+    56: '',
     97: '0x1bDb1D4deE8264301B15f26BA7Df956eD940c28f',
   },
   referrals: {
@@ -20,14 +28,10 @@ export default {
   },
   dice: {
     56: '',
-    97: '0x2bfDa6888776da8a4E5dBFD70C7891e88a162222',
+    97: '0x2431aB79ea1D7aE477cc1d5B8eB10bdB67b4e4E7',
   },
   diceToken: {
     56: '',
-    97: '0xB96AE4eF64B9f57F63dBa7c31f1Ec1d4D4998e1a',
-  },
-  wbnb: {
-    56: '',
-    97: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
+    97: '0x1826833329faBC17c99627a25BFD37931c066b9d',
   },
 }

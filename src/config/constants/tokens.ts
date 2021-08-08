@@ -4,10 +4,10 @@ const tokens = {
     projectLink: 'https://www.binance.com/',
   },
   cake: {
-    symbol: 'LC',
+    symbol: 'CAKE',
     address: {
-      56: '',
-      97: '0x30998b6283D428a1e85068F416a1992365d9e0Db',
+      56: '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
+      97: '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
@@ -15,8 +15,8 @@ const tokens = {
   wbnb: {
     symbol: 'wBNB',
     address: {
-      56: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-      97: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+      56: '',
+      97: '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',
     },
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',

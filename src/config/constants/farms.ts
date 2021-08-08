@@ -7,7 +7,7 @@ const farms: FarmConfig[] = [
    */
   {
     pid: 1,
-    lpSymbol: 'LC-BNB LP',
+    lpSymbol: 'HSW-BNB LP',
     lpAddresses: {
       97: '0x27a71cb648dE0169fA75FBEA902b8E6f402B746C',
       56: '',

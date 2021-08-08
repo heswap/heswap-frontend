@@ -5,7 +5,6 @@ import {
   getCakeContract,
   getMasterChefContract,
   getSousChefContract,
-  getErc721Contract,
   getDiceContract,
   getDiceTokenContract,
 } from 'utils/contractHelpers'
@@ -17,14 +16,6 @@ import {
 export const useERC20 = (address: string) => {
   const web3 = useWeb3()
   return useMemo(() => getBep20Contract(address, web3), [address, web3])
-}
-
-/**
- * @see https://docs.openzeppelin.com/contracts/3.x/api/token/erc721
- */
-export const useERC721 = (address: string) => {
-  const web3 = useWeb3()
-  return useMemo(() => getErc721Contract(address, web3), [address, web3])
 }
 
 export const useCake = () => {
@@ -40,4 +31,14 @@ export const useMasterChef = () => {
 export const useSousChef = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getSousChefContract(id, web3), [id, web3])
+}
+
+export const useDice = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getDiceContract(web3), [web3])
+}
+
+export const useDiceToken = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getDiceTokenContract(web3), [web3])
 }
