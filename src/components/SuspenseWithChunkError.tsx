@@ -17,7 +17,7 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ animationDone: true })
-    }, 6000) // animation takes a bit of time
+    }, 4000) // animation takes a bit of time
   }
 
   static getDerivedStateFromError() {
