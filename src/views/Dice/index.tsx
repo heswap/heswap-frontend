@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import {
   BaseLayout,
@@ -14,13 +14,11 @@ import {
 import BigNumber from 'bignumber.js'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
-import useWeb3 from 'hooks/useWeb3'
 import { useWeb3React } from '@web3-react/core'
-import { getDiceContract, getDiceTokenContract } from 'utils/contractHelpers'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
 import BetModal from './BetModal'
-import { DiceRound, DiceRoundStatus } from './types'
+import useGame from './useGame'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -178,17 +176,13 @@ for (let i = 0; i < 100; i++) {
   })
 }
 
-const Dice: React.FC = () => {
+const DiceView: React.FC = () => {
   const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState(fakeRecords)
-  const callingOptions = useRef({})
-  const paused = useRef(true)
-  const rounds = useRef([])
-  const userRounds = useRef([])
 
-  const web3 = useWeb3()
-  const diceContract = useMemo(() => getDiceContract(web3), [web3])
+  const { handleBet, paused, balance } = useGame()
+
   const betModalTitle = useMemo(() => {
     const sideNumbers = []
     for (let i = 0; i < sideToggles.length; i++) {
@@ -199,100 +193,16 @@ const Dice: React.FC = () => {
     return `Bet Numbers: [${sideNumbers.join(', ')}]`
   }, [sideToggles])
 
-  const handleBet = async (amount: string) => {
-    await diceContract.methods.betNumber(sideToggles, amount).call(callingOptions.current)
-    // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
-  }
-
   const [onPresentBet] = useModal(
-    <BetModal title={betModalTitle} max={new BigNumber(1)} onConfirm={handleBet} tokenName="WBNB" />
+    <BetModal
+      title={betModalTitle}
+      max={balance}
+      onConfirm={(amount) => {
+        handleBet(sideToggles, amount)
+      }}
+      tokenName="WBNB"
+    />
   )
-
-  useEffect(() => {
-    diceContract.events.StartRound({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.LockRound({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.BetNumber({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.EndPlayerTime({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.EndBankerTime({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.Deposit({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-    diceContract.events.Withdraw({ fromBlock: 0 })
-      .on('data', (event) => {
-        console.log(event)
-      })
-      .on('error', console.error)
-  }, [diceContract])
-
-  useEffect(() => {
-    async function fetchData() {
-      callingOptions.current = {
-        gasPrice: await web3.eth.getGasPrice(),
-        gasLimit: 500000
-      }
-      paused.current = await diceContract.methods.paused().call(callingOptions.current)
-      console.log('paused', paused.current)
-      const t = await diceContract.methods.currentEpoch().call(callingOptions.current)
-      const currentEpoch = new BigNumber(t)
-
-      // fetch public history
-      if (currentEpoch.toString() !== '0') {
-        const results = []
-        for (let i = 0; i < 100; i++) {
-          const n: BigNumber = currentEpoch.minus(i)
-          if (n.toString() === '0') {
-            break
-          }
-          const result: Promise<DiceRound> = diceContract.methods.rounds(n.toString()).call(callingOptions.current)
-          results.push(result)
-        }
-        const newRounds: Array<DiceRound> = await Promise.all(results)
-        for (let i = 0; i < newRounds.length; i++) {
-          newRounds[i].startBlock = new BigNumber(newRounds[i].startBlock)
-          newRounds[i].lockBlock = new BigNumber(newRounds[i].lockBlock)
-          newRounds[i].secretSentBlock = new BigNumber(newRounds[i].secretSentBlock)
-          newRounds[i].bankSecret = new BigNumber(newRounds[i].bankSecret)
-          newRounds[i].totalAmount = new BigNumber(newRounds[i].totalAmount)
-          newRounds[i].maxBetAmount = new BigNumber(newRounds[i].maxBetAmount)
-          newRounds[i].lcBackAmount = new BigNumber(newRounds[i].lcBackAmount)
-          newRounds[i].bonusAmount = new BigNumber(newRounds[i].bonusAmount)
-          newRounds[i].swapLcAmount = new BigNumber(newRounds[i].swapLcAmount)
-          newRounds[i].betUsers = new BigNumber(newRounds[i].betUsers)
-          newRounds[i].finalNumber = parseInt(newRounds[i].finalNumber)
-          newRounds[i].status = parseInt(newRounds[i].status)
-        }
-        rounds.current = newRounds
-      }
-
-      // fetch private history
-      const newUserRounds: Array<BigNumber> = await diceContract.methods.getUserRounds(account, 0, 100).call(callingOptions.current)
-      userRounds.current = newUserRounds
-    }
-
-    fetchData()
-  }, [web3, account, diceContract])
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -310,7 +220,7 @@ const Dice: React.FC = () => {
     <>
       <PageHeader>
         <Flex position="relative">
-          {paused.current ? (
+          {paused ? (
             <div style={{ height: 200 }} />
           ) : (
             <RollingDice style={{ zIndex: 1 }} />
@@ -320,7 +230,7 @@ const Dice: React.FC = () => {
         </Flex>
       </PageHeader>
       <Page>
-        {!paused.current && (
+        {!paused && (
           <GradientPanel>
             <InfoLayout>
               <Box style={{ textAlign: 'center' }}>
@@ -340,7 +250,7 @@ const Dice: React.FC = () => {
             </InfoLayout>
           </GradientPanel>
         )}
-        {!paused.current && (
+        {!paused && (
           <GradientPanel mt="32px">
             <PickUpLayout>
               <SideWrapper>
@@ -407,4 +317,4 @@ const Dice: React.FC = () => {
   )
 }
 
-export default Dice
+export default DiceView

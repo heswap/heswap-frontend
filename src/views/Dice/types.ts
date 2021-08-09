@@ -46,3 +46,64 @@ export interface DiceBankerInfo {
   diceTokenAmount: BigNumber;
   avgBuyValue: BigNumber;
 }
+
+export interface EndBankerTimeEventValues {
+  epoch: any
+  blockNumber: any
+}
+
+export interface EndBankerTimeEvent {
+  address: string
+  returnValues: EndBankerTimeEventValues
+}
+
+export interface StartRoundEventValues {
+  epoch: any
+  blockNumber: any
+  bankHash: string
+}
+
+export interface StartRoundEvent {
+  address: string
+  returnValues: StartRoundEventValues
+}
+
+export interface EndPlayerTimeEventValues {
+  epoch: any
+  blockNumber: any
+}
+
+export interface EndPlayerTimeEvent {
+  address: string
+  returnValues: EndPlayerTimeEventValues
+}
+
+export interface LockRoundEventValues {
+  epoch: any
+  blockNumber: any
+}
+
+export interface LockRoundEvent {
+  address: string
+  returnValues: LockRoundEventValues
+}
+
+export interface DepositEventValues {
+  user: string
+  tokenAmount: any
+}
+
+export interface DepositEvent {
+  address: string
+  returnValues: DepositEventValues
+}
+
+export interface WithdrawEventValues {
+  user: any
+  diceTokenAmount: any
+}
+
+export interface WithdrawEvent {
+  address: string
+  returnValues: WithdrawEventValues
+}
