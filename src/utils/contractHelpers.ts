@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
 import web3NoAccount from 'utils/web3'
@@ -12,6 +13,7 @@ import {
   getMulticallAddress,
   getMulticall2Address,
   getReferralAddress,
+  getWbnbAddress,
   getDiceAddress,
   getDiceTokenAddress,
 } from 'utils/addressHelpers'
@@ -27,6 +29,7 @@ import MultiCallAbi from 'config/abi/Multicall.json'
 import MultiCall2 from 'config/abi/dice/Multicall2.json'
 import referralsAbi from 'config/abi/referrals.json'
 
+import WBNB from 'config/abi/dice/WBNB.json'
 import Dice from 'config/abi/dice/Dice.json'
 import DiceToken from 'config/abi/dice/DiceToken.json'
 
@@ -80,9 +83,18 @@ export const getReferralContract = (web3?: Web3) => {
   return getContract(referralsAbi, getReferralAddress(), web3)
 }
 
-export const getDiceContract = (web3?: Web3) => {
-  return getContract(Dice.abi, getDiceAddress(), web3)
+export const getWbnbContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  const simpleRpcProvider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_NODE_2)
+  const signerOrProvider = signer ?? simpleRpcProvider
+  return new ethers.Contract(getWbnbAddress(), WBNB.abi, signerOrProvider)
 }
-export const getDiceTokenContract = (web3?: Web3) => {
-  return getContract(DiceToken.abi, getDiceTokenAddress(), web3)
+export const getDiceContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  const simpleRpcProvider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_NODE_2)
+  const signerOrProvider = signer ?? simpleRpcProvider
+  return new ethers.Contract(getDiceAddress(), Dice.abi, signerOrProvider)
+}
+export const getDiceTokenContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  const simpleRpcProvider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_NODE_2)
+  const signerOrProvider = signer ?? simpleRpcProvider
+  return new ethers.Contract(getDiceTokenAddress(), DiceToken.abi, signerOrProvider)
 }

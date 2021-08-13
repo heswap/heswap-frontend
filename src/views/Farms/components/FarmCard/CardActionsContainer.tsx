@@ -7,7 +7,7 @@ import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { Farm } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
-import { useERC20 } from 'hooks/useContract'
+import { useBEP20 } from 'hooks/useContract'
 import { useApprove } from 'hooks/useApprove'
 import UnlockButton from 'components/UnlockButton'
 import StakeAction from './StakeAction'
@@ -45,7 +45,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   const isApproved = account && allowance && allowance.isGreaterThan(0)
   const dispatch = useAppDispatch()
 
-  const lpContract = useERC20(lpAddress)
+  const lpContract = useBEP20(lpAddress)
 
   const { onApprove } = useApprove(lpContract)
 

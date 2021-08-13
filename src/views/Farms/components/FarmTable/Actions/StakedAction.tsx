@@ -11,7 +11,7 @@ import { fetchFarmUserDataAsync } from 'state/farms'
 import { FarmWithStakedValue } from 'views/Farms/components/FarmCard/FarmCard'
 import { useTranslation } from 'contexts/Localization'
 import { useApprove } from 'hooks/useApprove'
-import { useERC20 } from 'hooks/useContract'
+import { useBEP20 } from 'hooks/useContract'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import { useAppDispatch } from 'state'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
@@ -86,7 +86,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
   const [onPresentWithdraw] = useModal(
     <WithdrawModal max={stakedBalance} onConfirm={handleUnstake} tokenName={lpSymbol} />,
   )
-  const lpContract = useERC20(lpAddress)
+  const lpContract = useBEP20(lpAddress)
   const dispatch = useAppDispatch()
   const { onApprove } = useApprove(lpContract)
 
