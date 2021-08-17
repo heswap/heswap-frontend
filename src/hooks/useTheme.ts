@@ -8,8 +8,8 @@ const useTheme = () => {
   const theme = useContext(StyledThemeContext)
   theme.colors.primary = teal[400]
   theme.colors.secondary = red[400]
-  theme.colors.success = deepPurple[400]
-  theme.colors.warning = orange[400]
+  theme.colors.success = orange[400]
+  theme.colors.warning = deepPurple[400]
   theme.colors.background = teal[800]
   theme.colors.backgroundDisabled = teal[100]
   theme.colors.dropdown = teal[900]
@@ -21,7 +21,7 @@ const useTheme = () => {
   theme.colors.textSubtle = teal[200]
   theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${teal[700]}, ${teal[400]})`
   theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${teal[800]}, ${teal[500]})`
-  theme.colors.gradients.slickDotLoading = `linear-gradient(270deg, ${orange[400]}, ${orange[600]})`
+  theme.colors.gradients.slickDotLoading = `linear-gradient(270deg, ${deepPurple[400]}, ${deepPurple[600]})`
   theme.colors.gradients.cardDiagonal = `linear-gradient(235deg, ${teal[400]} 4.05%, ${teal[600]} 103.52%)`
   theme.menu.topBarColor = teal[900]
   theme.menu.leftBarColor = teal[700]
