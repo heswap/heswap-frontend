@@ -74,7 +74,7 @@ const FarmedStakingCard = () => {
   return (
     <StyledCard>
       <CardBody>
-        <BackImage src={`${process.env.PUBLIC_URL}/images/luckychip-token1.png`} alt="" width={256} height={256} />
+        <BackImage src={`${process.env.PUBLIC_URL}/images/luckychip-heap.png`} alt="" width={222} height={341} />
         <Box position="relative">
           <Heading scale="xl" mb="24px" color="backgroundAlt">
             {t('Farms & Staking')}
