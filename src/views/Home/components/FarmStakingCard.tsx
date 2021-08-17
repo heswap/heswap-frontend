@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { Box, Button, Card, CardBody, Heading, Image } from '@heswap/uikit'
 import { harvest } from 'utils/callHelpers'
@@ -49,7 +49,7 @@ const Actions = styled.div`
   margin-top: 24px;
 `
 
-const FarmedStakingCard = () => {
+const FarmStakingCard = () => {
   const [pendingTx, setPendingTx] = useState(false)
   const { account } = useWeb3React()
   const { t } = useTranslation()
@@ -108,4 +108,4 @@ const FarmedStakingCard = () => {
   )
 }
 
-export default FarmedStakingCard
+export default FarmStakingCard

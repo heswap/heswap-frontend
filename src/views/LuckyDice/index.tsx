@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints } from '@heswap/uikit'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
-import { red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, grey, blueGrey } from 'utils/palette'
+import SwitchButtonGroup from 'components/SwitchButtonGroup'
+import useTheme from 'hooks/useTheme'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
 
@@ -73,7 +76,7 @@ const RightLogo = styled(Image).attrs(() => {
 
 const GradientPanel = styled(Box)`
   border-radius: ${({ theme }) => theme.radii.card};
-  background: linear-gradient(235deg, ${teal[400]} 4.05%, ${teal[600]} 103.52%);
+  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
   padding: 32px;
 `
 
@@ -119,7 +122,7 @@ const Value = styled(Heading).attrs({
   as: 'h1',
   scale: 'xl',
 })`
-  color: ${({ theme }) => theme.colors.warning};
+  color: ${({ theme }) => theme.colors.success};
   font-weight: 600;
   line-height: 1.4;
 `
@@ -148,24 +151,36 @@ const StyledButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.secondary};
 `
 
-const fakeRecords = [];
-for (let i = 0; i < 100; i++) {
-  const bets = [];
-  for (let j = 1; j <= 6; j++) {
-    if (Math.random() < 0.5) {
-      bets.push(j)
+function getFakeRecords(len) {
+  const items = [];
+  for (let i = 0; i < len; i++) {
+    const bets = [];
+    for (let j = 1; j <= 6; j++) {
+      if (Math.random() < 0.5) {
+        bets.push(j)
+      }
     }
+    items.push({
+      id: i + 1,
+      bets,
+      outcome: Math.ceil(Math.random() * 5) + 1
+    })
   }
-  fakeRecords.push({
-    id: i + 1,
-    bets,
-    outcome: Math.ceil(Math.random() * 5) + 1
-  })
+  return items
 }
 
 const Dice: React.FC = () => {
+  const location = useLocation()
+  const history = useHistory()
+  const { theme } = useTheme()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
-  const [records, setRecords] = useState(fakeRecords)
+  const [records, setRecords] = useState([])
+
+  useEffect(() => {
+    // onDidMount -> mode == public
+    const items = getFakeRecords(100)
+    setRecords(items)
+  }, [])
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -179,16 +194,26 @@ const Dice: React.FC = () => {
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
   }
 
+  const coin = new URLSearchParams(location.search).get('coin')
+
+  useEffect(() => {
+    return history.listen(loc => {
+      const mode = new URLSearchParams(loc.search).get('mode')
+      const items = getFakeRecords(mode === 'private' ? 20 : 100)
+      setRecords(items)
+    })
+  }, [history])
+
   return (
     <>
-      <PageHeader background={`linear-gradient(180deg, ${teal[700]}, ${teal[400]})`}>
+      <PageHeader background={theme.colors.gradients.pageHeader}>
         <Flex position="relative">
           <RollingDice style={{ zIndex: 1 }} />
           <LeftLogo />
           <RightLogo />
         </Flex>
       </PageHeader>
-      <Page style={{ backgroundColor: teal[900] }}>
+      <Page>
         <GradientPanel>
           <InfoLayout>
             <Box style={{ textAlign: 'center' }}>
@@ -262,6 +287,17 @@ const Dice: React.FC = () => {
             <Label>Unlock wallet to bet</Label>
           </Box>
         </GradientPanel>
+        <Box mt="32px">
+          <SwitchButtonGroup
+            buttons={[{
+              url: `/lucky_dice?coin=${coin}`,
+              node: <span>Public</span>
+            },{
+              url: `/lucky_dice?coin=${coin}&mode=private`,
+              node: <span>Private</span>
+            }]}
+          />
+        </Box>
         <WhitePanel mt="32px">
           <HistoryTable records={records} />
         </WhitePanel>

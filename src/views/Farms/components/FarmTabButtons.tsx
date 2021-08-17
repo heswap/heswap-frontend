@@ -29,9 +29,6 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
     case '/farms/history':
       activeIndex = 1
       break
-    case '/farms/archived':
-      activeIndex = 2
-      break
     default:
       activeIndex = 0
       break
