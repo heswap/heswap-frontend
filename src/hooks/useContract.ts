@@ -12,7 +12,7 @@ import {
  * Helper hooks to get specific contracts (by ABI)
  */
 
-export const useERC20 = (address: string) => {
+export const useBEP20 = (address: string) => {
   const web3 = useWeb3()
   return useMemo(() => getBep20Contract(address, web3), [address, web3])
 }

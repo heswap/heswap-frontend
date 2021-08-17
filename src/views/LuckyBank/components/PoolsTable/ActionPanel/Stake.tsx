@@ -12,7 +12,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { PoolCategory } from 'config/constants/types'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getAddress } from 'utils/addressHelpers'
-import { useERC20 } from 'hooks/useContract'
+import { useBEP20 } from 'hooks/useContract'
 import { convertSharesToCake } from '../../../helpers'
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
 import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
@@ -34,7 +34,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
   const { t } = useTranslation()
   const { account } = useWeb3React()
 
-  const stakingTokenContract = useERC20(stakingToken.address ? getAddress(stakingToken.address) : '')
+  const stakingTokenContract = useBEP20(stakingToken.address ? getAddress(stakingToken.address) : '')
   const { handleApprove: handlePoolApprove, requestedApproval: requestedPoolApproval } = useSousApprove(
     stakingTokenContract,
     sousId,
