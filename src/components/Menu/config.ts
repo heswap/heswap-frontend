@@ -73,7 +73,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     items: [
       {
         label: t('Docs'),
-        href: 'https://github.com/heswap',
+        href: 'https://heswap.finance/docs',
       },
       {
         label: t('Github'),
@@ -81,7 +81,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
       },
       {
         label: t('Audits'),
-        href: 'https://github.com/heswap',
+        href: 'https://heswap.finance/audit',
       },
     ],
   },
