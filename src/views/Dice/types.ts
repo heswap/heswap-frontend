@@ -14,7 +14,7 @@ export enum DiceRoundStatus {
   Open,
   Lock,
   Claimable,
-  Expired
+  Expired,
 }
 
 export interface DiceRound {

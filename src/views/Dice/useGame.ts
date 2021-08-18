@@ -31,89 +31,6 @@ const useGame = () => {
   const wbnbContract = getWbnbContract()
 
   useEffect(() => {
-    const startRoundFilter = diceContract.filters.StartRound(null, null)
-    diceContract.on(startRoundFilter, (epoch, blockNumber, bankHash) => {
-      console.log(epoch, blockNumber, bankHash)
-    })
-    // diceContract.events.StartRound({ fromBlock: 0 })
-    //   .on('data', (event: StartRoundEvent) => {
-    //     console.log(event)
-    //     const epoch = new BigNumber(event.returnValues.epoch)
-    //     if (epoch.eq(currentEpoch)) {
-    //       setRoundStatus(DiceRoundStatus.Open)
-    //     } else if (epoch.gt(currentEpoch)) {
-    //       setCurrentEpoch(epoch)
-    //       setRoundStatus(DiceRoundStatus.Open)
-    //     }
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('LockRound', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.LockRound({ fromBlock: 0 })
-    //   .on('data', (event: LockRoundEvent) => {
-    //     console.log(event)
-    //     const epoch = new BigNumber(event.returnValues.epoch)
-    //     if (epoch.eq(currentEpoch)) {
-    //       setRoundStatus(DiceRoundStatus.Lock)
-    //     } else if (epoch.gt(currentEpoch)) {
-    //       setCurrentEpoch(epoch)
-    //       setRoundStatus(DiceRoundStatus.Lock)
-    //     }
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('BetNumber', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.BetNumber({ fromBlock: 0 })
-    //   .on('data', (event) => {
-    //     console.log(event)
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('EndPlayerTime', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.EndPlayerTime({ fromBlock: 0 })
-    //   .on('data', (event: EndPlayerTimeEvent) => {
-    //     console.log(event)
-    //     setPaused(true)
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('EndBankerTime', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.EndBankerTime({ fromBlock: 0 })
-    //   .on('data', (event: EndBankerTimeEvent) => {
-    //     console.log(event)
-    //     setPaused(false)
-    //     const epoch = new BigNumber(event.returnValues.epoch)
-    //     if (epoch.eq(currentEpoch)) {
-    //       setRoundStatus(DiceRoundStatus.Open)
-    //     } else if (epoch.gt(currentEpoch)) {
-    //       setCurrentEpoch(epoch)
-    //       setRoundStatus(DiceRoundStatus.Open)
-    //     }
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('Deposit', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.Deposit({ fromBlock: 0 })
-    //   .on('data', (event: DepositEvent) => {
-    //     console.log(event)
-    //   })
-    //   .on('error', console.error)
-    diceContract.on('Withdraw', (from, to, amount, event) => {
-      console.log(event)
-    })
-    // diceContract.events.Withdraw({ fromBlock: 0 })
-    //   .on('data', (event: WithdrawEvent) => {
-    //     console.log(event)
-    //   })
-    //   .on('error', console.error)
-  }, [diceContract, currentEpoch])
-
-  useEffect(() => {
     async function fetchData() {
       const p = await diceContract.paused()
       setPaused(p)
@@ -161,27 +78,9 @@ const useGame = () => {
     fetchData()
   }, [web3, account, diceContract])
 
-  const handleBet = async (sideToggles: Array<boolean>, amount: string) => {
-    if (paused) {
-      return;
-    }
-    const provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_NODE_2)
-    const options = {
-      value: ethers.utils.parseEther('0.001'),
-      gasPrice: await provider.getGasPrice(),
-      gasLimit: 500000
-    }
-    const tx = await diceContract.betNumber(sideToggles, ethers.utils.parseEther(amount), options)
-    const receipt = await tx.wait()
-    console.log(`Tx hash,${receipt.transactionHash},status,${receipt.status}`)
-
-    const diceTokenBalance = await diceTokenContract.balanceOf(account)
-    console.log(`diceTokenBalance,${diceTokenBalance.toString()}`)
-  }
-
   const { balance } = useTokenBalance(getWbnbAddress())
 
-  return { paused, currentEpoch, roundStatus, balance, handleBet }
+  return { paused, currentEpoch, roundStatus, balance }
 }
 
 export default useGame

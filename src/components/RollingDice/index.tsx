@@ -9,7 +9,7 @@ let xRnd = 0
 let yRnd = 0
 
 export interface RollingDiceProps {
-  style: CSSProperties;
+  style: CSSProperties
 }
 
 const RollingDice: React.FC<RollingDiceProps> = ({ style }) => {
@@ -73,7 +73,7 @@ const RollingDice: React.FC<RollingDiceProps> = ({ style }) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default RollingDice

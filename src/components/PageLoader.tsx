@@ -12,12 +12,7 @@ const Wrapper = styled(Page)`
 const PageLoader: React.FC = () => {
   return (
     <Wrapper>
-      <Image
-        src={`${process.env.PUBLIC_URL}/images/luckychip-logo.gif`}
-        alt=""
-        width={600}
-        height={540}
-      />
+      <Image src={`${process.env.PUBLIC_URL}/images/luckychip-logo.gif`} alt="" width={600} height={540} />
     </Wrapper>
   )
 }

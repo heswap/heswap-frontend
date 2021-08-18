@@ -69,7 +69,8 @@ const Banner = styled.div`
   text-align: center;
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    background-image: url('${process.env.PUBLIC_URL}/images/pan-bg2.svg'), url('${process.env.PUBLIC_URL}/images/pan-bg.svg');
+    background-image: url('${process.env.PUBLIC_URL}/images/pan-bg2.svg'),
+      url('${process.env.PUBLIC_URL}/images/pan-bg.svg');
     background-position: left center, right center;
     height: 165px;
     padding-top: 0;

@@ -1,4 +1,8 @@
 import React, { useMemo, useState } from 'react'
+import { ethers } from 'ethers'
+import { useDiceContract } from 'hooks/useContract'
+import useToast from 'hooks/useToast'
+import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import styled from 'styled-components'
 import {
   BaseLayout,
@@ -148,11 +152,11 @@ const Side = styled.div.attrs({
 })<{ checked: boolean }>`
   transform: scale(0.5);
   margin: -40px;
-  background: ${({ checked, theme }) => checked ? theme.colors.secondary : theme.colors.backgroundAlt};
+  background: ${({ checked, theme }) => (checked ? theme.colors.secondary : theme.colors.backgroundAlt)};
 
   & > .dot {
-    background: ${({ checked, theme }) => checked ? theme.colors.backgroundAlt : '#444'};
-    box-shadow: inset 5px 0 10px ${({ checked }) => checked ? '#888' : '#000'};
+    background: ${({ checked, theme }) => (checked ? theme.colors.backgroundAlt : '#444')};
+    box-shadow: inset 5px 0 10px ${({ checked }) => (checked ? '#888' : '#000')};
   }
 `
 
@@ -161,9 +165,9 @@ const StyledButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.secondary};
 `
 
-const fakeRecords = [];
+const fakeRecords = []
 for (let i = 0; i < 100; i++) {
-  const bets = [];
+  const bets = []
   for (let j = 1; j <= 6; j++) {
     if (Math.random() < 0.5) {
       bets.push(j)
@@ -172,7 +176,7 @@ for (let i = 0; i < 100; i++) {
   fakeRecords.push({
     id: i + 1,
     bets,
-    outcome: Math.ceil(Math.random() * 5) + 1
+    outcome: Math.ceil(Math.random() * 5) + 1,
   })
 }
 
@@ -181,7 +185,9 @@ const DiceView: React.FC = () => {
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState(fakeRecords)
 
-  const { handleBet, paused, balance } = useGame()
+  const { paused, balance } = useGame()
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const diceContract = useDiceContract()
 
   const betModalTitle = useMemo(() => {
     const sideNumbers = []
@@ -193,6 +199,18 @@ const DiceView: React.FC = () => {
     return `Bet Numbers: [${sideNumbers.join(', ')}]`
   }, [sideToggles])
 
+  const handleBet = async (toggles, amount) => {
+    try {
+      const tx = await callWithGasPrice(diceContract, 'betNumber', [toggles, ethers.utils.parseEther(amount)], {
+        value: ethers.utils.parseEther('0.001'),
+      })
+      const receipt = await tx.wait()
+      console.log(`betNumber,${receipt.transactionHash}`)
+    } catch {
+      console.log(`betNumber failed`)
+    }
+  }
+
   const [onPresentBet] = useModal(
     <BetModal
       title={betModalTitle}
@@ -201,7 +219,7 @@ const DiceView: React.FC = () => {
         handleBet(sideToggles, amount)
       }}
       tokenName="WBNB"
-    />
+    />,
   )
 
   const handleSideClick = (index) => {
@@ -211,8 +229,8 @@ const DiceView: React.FC = () => {
   }
 
   const getWinningChance = () => {
-    const toggled = sideToggles.filter(x => x)
-    const result = toggled.length * 100 / 6
+    const toggled = sideToggles.filter((x) => x)
+    const result = (toggled.length * 100) / 6
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
   }
 
@@ -220,11 +238,7 @@ const DiceView: React.FC = () => {
     <>
       <PageHeader>
         <Flex position="relative">
-          {paused ? (
-            <div style={{ height: 200 }} />
-          ) : (
-            <RollingDice style={{ zIndex: 1 }} />
-          )}
+          {paused ? <div style={{ height: 200 }} /> : <RollingDice style={{ zIndex: 1 }} />}
           <LeftLogo />
           <RightLogo />
         </Flex>

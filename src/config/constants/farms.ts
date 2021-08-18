@@ -7,9 +7,9 @@ const farms: FarmConfig[] = [
    */
   {
     pid: 1,
-    lpSymbol: 'HSW-BNB LP',
+    lpSymbol: 'LC-BNB LP',
     lpAddresses: {
-      97: '0x27a71cb648dE0169fA75FBEA902b8E6f402B746C',
+      97: '0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee',
       56: '',
     },
     token: tokens.cake,
@@ -19,7 +19,7 @@ const farms: FarmConfig[] = [
     pid: 2,
     lpSymbol: 'BUSD-BNB LP',
     lpAddresses: {
-      97: '0xC067DDB3df98EC16451211Ed24C6aBf94465Aa05',
+      97: '0x64F65d6e869E6e31b2CCF1627D1CC6491C0D8561',
       56: '',
     },
     token: tokens.busd,

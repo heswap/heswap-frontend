@@ -4,7 +4,7 @@
 export default {
   masterChef: {
     56: '',
-    97: '0x98ebA625BE3C2a5ea65c9B691f3362d0d3e88179',
+    97: '0xCc82850F42281E71f75ECc675ABdCc92891ec704',
   },
   sousChef: {
     56: '',
@@ -12,7 +12,7 @@ export default {
   },
   router2: {
     56: '',
-    97: '0x6B52ff2Fc8d035cb140625C513a15F7Cd570f62d',
+    97: '0xBAf547398d5377f4Da94808E8B47a394CcEf6230',
   },
   multiCall: {
     56: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
@@ -28,10 +28,10 @@ export default {
   },
   dice: {
     56: '',
-    97: '0x2431aB79ea1D7aE477cc1d5B8eB10bdB67b4e4E7',
+    97: '0x69863f021157012165662f72a18f85AA6E6F27E6',
   },
   diceToken: {
     56: '',
-    97: '0x1826833329faBC17c99627a25BFD37931c066b9d',
+    97: '0xA242eFc55931D81D8655e449E99e9aC1B53Aa53d',
   },
 }

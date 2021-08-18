@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useWeb3 from 'hooks/useWeb3'
 import {
   getBep20Contract,
   getCakeContract,
   getMasterChefContract,
   getSousChefContract,
+  getDiceContract,
 } from 'utils/contractHelpers'
 
 /**
@@ -29,4 +31,9 @@ export const useMasterChef = () => {
 export const useSousChef = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getSousChefContract(id, web3), [id, web3])
+}
+
+export const useDiceContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getDiceContract(library.getSigner()), [library])
 }
