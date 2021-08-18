@@ -69,7 +69,7 @@ const Description = styled(Heading).attrs({
   line-height: 1.4;
 `
 
-const Pools: React.FC = () => {
+const LuckyBank: React.FC = () => {
   const location = useLocation()
   let referrer = AddressZero
   if (location.pathname.substring(7) && isAddress(location.pathname.substring(7))) {
@@ -197,7 +197,7 @@ const Pools: React.FC = () => {
       <PageHeader>
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-            <Title mb="24px">{t('Syrup Pools')}</Title>
+            <Title mb="24px">{t('Lucky Bank')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
           </Flex>
@@ -280,4 +280,4 @@ const Pools: React.FC = () => {
   )
 }
 
-export default Pools
+export default LuckyBank

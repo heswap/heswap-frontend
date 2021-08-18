@@ -188,7 +188,7 @@ function getFakeRecords(len) {
   return items
 }
 
-const Dice: React.FC = () => {
+const LuckyDice: React.FC = () => {
   const location = useLocation()
   const history = useHistory()
   const { theme } = useTheme()
@@ -388,4 +388,4 @@ const Dice: React.FC = () => {
   )
 }
 
-export default Dice
+export default LuckyDice
