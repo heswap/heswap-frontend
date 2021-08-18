@@ -8,6 +8,7 @@ import Page from 'components/layout/Page'
 import SwitchButtonGroup from 'components/SwitchButtonGroup'
 import useTheme from 'hooks/useTheme'
 import PageHeader from './PageHeader'
+import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
 
 const LeftLogo = styled(Image).attrs(() => {
@@ -298,6 +299,9 @@ const Dice: React.FC = () => {
             }]}
           />
         </Box>
+        <WhitePanel mt="32px">
+          <StatsTable records={records} />
+        </WhitePanel>
         <WhitePanel mt="32px">
           <HistoryTable records={records} />
         </WhitePanel>
