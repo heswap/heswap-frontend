@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
 type Actions =
-  { type: 'START' }
-  | { type: 'RESET', payload: number }
-  | { type: 'PAUSE' }
-  | { type: 'RUNNING' }
-  | { type: 'TICK', payload: number }
+  { type: 'START' } |
+  { type: 'RESET', payload: number } |
+  { type: 'PAUSE' } |
+  { type: 'RUNNING' } |
+  { type: 'TICK', payload: number }
 
 type State = {
   canStart: boolean
-  value: number
+  timeLeft: number
   isRunning: boolean
 }
 
@@ -18,12 +18,12 @@ function reducer(state: State, action: Actions): State {
     case 'START':
       return {
         ...state,
-        canStart: state.value !== 0
+        canStart: state.timeLeft !== 0
       }
     case 'RESET':
       return {
         ...state,
-        value: action.payload,
+        timeLeft: action.payload,
         canStart: false,
         isRunning: false
       }
@@ -41,7 +41,7 @@ function reducer(state: State, action: Actions): State {
     case 'TICK':
       return {
         ...state,
-        value: state.value - action.payload
+        timeLeft: state.timeLeft - action.payload
       }
     default:
       return state
@@ -52,7 +52,7 @@ export interface ICountdownParams {
   /**
    * Countdown time in milliseconds.
    */
-  timer: number
+  timeToCount: number
   /**
    * Default: 1000.
    * Interval between ticks in milliseconds.
@@ -63,7 +63,7 @@ export interface ICountdownParams {
    * Determines if the countdown will start ticking on mount. This value has no effect on
    * a timer after it has expired or been reset.
    */
-  autostart?: boolean
+  autoStart?: boolean
   /**
    * Default: false
    * Determines if the countdown will expire immediately when ticking to 0. If false,
@@ -91,7 +91,7 @@ export type CountdownResult = {
   /**
    * Current value of the countdown.
    */
-  value: number
+  timeLeft: number
   /**
    * Is the countdown currently ticking.
    */
@@ -115,17 +115,17 @@ export type CountdownResult = {
  * Create a configurable countdown timer.
  */
 export function useCountdown({
-  timer,
+  timeToCount,
   interval = 1000,
-  autostart = false,
+  autoStart = false,
   expireImmediate = false,
   resetOnExpire = true,
   onExpire,
   onReset
 }: ICountdownParams): CountdownResult {
   const [state, dispatch] = useReducer(reducer, {
-    canStart: autostart,
-    value: timer,
+    canStart: autoStart,
+    timeLeft: timeToCount,
     isRunning: false
   })
 
@@ -142,22 +142,22 @@ export function useCountdown({
   }
 
   const reset = useCallback(() => {
-    initStopped(timer)
+    initStopped(timeToCount)
     if (onReset && typeof onReset === 'function') {
       onReset()
     }
-  }, [timer, onReset])
+  }, [timeToCount, onReset])
 
   const expire = useCallback(() => {
-    initStopped(resetOnExpire ? timer : 0)
+    initStopped(resetOnExpire ? timeToCount : 0)
     if (onExpire && typeof onExpire === 'function') {
       onExpire()
     }
-  }, [timer, onExpire, resetOnExpire])
+  }, [timeToCount, onExpire, resetOnExpire])
 
   useEffect(() => {
     function tick() {
-      if (state.value / 1000 <= 0 || (expireImmediate && (state.value - interval) / 1000 <= 0)) {
+      if (state.timeLeft / 1000 <= 0 || (expireImmediate && (state.timeLeft - interval) / 1000 <= 0)) {
         expire()
       } else {
         dispatch({ type: 'TICK', payload: interval })
@@ -177,12 +177,12 @@ export function useCountdown({
     expireImmediate,
     interval,
     state.canStart,
-    state.value,
+    state.timeLeft,
     state.isRunning
   ])
 
   return {
-    value: state.value,
+    timeLeft: state.timeLeft,
     isRunning: state.isRunning,
     start,
     reset,

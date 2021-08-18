@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import useTheme from 'hooks/useTheme'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
+import { useCountdown } from './useCountdown'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -128,6 +129,23 @@ const Value = styled(Heading).attrs({
   line-height: 1.4;
 `
 
+const Clock = styled.div`
+  position: absolute;
+  top: 64px;
+  width: 100%;
+  text-align: center;
+`
+
+const TimeLabel = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl',
+})`
+  color: ${({ theme }) => theme.colors.success};
+  font-family: monospace;
+  font-weight: 600;
+  line-height: 1.4;
+`
+
 const SideWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -205,6 +223,30 @@ const Dice: React.FC = () => {
     })
   }, [history])
 
+  const bankerTimer = useCountdown({
+    autoStart: true,
+    timeToCount: 5 * 1000,
+    onExpire: () => playerTimer.start()
+  })
+
+  const playerTimer = useCountdown({
+    autoStart: false,
+    timeToCount: 5 * 1000,
+    onExpire: () => bankerTimer.start()
+  })
+
+  const bankerTimeLabel = useMemo(() => {
+    const minutes = Math.floor(bankerTimer.timeLeft / 1000 / 60)
+    const seconds = Math.floor(bankerTimer.timeLeft / 1000) % 60
+    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+  }, [bankerTimer.timeLeft])
+
+  const playerTimeLabel = useMemo(() => {
+    const minutes = Math.floor(playerTimer.timeLeft / 1000 / 60)
+    const seconds = Math.floor(playerTimer.timeLeft / 1000) % 60
+    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+  }, [playerTimer.timeLeft])
+
   return (
     <>
       <PageHeader background={theme.colors.gradients.pageHeader}>
@@ -212,100 +254,136 @@ const Dice: React.FC = () => {
           <RollingDice style={{ zIndex: 1 }} />
           <LeftLogo />
           <RightLogo />
+          {bankerTimer.isRunning && (
+            <Clock>
+              <Label>Now Banker Time</Label>
+              <TimeLabel>{bankerTimeLabel}</TimeLabel>
+            </Clock>
+          )}
+          {playerTimer.isRunning && (
+            <Clock>
+              <Label>Now Player Time</Label>
+              <TimeLabel>{playerTimeLabel}</TimeLabel>
+            </Clock>
+          )}
         </Flex>
       </PageHeader>
-      <Page>
-        <GradientPanel>
-          <InfoLayout>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Chance</Label>
-              <Value>{getWinningChance()}%</Value>
+      {bankerTimer.isRunning && (
+        <Page>
+          <GradientPanel>
+            <InfoLayout>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Chance</Label>
+                <Value>{getWinningChance()}%</Value>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Bet Pays</Label>
+                <Value>0.000</Value>
+                <Label>ANT</Label>
+                <Label>(with tax and fee)</Label>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Return Rate</Label>
+                <Value>5.88x</Value>
+              </Box>
+            </InfoLayout>
+          </GradientPanel>
+        </Page>
+      )}
+      {playerTimer.isRunning && (
+        <Page>
+          <GradientPanel>
+            <InfoLayout>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Chance</Label>
+                <Value>{getWinningChance()}%</Value>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Bet Pays</Label>
+                <Value>0.000</Value>
+                <Label>ANT</Label>
+                <Label>(with tax and fee)</Label>
+              </Box>
+              <Box style={{ textAlign: 'center' }}>
+                <Label>Winning Return Rate</Label>
+                <Value>5.88x</Value>
+              </Box>
+            </InfoLayout>
+          </GradientPanel>
+          <GradientPanel mt="32px">
+            <PickUpLayout>
+              <SideWrapper>
+                <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
+                  <div className="dot center" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot center" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
+                  <div className="dot center" />
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                </Side>
+              </SideWrapper>
+              <SideWrapper>
+                <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
+                  <div className="dot dtop dleft" />
+                  <div className="dot dtop dright" />
+                  <div className="dot dbottom dleft" />
+                  <div className="dot dbottom dright" />
+                  <div className="dot center dleft" />
+                  <div className="dot center dright" />
+                </Side>
+              </SideWrapper>
+            </PickUpLayout>
+            <Box mt="24px" style={{ textAlign: 'center' }}>
+              <StyledButton>Unlock Wallet</StyledButton>
             </Box>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Bet Pays</Label>
-              <Value>0.000</Value>
-              <Label>ANT</Label>
-              <Label>(with tax and fee)</Label>
+            <Box mt="16px" style={{ textAlign: 'center' }}>
+              <Label>Unlock wallet to bet</Label>
             </Box>
-            <Box style={{ textAlign: 'center' }}>
-              <Label>Winning Return Rate</Label>
-              <Value>5.88x</Value>
-            </Box>
-          </InfoLayout>
-        </GradientPanel>
-        <GradientPanel mt="32px">
-          <PickUpLayout>
-            <SideWrapper>
-              <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
-                <div className="dot center" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
-                <div className="dot dtop dleft" />
-                <div className="dot center" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
-                <div className="dot center" />
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-              </Side>
-            </SideWrapper>
-            <SideWrapper>
-              <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
-                <div className="dot dtop dleft" />
-                <div className="dot dtop dright" />
-                <div className="dot dbottom dleft" />
-                <div className="dot dbottom dright" />
-                <div className="dot center dleft" />
-                <div className="dot center dright" />
-              </Side>
-            </SideWrapper>
-          </PickUpLayout>
-          <Box mt="24px" style={{ textAlign: 'center' }}>
-            <StyledButton>Unlock Wallet</StyledButton>
+          </GradientPanel>
+          <Box mt="32px">
+            <SwitchButtonGroup
+              buttons={[{
+                url: `/lucky_dice?coin=${coin}`,
+                node: <span>Public</span>
+              },{
+                url: `/lucky_dice?coin=${coin}&mode=private`,
+                node: <span>Private</span>
+              }]}
+            />
           </Box>
-          <Box mt="16px" style={{ textAlign: 'center' }}>
-            <Label>Unlock wallet to bet</Label>
-          </Box>
-        </GradientPanel>
-        <Box mt="32px">
-          <SwitchButtonGroup
-            buttons={[{
-              url: `/lucky_dice?coin=${coin}`,
-              node: <span>Public</span>
-            },{
-              url: `/lucky_dice?coin=${coin}&mode=private`,
-              node: <span>Private</span>
-            }]}
-          />
-        </Box>
-        <WhitePanel mt="32px">
-          <StatsTable records={records} />
-        </WhitePanel>
-        <WhitePanel mt="32px">
-          <HistoryTable records={records} />
-        </WhitePanel>
-      </Page>
+          <WhitePanel mt="32px">
+            <StatsTable records={records} />
+          </WhitePanel>
+          <WhitePanel mt="32px">
+            <HistoryTable records={records} />
+          </WhitePanel>
+        </Page>
+      )}
     </>
   )
 }
