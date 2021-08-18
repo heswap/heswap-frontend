@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Box, Flex, Heading, Image, Text } from '@heswap/uikit'
-import orderBy from 'lodash/orderBy'
-import partition from 'lodash/partition'
+import { orderBy, partition } from 'lodash'
 import { useTranslation } from 'contexts/Localization'
 import usePersistState from 'hooks/usePersistState'
 import { usePools, useFetchPublicPoolsData, usePollFarmsData } from 'state/hooks'
@@ -18,6 +17,7 @@ import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
 import Select, { OptionProps } from 'components/Select'
 import { Pool } from 'state/types'
+import { useCountdown } from 'hooks/useCountdown'
 import PoolCard from './components/PoolCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import HelpButton from './components/HelpButton'
@@ -27,6 +27,32 @@ import { getAprData } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
+`
+
+const Clock = styled.div`
+  position: absolute;
+  top: -16px;
+  width: 100%;
+  text-align: center;
+`
+
+const Label = styled(Heading).attrs({
+  as: 'h2',
+  scale: 'md',
+})`
+  color: ${({ theme }) => theme.colors.backgroundAlt};
+  font-weight: 300;
+  line-height: 1.4;
+`
+
+const TimeLabel = styled(Heading).attrs({
+  as: 'h1',
+  scale: 'xl',
+})`
+  color: ${({ theme }) => theme.colors.success};
+  font-family: monospace;
+  font-weight: 600;
+  line-height: 1.4;
 `
 
 const PoolControls = styled(Flex)`
@@ -119,7 +145,7 @@ const LuckyBank: React.FC = () => {
       }
     }
 
-    if (!observerIsSet) {
+    if (!observerIsSet && loadMoreRef.current) {
       const loadMoreObserver = new IntersectionObserver(showMorePools, {
         rootMargin: '0px',
         threshold: 1,
@@ -127,7 +153,7 @@ const LuckyBank: React.FC = () => {
       loadMoreObserver.observe(loadMoreRef.current)
       setObserverIsSet(true)
     }
-  }, [observerIsSet])
+  }, [observerIsSet, loadMoreRef])
 
   const showFinishedPools = location.pathname.includes('history')
 
@@ -192,6 +218,30 @@ const LuckyBank: React.FC = () => {
     <PoolsTable pools={poolsToShow()} account={account} userDataLoaded={userDataLoaded} referrer={referrer} />
   )
 
+  const bankerTimer = useCountdown({
+    autoStart: true,
+    timeToCount: 5 * 1000,
+    onExpire: () => playerTimer.start()
+  })
+
+  const playerTimer = useCountdown({
+    autoStart: false,
+    timeToCount: 5 * 1000,
+    onExpire: () => bankerTimer.start()
+  })
+
+  const bankerTimeLabel = useMemo(() => {
+    const minutes = Math.floor(bankerTimer.timeLeft / 1000 / 60)
+    const seconds = Math.floor(bankerTimer.timeLeft / 1000) % 60
+    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+  }, [bankerTimer.timeLeft])
+
+  const playerTimeLabel = useMemo(() => {
+    const minutes = Math.floor(playerTimer.timeLeft / 1000 / 60)
+    const seconds = Math.floor(playerTimer.timeLeft / 1000) % 60
+    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+  }, [playerTimer.timeLeft])
+
   return (
     <>
       <PageHeader>
@@ -200,6 +250,18 @@ const LuckyBank: React.FC = () => {
             <Title mb="24px">{t('Lucky Bank')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
+            {bankerTimer.isRunning && (
+              <Clock>
+                <Label>Now Banker Time</Label>
+                <TimeLabel>{bankerTimeLabel}</TimeLabel>
+              </Clock>
+            )}
+            {playerTimer.isRunning && (
+              <Clock>
+                <Label>Now Player Time</Label>
+                <TimeLabel>{playerTimeLabel}</TimeLabel>
+              </Clock>
+            )}
           </Flex>
           <Image
             src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
@@ -212,70 +274,72 @@ const LuckyBank: React.FC = () => {
           </Box>
         </Flex>
       </PageHeader>
-      <Page>
-        <PoolControls justifyContent="space-between">
-          <PoolTabButtons
-            stakedOnly={stakedOnly}
-            setStakedOnly={setStakedOnly}
-            hasStakeInFinishedPools={hasStakeInFinishedPools}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
+      {bankerTimer.isRunning && (
+        <Page>
+          <PoolControls justifyContent="space-between">
+            <PoolTabButtons
+              stakedOnly={stakedOnly}
+              setStakedOnly={setStakedOnly}
+              hasStakeInFinishedPools={hasStakeInFinishedPools}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+            />
+            <SearchSortContainer>
+              <Flex flexDirection="column" width="50%">
+                <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
+                  {t('Sort by')}
+                </Text>
+                <ControlStretch>
+                  <Select
+                    options={[
+                      {
+                        label: t('Hot'),
+                        value: 'hot',
+                      },
+                      {
+                        label: t('APR'),
+                        value: 'apr',
+                      },
+                      {
+                        label: t('Earned'),
+                        value: 'earned',
+                      },
+                      {
+                        label: t('Total staked'),
+                        value: 'totalStaked',
+                      },
+                    ]}
+                    onChange={handleSortOptionChange}
+                  />
+                </ControlStretch>
+              </Flex>
+              <Flex flexDirection="column" width="50%">
+                <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
+                  {t('Search')}
+                </Text>
+                <ControlStretch>
+                  <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
+                </ControlStretch>
+              </Flex>
+            </SearchSortContainer>
+          </PoolControls>
+          {showFinishedPools && (
+            <Text fontSize="20px" color="failure" pb="32px">
+              {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
+            </Text>
+          )}
+          {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
+          <div ref={loadMoreRef} />
+          <Image
+            mx="auto"
+            mt="12px"
+            src={`${process.env.PUBLIC_URL}/images/3d-syrup-bunnies.png`}
+            alt="Pancake illustration"
+            width={192}
+            height={184.5}
           />
-          <SearchSortContainer>
-            <Flex flexDirection="column" width="50%">
-              <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Sort by')}
-              </Text>
-              <ControlStretch>
-                <Select
-                  options={[
-                    {
-                      label: t('Hot'),
-                      value: 'hot',
-                    },
-                    {
-                      label: t('APR'),
-                      value: 'apr',
-                    },
-                    {
-                      label: t('Earned'),
-                      value: 'earned',
-                    },
-                    {
-                      label: t('Total staked'),
-                      value: 'totalStaked',
-                    },
-                  ]}
-                  onChange={handleSortOptionChange}
-                />
-              </ControlStretch>
-            </Flex>
-            <Flex flexDirection="column" width="50%">
-              <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Search')}
-              </Text>
-              <ControlStretch>
-                <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
-              </ControlStretch>
-            </Flex>
-          </SearchSortContainer>
-        </PoolControls>
-        {showFinishedPools && (
-          <Text fontSize="20px" color="failure" pb="32px">
-            {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
-          </Text>
-        )}
-        {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
-        <div ref={loadMoreRef} />
-        <Image
-          mx="auto"
-          mt="12px"
-          src={`${process.env.PUBLIC_URL}/images/3d-syrup-bunnies.png`}
-          alt="Pancake illustration"
-          width={192}
-          height={184.5}
-        />
-      </Page>
+        </Page>
+      )}
     </>
   )
 }

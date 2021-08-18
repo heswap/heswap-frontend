@@ -7,10 +7,10 @@ import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import SwitchButtonGroup from 'components/SwitchButtonGroup'
 import useTheme from 'hooks/useTheme'
+import { useCountdown } from 'hooks/useCountdown'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
-import { useCountdown } from './useCountdown'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -268,28 +268,6 @@ const LuckyDice: React.FC = () => {
           )}
         </Flex>
       </PageHeader>
-      {bankerTimer.isRunning && (
-        <Page>
-          <GradientPanel>
-            <InfoLayout>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Chance</Label>
-                <Value>{getWinningChance()}%</Value>
-              </Box>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Bet Pays</Label>
-                <Value>0.000</Value>
-                <Label>ANT</Label>
-                <Label>(with tax and fee)</Label>
-              </Box>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Return Rate</Label>
-                <Value>5.88x</Value>
-              </Box>
-            </InfoLayout>
-          </GradientPanel>
-        </Page>
-      )}
       {playerTimer.isRunning && (
         <Page>
           <GradientPanel>
