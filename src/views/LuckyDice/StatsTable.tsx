@@ -15,13 +15,12 @@ import {
   GiInvertedDice5,
   GiInvertedDice6,
 } from 'react-icons/gi'
-import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import StatsRow from './StatsRow'
-import { HistoryRowProps } from './types'
+import { HistoryRecord } from './types'
 
 interface StatsTableProps {
-  records: Array<HistoryRowProps>;
+  records: Array<HistoryRecord>;
 }
 
 const Table = styled.div`
@@ -39,7 +38,6 @@ const StyledFlex = styled(Flex)`
 `
 
 const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
-  const { t } = useTranslation()
   const tableRef = useRef<HTMLDivElement>(null)
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const { theme } = useTheme()
