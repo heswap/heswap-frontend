@@ -1,4 +1,4 @@
-# Heswap Frontend
+# LuckyChip Frontend
 
 This project contains the main features of the heswap application.
 

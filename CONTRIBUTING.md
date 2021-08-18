@@ -1,4 +1,4 @@
-# Contributing to the Heswap ecosystem 🥞
+# Contributing to the LuckyChip ecosystem 🥞
 
 Thanks for taking the time to contribute !
 You can start by reading our [Contribution guidelines](https://docs.heswap.org/code/contributing) first.
