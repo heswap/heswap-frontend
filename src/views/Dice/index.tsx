@@ -208,7 +208,10 @@ const DiceView: React.FC = () => {
 
   const handleBet = async (toggles, amount) => {
     try {
+      // The token holder calls approve to set an allowance of tokens that the contract can use
+      // This is from BEP20
       await wbnbContract.approve(getDiceAddress(), ethers.constants.MaxUint256)
+      // call betNumber of dice contract
       const tx = await callWithGasPrice(diceContract, 'betNumber', [toggles, ethers.utils.parseEther(amount)], {
         value: ethers.utils.parseEther('0.001'),
       })
