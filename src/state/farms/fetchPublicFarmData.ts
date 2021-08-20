@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
-import masterchefABI from 'config/abi/masterchef.json'
-import erc20 from 'config/abi/erc20.json'
+import MasterChef from 'config/abi/dice/MasterChef.json'
+import BEP20 from 'config/abi/dice/BEP20.json'
 import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
 import multicall from 'utils/multicall'
@@ -58,7 +58,7 @@ const fetchFarm = async (farm: Farm): Promise<PublicFarmData> => {
   ]
 
   const [tokenBalanceLP, quoteTokenBalanceLP, lpTokenBalanceMC, lpTotalSupply, tokenDecimals, quoteTokenDecimals] =
-    await multicall(erc20, calls)
+    await multicall(BEP20.abi, calls)
 
   // Ratio in % of LP tokens that are staked in the MC, vs the total number in circulation
   const lpTokenRatio = new BigNumber(lpTokenBalanceMC).div(new BigNumber(lpTotalSupply))
@@ -77,7 +77,7 @@ const fetchFarm = async (farm: Farm): Promise<PublicFarmData> => {
   // Only make masterchef calls if farm has pid
   const [info, totalAllocPoint] =
     pid || pid === 0
-      ? await multicall(masterchefABI, [
+      ? await multicall(MasterChef.abi, [
           {
             address: getMasterChefAddress(),
             name: 'poolInfo',

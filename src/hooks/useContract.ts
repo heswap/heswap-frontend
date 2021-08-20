@@ -1,11 +1,13 @@
 import { useMemo } from 'react'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useWeb3 from 'hooks/useWeb3'
 import {
   getBep20Contract,
   getCakeContract,
   getMasterChefContract,
   getSousChefContract,
-  getErc721Contract,
+  getWbnbContract,
+  getDiceContract,
 } from 'utils/contractHelpers'
 
 /**
@@ -15,14 +17,6 @@ import {
 export const useBEP20 = (address: string) => {
   const web3 = useWeb3()
   return useMemo(() => getBep20Contract(address, web3), [address, web3])
-}
-
-/**
- * @see https://docs.openzeppelin.com/contracts/3.x/api/token/erc721
- */
-export const useERC721 = (address: string) => {
-  const web3 = useWeb3()
-  return useMemo(() => getErc721Contract(address, web3), [address, web3])
 }
 
 export const useCake = () => {
@@ -38,4 +32,14 @@ export const useMasterChef = () => {
 export const useSousChef = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getSousChefContract(id, web3), [id, web3])
+}
+
+export const useWbnbContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getWbnbContract(library.getSigner()), [library])
+}
+
+export const useDiceContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getDiceContract(library.getSigner()), [library])
 }

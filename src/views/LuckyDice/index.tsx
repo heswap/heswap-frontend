@@ -2,15 +2,23 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints } from '@heswap/uikit'
+import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
+import { ethers } from 'ethers'
+import { useWeb3React } from '@web3-react/core'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import SwitchButtonGroup from 'components/SwitchButtonGroup'
 import useTheme from 'hooks/useTheme'
 import { useCountdown } from 'hooks/useCountdown'
+import { getWbnbAddress, getDiceAddress } from 'utils/addressHelpers'
+import { useWbnbContract, useDiceContract } from 'hooks/useContract'
+import useTokenBalance from 'hooks/useTokenBalance'
+import useCallWithGasPrice from 'hooks/useCallWithGasPrice'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
+import BetModal from './BetModal'
+import usePaused from './usePaused'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -157,11 +165,11 @@ const Side = styled.div.attrs({
 })<{ checked: boolean }>`
   transform: scale(0.5);
   margin: -40px;
-  background: ${({ checked, theme }) => checked ? theme.colors.secondary : theme.colors.backgroundAlt};
+  background: ${({ checked, theme }) => (checked ? theme.colors.secondary : theme.colors.backgroundAlt)};
 
   & > .dot {
-    background: ${({ checked, theme }) => checked ? theme.colors.backgroundAlt : '#444'};
-    box-shadow: inset 5px 0 10px ${({ checked }) => checked ? '#888' : '#000'};
+    background: ${({ checked, theme }) => (checked ? theme.colors.backgroundAlt : '#444')};
+    box-shadow: inset 5px 0 10px ${({ checked }) => (checked ? '#888' : '#000')};
   }
 `
 
@@ -171,9 +179,9 @@ const StyledButton = styled(Button)`
 `
 
 function getFakeRecords(len) {
-  const items = [];
+  const items = []
   for (let i = 0; i < len; i++) {
-    const bets = [];
+    const bets = []
     for (let j = 1; j <= 6; j++) {
       if (Math.random() < 0.5) {
         bets.push(j)
@@ -192,14 +200,58 @@ const LuckyDice: React.FC = () => {
   const location = useLocation()
   const history = useHistory()
   const { theme } = useTheme()
+  const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState([])
+
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const wbnbContract = useWbnbContract()
+  const diceContract = useDiceContract()
+  const paused = usePaused()
+  const { balance } = useTokenBalance(getWbnbAddress())
 
   useEffect(() => {
     // onDidMount -> mode == public
     const items = getFakeRecords(100)
     setRecords(items)
   }, [])
+
+  const betModalTitle = useMemo(() => {
+    const sideNumbers = []
+    for (let i = 0; i < sideToggles.length; i++) {
+      if (sideToggles[i]) {
+        sideNumbers.push(i + 1)
+      }
+    }
+    return `Bet Numbers: [${sideNumbers.join(', ')}]`
+  }, [sideToggles])
+
+  const handleBet = async (toggles, amount) => {
+    try {
+      // The token holder calls approve to set an allowance of tokens that the contract can use
+      // This is from BEP20
+      await wbnbContract.approve(getDiceAddress(), ethers.constants.MaxUint256)
+      // call betNumber of dice contract
+      const tx = await callWithGasPrice(diceContract, 'betNumber', [toggles, ethers.utils.parseEther(amount)], {
+        value: ethers.utils.parseEther('0.001'),
+      })
+      const receipt = await tx.wait()
+      console.log(`betNumber,${receipt.transactionHash}`)
+    } catch (e) {
+      console.log(`betNumber failed`, e)
+    }
+  }
+
+  const [onPresentBet] = useModal(
+    <BetModal
+      title={betModalTitle}
+      max={balance}
+      onConfirm={(amount) => {
+        handleBet(sideToggles, amount)
+      }}
+      tokenName="WBNB"
+    />,
+  )
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -251,7 +303,7 @@ const LuckyDice: React.FC = () => {
     <>
       <PageHeader background={theme.colors.gradients.pageHeader}>
         <Flex position="relative">
-          <RollingDice style={{ zIndex: 1 }} />
+          {paused ? <div style={{ height: 200 }} /> : <RollingDice style={{ zIndex: 1 }} />}
           <LeftLogo />
           <RightLogo />
           {bankerTimer.isRunning && (
@@ -336,11 +388,13 @@ const LuckyDice: React.FC = () => {
                 </Side>
               </SideWrapper>
             </PickUpLayout>
+            {!account && (
+              <Box mt="16px" style={{ textAlign: 'center' }}>
+                <Label>Connect wallet to bet</Label>
+              </Box>
+            )}
             <Box mt="24px" style={{ textAlign: 'center' }}>
-              <StyledButton>Unlock Wallet</StyledButton>
-            </Box>
-            <Box mt="16px" style={{ textAlign: 'center' }}>
-              <Label>Unlock wallet to bet</Label>
+              <StyledButton onClick={onPresentBet}>Bet with Amount</StyledButton>
             </Box>
           </GradientPanel>
           <Box mt="32px">

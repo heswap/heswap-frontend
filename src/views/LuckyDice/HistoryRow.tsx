@@ -76,7 +76,7 @@ const HistoryRow: React.FC<HistoryRowProps> = ({ id, bets, outcome }) => {
     }
     return null
   }
-  
+
   return (
     <StyledFlex>
       <div style={{ textAlign: 'center' }}>

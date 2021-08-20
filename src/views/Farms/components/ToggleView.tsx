@@ -21,13 +21,13 @@ const Container = styled.div`
 const CardButton = styled(IconButton)<{ toggled: boolean }>`
   height: 40px;
   border-radius: 8px;
-  background-color: ${({ theme, toggled }) => toggled ? theme.colors.primary : 'transparent'};
+  background-color: ${({ theme, toggled }) => (toggled ? theme.colors.primary : 'transparent')};
 `
 
 const TableButton = styled(IconButton)<{ toggled: boolean }>`
   height: 40px;
   border-radius: 8px;
-  background-color: ${({ theme, toggled }) => toggled ? theme.colors.primary : 'transparent'};
+  background-color: ${({ theme, toggled }) => (toggled ? theme.colors.primary : 'transparent')};
 `
 
 const ToggleView: React.FunctionComponent<ToggleViewProps> = ({ viewMode, onToggle }) => {

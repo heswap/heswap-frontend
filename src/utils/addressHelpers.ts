@@ -18,11 +18,20 @@ export const getMasterChefAddress = () => {
 export const getMulticallAddress = () => {
   return getAddress(addresses.multiCall)
 }
+export const getMulticall2Address = () => {
+  return getAddress(addresses.multiCall2)
+}
 export const getWbnbAddress = () => {
   return getAddress(tokens.wbnb.address)
 }
 export const getReferralAddress = () => {
   return getAddress(addresses.referrals)
+}
+export const getDiceAddress = () => {
+  return getAddress(addresses.dice)
+}
+export const getDiceTokenAddress = () => {
+  return getAddress(addresses.diceToken)
 }
 
 export const isAddress = (value: any): string | false => {

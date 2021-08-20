@@ -6,7 +6,7 @@ import HistoryRow from './HistoryRow'
 import { HistoryRowProps } from './types'
 
 interface HistoryTableProps {
-  records: Array<HistoryRowProps>;
+  records: Array<HistoryRowProps>
 }
 
 const Table = styled.div`
