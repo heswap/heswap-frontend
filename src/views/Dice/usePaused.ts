@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { getDiceContract } from 'utils/contractHelpers'
 import useRefresh from 'hooks/useRefresh'
 
-export const usePaused = () => {
+const usePaused = () => {
   const { slowRefresh } = useRefresh()
   const [paused, setPaused] = useState(true)
 
   useEffect(() => {
     async function fetchPaused() {
-      const diceContract = getDiceContract()
-      const p = await diceContract.paused()
-      setPaused(p)
+      if (mounted) {
+        const diceContract = getDiceContract()
+        const p = await diceContract.paused()
+        console.log('paused', p)
+        setPaused(p)
+      }
     }
 
+    let mounted = true // don't call the state variable
     fetchPaused()
+    return function cleanup() {
+      mounted = false // don't update the state variable on an unmount component
+    }
   }, [slowRefresh])
 
   return paused

@@ -6,6 +6,7 @@ import {
   getCakeContract,
   getMasterChefContract,
   getSousChefContract,
+  getWbnbContract,
   getDiceContract,
 } from 'utils/contractHelpers'
 
@@ -31,6 +32,11 @@ export const useMasterChef = () => {
 export const useSousChef = (id) => {
   const web3 = useWeb3()
   return useMemo(() => getSousChefContract(id, web3), [id, web3])
+}
+
+export const useWbnbContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getWbnbContract(library.getSigner()), [library])
 }
 
 export const useDiceContract = () => {

@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { ethers } from 'ethers'
 import useTokenBalance from 'hooks/useTokenBalance'
-import { getWbnbAddress } from 'utils/addressHelpers'
-import { useDiceContract } from 'hooks/useContract'
+import { getWbnbAddress, getDiceAddress } from 'utils/addressHelpers'
+import { useWbnbContract, useDiceContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import styled from 'styled-components'
@@ -17,7 +17,6 @@ import {
   useMatchBreakpoints,
   useModal,
 } from '@heswap/uikit'
-import BigNumber from 'bignumber.js'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import { useWeb3React } from '@web3-react/core'
@@ -190,10 +189,12 @@ const DiceView: React.FC = () => {
 
   // const { paused, balance } = useGame()
   const { callWithGasPrice } = useCallWithGasPrice()
+  const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
   const paused = usePaused()
   const { balance } = useTokenBalance(getWbnbAddress())
-  console.log('paused', paused, 'balance', balance)
+  // console.log('paused', paused, 'balance', balance)
+  // console.log('0.001', ethers.utils.parseEther('0.001').toString())
 
   const betModalTitle = useMemo(() => {
     const sideNumbers = []
@@ -207,13 +208,14 @@ const DiceView: React.FC = () => {
 
   const handleBet = async (toggles, amount) => {
     try {
+      await wbnbContract.approve(getDiceAddress(), ethers.constants.MaxUint256)
       const tx = await callWithGasPrice(diceContract, 'betNumber', [toggles, ethers.utils.parseEther(amount)], {
         value: ethers.utils.parseEther('0.001'),
       })
       const receipt = await tx.wait()
       console.log(`betNumber,${receipt.transactionHash}`)
-    } catch {
-      console.log(`betNumber failed`)
+    } catch (e) {
+      console.log(`betNumber failed`, e)
     }
   }
 
