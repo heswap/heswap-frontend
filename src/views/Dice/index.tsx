@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { ethers } from 'ethers'
+import useTokenBalance from 'hooks/useTokenBalance'
+import { getWbnbAddress } from 'utils/addressHelpers'
 import { useDiceContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -22,7 +24,8 @@ import { useWeb3React } from '@web3-react/core'
 import PageHeader from './PageHeader'
 import HistoryTable from './HistoryTable'
 import BetModal from './BetModal'
-import useGame from './useGame'
+// import useGame from './useGame'
+import usePaused from './usePaused'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -185,9 +188,12 @@ const DiceView: React.FC = () => {
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
   const [records, setRecords] = useState(fakeRecords)
 
-  const { paused, balance } = useGame()
+  // const { paused, balance } = useGame()
   const { callWithGasPrice } = useCallWithGasPrice()
   const diceContract = useDiceContract()
+  const paused = usePaused()
+  const { balance } = useTokenBalance(getWbnbAddress())
+  console.log('paused', paused, 'balance', balance)
 
   const betModalTitle = useMemo(() => {
     const sideNumbers = []
