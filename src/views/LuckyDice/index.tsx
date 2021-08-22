@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
 import { ethers } from 'ethers'
 import { noop } from 'lodash'
+import moment from 'moment'
+import 'moment-duration-format'
 import { useWeb3React } from '@web3-react/core'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
@@ -289,13 +291,11 @@ const LuckyDice: React.FC = () => {
       return () => { noop() }
     }
     console.log('currentBlock', currentBlock)
-    let diff = bankerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    let diff = bankerEndBlock.sub(currentBlock).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     bankerTimerRef.current = setInterval(() => {
-      const minutes = diff.div(60).toNumber()
-      const seconds = diff.mod(60).toNumber()
-      diff = diff.sub(1)
-      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      const timeLeft = moment.duration(diff, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')
       setBankerTimeLeft(timeLeft)
+      diff--
     }, 1000)
     return () => {
       if (bankerTimerRef) {
@@ -312,13 +312,11 @@ const LuckyDice: React.FC = () => {
       return () => { noop() }
     }
     console.log('currentBlock', currentBlock)
-    let diff = playerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    let diff = playerEndBlock.sub(currentBlock).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     playerTimerRef.current = setInterval(() => {
-      const minutes = diff.div(60).toNumber()
-      const seconds = diff.mod(60).toNumber()
-      diff = diff.sub(1)
-      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      const timeLeft = moment.duration(diff, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')
       setPlayerTimeLeft(timeLeft)
+      diff--
     }, 1000)
     return () => {
       if (playerTimerRef) {
