@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Box, Flex, Heading, Image, Text } from '@heswap/uikit'
-import { orderBy, partition } from 'lodash'
+import { noop, orderBy, partition } from 'lodash'
 import { useTranslation } from 'contexts/Localization'
 import usePersistState from 'hooks/usePersistState'
-import { usePools, useFetchPublicPoolsData, usePollFarmsData } from 'state/hooks'
+import { useBlock, usePools, useFetchPublicPoolsData, usePollFarmsData } from 'state/hooks'
+import useDiceGame from 'hooks/useDiceGame'
 import { latinise } from 'utils/latinise'
 import { isAddress } from 'utils/addressHelpers'
 import { AddressZero } from '@ethersproject/constants'
@@ -17,7 +18,6 @@ import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
 import Select, { OptionProps } from 'components/Select'
 import { Pool } from 'state/types'
-import { useCountdown } from 'hooks/useCountdown'
 import PoolCard from './components/PoolCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import HelpButton from './components/HelpButton'
@@ -115,6 +115,12 @@ const LuckyBank: React.FC = () => {
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, { localStorageKey: 'pancake_farm_view' })
   const [searchQuery, setSearchQuery] = useState('')
   const [sortOption, setSortOption] = useState('hot')
+  const { paused, bankerEndBlock, playerEndBlock } = useDiceGame()
+  const [bankerTimeLeft, setBankerTimeLeft] = useState('')
+  const [playerTimeLeft, setPlayerTimeLeft] = useState('')
+  const bankerTimerRef = useRef(null)
+  const playerTimerRef = useRef(null)
+  const { currentBlock } = useBlock()
 
   // TODO aren't arrays in dep array checked just by reference, i.e. it will rerender every time reference changes?
   const [finishedPools, openPools] = useMemo(() => partition(pools, (pool) => pool.isFinished), [pools])
@@ -218,29 +224,51 @@ const LuckyBank: React.FC = () => {
     <PoolsTable pools={poolsToShow()} account={account} userDataLoaded={userDataLoaded} referrer={referrer} />
   )
 
-  const bankerTimer = useCountdown({
-    autoStart: true,
-    timeToCount: 5 * 1000,
-    onExpire: () => playerTimer.start()
-  })
+  useEffect(() => {
+    if (bankerTimerRef) {
+      clearInterval(bankerTimerRef.current)
+    }
+    if (currentBlock === 0 || bankerEndBlock.eq(0)) {
+      return () => { noop() }
+    }
+    console.log('currentBlock', currentBlock)
+    let diff = bankerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    bankerTimerRef.current = setInterval(() => {
+      const minutes = diff.div(60).toNumber()
+      const seconds = diff.mod(60).toNumber()
+      diff = diff.sub(1)
+      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      setBankerTimeLeft(timeLeft)
+    }, 1000)
+    return () => {
+      if (bankerTimerRef) {
+        clearInterval(bankerTimerRef.current)
+      }
+    }
+  }, [currentBlock, bankerEndBlock])
 
-  const playerTimer = useCountdown({
-    autoStart: false,
-    timeToCount: 5 * 1000,
-    onExpire: () => bankerTimer.start()
-  })
-
-  const bankerTimeLabel = useMemo(() => {
-    const minutes = Math.floor(bankerTimer.timeLeft / 1000 / 60)
-    const seconds = Math.floor(bankerTimer.timeLeft / 1000) % 60
-    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
-  }, [bankerTimer.timeLeft])
-
-  const playerTimeLabel = useMemo(() => {
-    const minutes = Math.floor(playerTimer.timeLeft / 1000 / 60)
-    const seconds = Math.floor(playerTimer.timeLeft / 1000) % 60
-    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
-  }, [playerTimer.timeLeft])
+  useEffect(() => {
+    if (playerTimerRef) {
+      clearInterval(playerTimerRef.current)
+    }
+    if (currentBlock === 0 || playerEndBlock.eq(0)) {
+      return () => { noop() }
+    }
+    console.log('currentBlock', currentBlock)
+    let diff = playerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    playerTimerRef.current = setInterval(() => {
+      const minutes = diff.div(60).toNumber()
+      const seconds = diff.mod(60).toNumber()
+      diff = diff.sub(1)
+      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      setPlayerTimeLeft(timeLeft)
+    }, 1000)
+    return () => {
+      if (playerTimerRef) {
+        clearInterval(playerTimerRef.current)
+      }
+    }
+  }, [currentBlock, playerEndBlock])
 
   return (
     <>
@@ -250,16 +278,16 @@ const LuckyBank: React.FC = () => {
             <Title mb="24px">{t('Lucky Bank')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
-            {bankerTimer.isRunning && (
+            {paused && (
               <Clock>
                 <Label>Now Banker Time</Label>
-                <TimeLabel>{bankerTimeLabel}</TimeLabel>
+                <TimeLabel>{bankerTimeLeft}</TimeLabel>
               </Clock>
             )}
-            {playerTimer.isRunning && (
+            {!paused && (
               <Clock>
                 <Label>Now Player Time</Label>
-                <TimeLabel>{playerTimeLabel}</TimeLabel>
+                <TimeLabel>{playerTimeLeft}</TimeLabel>
               </Clock>
             )}
           </Flex>
@@ -274,7 +302,7 @@ const LuckyBank: React.FC = () => {
           </Box>
         </Flex>
       </PageHeader>
-      {bankerTimer.isRunning && (
+      {paused && (
         <Page>
           <PoolControls justifyContent="space-between">
             <PoolTabButtons

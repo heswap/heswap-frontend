@@ -1,24 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
 import { ethers } from 'ethers'
+import { noop } from 'lodash'
 import { useWeb3React } from '@web3-react/core'
 import RollingDice from 'components/RollingDice'
 import Page from 'components/layout/Page'
 import SwitchButtonGroup from 'components/SwitchButtonGroup'
 import useTheme from 'hooks/useTheme'
-import { useCountdown } from 'hooks/useCountdown'
 import { getWbnbAddress, getDiceAddress } from 'utils/addressHelpers'
 import { useWbnbContract, useDiceContract } from 'hooks/useContract'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useCallWithGasPrice from 'hooks/useCallWithGasPrice'
+import { useBlock } from 'state/hooks'
+import useDiceGame from 'hooks/useDiceGame'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
 import BetModal from './BetModal'
-import usePaused from './usePaused'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -207,7 +208,12 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const paused = usePaused()
+  const { paused, bankerEndBlock, playerEndBlock } = useDiceGame()
+  const [bankerTimeLeft, setBankerTimeLeft] = useState('')
+  const [playerTimeLeft, setPlayerTimeLeft] = useState('')
+  const bankerTimerRef = useRef(null)
+  const playerTimerRef = useRef(null)
+  const { currentBlock } = useBlock()
   const { balance } = useTokenBalance(getWbnbAddress())
 
   useEffect(() => {
@@ -275,29 +281,51 @@ const LuckyDice: React.FC = () => {
     })
   }, [history])
 
-  const bankerTimer = useCountdown({
-    autoStart: true,
-    timeToCount: 5 * 1000,
-    onExpire: () => playerTimer.start()
-  })
+  useEffect(() => {
+    if (bankerTimerRef) {
+      clearInterval(bankerTimerRef.current)
+    }
+    if (currentBlock === 0 || bankerEndBlock.eq(0)) {
+      return () => { noop() }
+    }
+    console.log('currentBlock', currentBlock)
+    let diff = bankerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    bankerTimerRef.current = setInterval(() => {
+      const minutes = diff.div(60).toNumber()
+      const seconds = diff.mod(60).toNumber()
+      diff = diff.sub(1)
+      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      setBankerTimeLeft(timeLeft)
+    }, 1000)
+    return () => {
+      if (bankerTimerRef) {
+        clearInterval(bankerTimerRef.current)
+      }
+    }
+  }, [currentBlock, bankerEndBlock])
 
-  const playerTimer = useCountdown({
-    autoStart: false,
-    timeToCount: 5 * 1000,
-    onExpire: () => bankerTimer.start()
-  })
-
-  const bankerTimeLabel = useMemo(() => {
-    const minutes = Math.floor(bankerTimer.timeLeft / 1000 / 60)
-    const seconds = Math.floor(bankerTimer.timeLeft / 1000) % 60
-    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
-  }, [bankerTimer.timeLeft])
-
-  const playerTimeLabel = useMemo(() => {
-    const minutes = Math.floor(playerTimer.timeLeft / 1000 / 60)
-    const seconds = Math.floor(playerTimer.timeLeft / 1000) % 60
-    return `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
-  }, [playerTimer.timeLeft])
+  useEffect(() => {
+    if (playerTimerRef) {
+      clearInterval(playerTimerRef.current)
+    }
+    if (currentBlock === 0 || playerEndBlock.eq(0)) {
+      return () => { noop() }
+    }
+    console.log('currentBlock', currentBlock)
+    let diff = playerEndBlock.sub(currentBlock).mul(3) // each block is nearly 3 seconds in bsc
+    playerTimerRef.current = setInterval(() => {
+      const minutes = diff.div(60).toNumber()
+      const seconds = diff.mod(60).toNumber()
+      diff = diff.sub(1)
+      const timeLeft = `${minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })} : ${ seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`
+      setPlayerTimeLeft(timeLeft)
+    }, 1000)
+    return () => {
+      if (playerTimerRef) {
+        clearInterval(playerTimerRef.current)
+      }
+    }
+  }, [currentBlock, playerEndBlock])
 
   return (
     <>
@@ -306,21 +334,21 @@ const LuckyDice: React.FC = () => {
           {paused ? <div style={{ height: 200 }} /> : <RollingDice style={{ zIndex: 1 }} />}
           <LeftLogo />
           <RightLogo />
-          {bankerTimer.isRunning && (
+          {paused && (
             <Clock>
               <Label>Now Banker Time</Label>
-              <TimeLabel>{bankerTimeLabel}</TimeLabel>
+              <TimeLabel>{bankerTimeLeft}</TimeLabel>
             </Clock>
           )}
-          {playerTimer.isRunning && (
+          {!paused && (
             <Clock>
               <Label>Now Player Time</Label>
-              <TimeLabel>{playerTimeLabel}</TimeLabel>
+              <TimeLabel>{playerTimeLeft}</TimeLabel>
             </Clock>
           )}
         </Flex>
       </PageHeader>
-      {playerTimer.isRunning && (
+      {!paused && (
         <Page>
           <GradientPanel>
             <InfoLayout>
