@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { noop } from 'lodash'
 import moment from 'moment'
 import 'moment-duration-format'
@@ -16,8 +16,7 @@ import { getWbnbAddress, getDiceAddress } from 'utils/addressHelpers'
 import { useWbnbContract, useDiceContract } from 'hooks/useContract'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useCallWithGasPrice from 'hooks/useCallWithGasPrice'
-import { useBlock } from 'state/hooks'
-import useDiceGame from 'hooks/useDiceGame'
+import { useBlock, useDice } from 'state/hooks'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
@@ -210,9 +209,9 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { paused, bankerEndBlock, playerEndBlock } = useDiceGame()
-  const [bankerTimeLeft, setBankerTimeLeft] = useState('')
-  const [playerTimeLeft, setPlayerTimeLeft] = useState('')
+  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, currentRound, casted, paused } = useDice()
+  const [bankerTimeLeft, setBankerTimeLeft] = useState(null)
+  const [playerTimeLeft, setPlayerTimeLeft] = useState(null)
   const bankerTimerRef = useRef(null)
   const playerTimerRef = useRef(null)
   const { currentBlock } = useBlock()
@@ -287,43 +286,39 @@ const LuckyDice: React.FC = () => {
     if (bankerTimerRef) {
       clearInterval(bankerTimerRef.current)
     }
-    if (currentBlock === 0 || bankerEndBlock.eq(0)) {
+    if (currentBlock === 0 || !currentGame || !paused) {
       return () => { noop() }
     }
-    console.log('currentBlock', currentBlock)
-    let diff = bankerEndBlock.sub(currentBlock).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft = BigNumber.from(currentGame.bankerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     bankerTimerRef.current = setInterval(() => {
-      const timeLeft = moment.duration(diff, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')
       setBankerTimeLeft(timeLeft)
-      diff--
+      timeLeft--
     }, 1000)
     return () => {
       if (bankerTimerRef) {
         clearInterval(bankerTimerRef.current)
       }
     }
-  }, [currentBlock, bankerEndBlock])
+  }, [currentBlock, currentGame, paused])
 
   useEffect(() => {
     if (playerTimerRef) {
       clearInterval(playerTimerRef.current)
     }
-    if (currentBlock === 0 || playerEndBlock.eq(0)) {
+    if (currentBlock === 0 || !currentGame || paused) {
       return () => { noop() }
     }
-    console.log('currentBlock', currentBlock)
-    let diff = playerEndBlock.sub(currentBlock).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     playerTimerRef.current = setInterval(() => {
-      const timeLeft = moment.duration(diff, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')
       setPlayerTimeLeft(timeLeft)
-      diff--
+      timeLeft--
     }, 1000)
     return () => {
       if (playerTimerRef) {
         clearInterval(playerTimerRef.current)
       }
     }
-  }, [currentBlock, playerEndBlock])
+  }, [currentBlock, currentGame, paused])
 
   return (
     <>
@@ -335,13 +330,13 @@ const LuckyDice: React.FC = () => {
           {paused && (
             <Clock>
               <Label>Now Banker Time</Label>
-              <TimeLabel>{bankerTimeLeft}</TimeLabel>
+              <TimeLabel>{bankerTimeLeft === null ? '' : moment.duration(bankerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
             </Clock>
           )}
           {!paused && (
             <Clock>
               <Label>Now Player Time</Label>
-              <TimeLabel>{playerTimeLeft}</TimeLabel>
+              <TimeLabel>{playerTimeLeft === null ? '' : moment.duration(playerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
             </Clock>
           )}
         </Flex>
@@ -414,13 +409,17 @@ const LuckyDice: React.FC = () => {
                 </Side>
               </SideWrapper>
             </PickUpLayout>
-            {!account && (
-              <Box mt="16px" style={{ textAlign: 'center' }}>
-                <Label>Connect wallet to bet</Label>
-              </Box>
-            )}
             <Box mt="24px" style={{ textAlign: 'center' }}>
-              <StyledButton onClick={onPresentBet}>Bet with Amount</StyledButton>
+              {!account ? (
+                <Label>Connect wallet to bet</Label>
+              ) : (
+                <StyledButton
+                  onClick={onPresentBet}
+                  disabled={!currentRound || (currentBlock < BigNumber.from(currentRound.startBlock).toNumber() || currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
+                >
+                  Bet with Amount
+                </StyledButton>
+              )}
             </Box>
           </GradientPanel>
           <Box mt="32px">

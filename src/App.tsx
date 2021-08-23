@@ -3,7 +3,7 @@ import { Router, Redirect, Route, Switch } from 'react-router-dom'
 import { ResetCSS } from '@heswap/uikit'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
-import { usePollCoreFarmData, usePollBlockNumber } from 'state/hooks'
+import { usePollCoreFarmData, usePollBlockNumber, usePollDiceData } from 'state/hooks'
 import GlobalStyle from './style/Global'
 import Menu from './components/Menu'
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
@@ -32,6 +32,7 @@ const App: React.FC = () => {
   usePollBlockNumber()
   useEagerConnect()
   usePollCoreFarmData()
+  usePollDiceData()
 
   return (
     <Router history={history}>
