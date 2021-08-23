@@ -199,10 +199,10 @@ export const usePollDiceData = () => {
       const paused: boolean = await diceContract.paused()
       const _bankerTimeBlocks: BigNumber = await diceContract.bankerTimeBlocks()
       const _playerTimeBlocks: BigNumber = await diceContract.playerTimeBlocks()
-      const _startBlock: BigNumber = await diceContract.currentEpoch()
       const _bankerEndBlock: BigNumber = await diceContract.bankerEndBlock()
       const _playerEndBlock: BigNumber = await diceContract.playerEndBlock()
       const _currentEpoch: BigNumber = await diceContract.currentEpoch()
+      const _intervalBlocks: BigNumber = await diceContract.intervalBlocks()
       const currentRoundResult: DiceRoundResult = await diceContract.rounds(_currentEpoch)
       const currentRound: DiceRound = {
         startBlock: currentRoundResult.startBlock.toString(),
@@ -229,11 +229,11 @@ export const usePollDiceData = () => {
         bankerTimeBlocks: _bankerTimeBlocks.toString(),
         playerTimeBlocks: _playerTimeBlocks.toString(),
         currentGame: {
-          startBlock: _startBlock.toString(),
           bankerEndBlock: _bankerEndBlock.toString(),
           playerEndBlock: _playerEndBlock.toString()
         },
         currentEpoch: _currentEpoch.toString(),
+        intervalBlocks: _intervalBlocks.toString(),
         currentRound,
         paused
       }))

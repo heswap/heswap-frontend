@@ -209,9 +209,9 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, currentRound, casted, paused } = useDice()
-  const [bankerTimeLeft, setBankerTimeLeft] = useState(null)
-  const [playerTimeLeft, setPlayerTimeLeft] = useState(null)
+  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound, casted, paused } = useDice()
+  const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
+  const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
   const playerTimerRef = useRef(null)
   const { currentBlock } = useBlock()
@@ -289,7 +289,7 @@ const LuckyDice: React.FC = () => {
     if (currentBlock === 0 || !currentGame || !paused) {
       return () => { noop() }
     }
-    let timeLeft = BigNumber.from(currentGame.bankerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft: number = BigNumber.from(currentGame.bankerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     bankerTimerRef.current = setInterval(() => {
       setBankerTimeLeft(timeLeft)
       timeLeft--
@@ -308,7 +308,7 @@ const LuckyDice: React.FC = () => {
     if (currentBlock === 0 || !currentGame || paused) {
       return () => { noop() }
     }
-    let timeLeft = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft: number = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     playerTimerRef.current = setInterval(() => {
       setPlayerTimeLeft(timeLeft)
       timeLeft--
@@ -320,6 +320,39 @@ const LuckyDice: React.FC = () => {
     }
   }, [currentBlock, currentGame, paused])
 
+  const bankerTimeLabel = useMemo(() => {
+    if (!bankerTimeLeft) {
+      return ''
+    }
+    const optionalPrefix = moment.duration(bankerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] h')
+    const requiredSurfix = moment.duration(bankerTimeLeft, 'seconds').format('mm:ss', { trim: false })
+    if (optionalPrefix === '0') {
+      return requiredSurfix
+    }
+    return `${optionalPrefix}:${requiredSurfix}`
+  }, [bankerTimeLeft])
+
+  const roundNumberLabel = useMemo(() => {
+    if (!playerTimeLeft || !intervalBlocks) {
+      return ''
+    }
+    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3
+    return Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
+  }, [playerTimeLeft, intervalBlocks])
+
+  const roundTimeLabel = useMemo(() => {
+    if (!playerTimeLeft || !intervalBlocks) {
+      return ''
+    }
+    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3
+    const optionalPrefix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('y [years] w [weeks] d [days] h')
+    const requiredSurfix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('mm:ss', { trim: false })
+    if (optionalPrefix === '0') {
+      return requiredSurfix
+    }
+    return `${optionalPrefix}:${requiredSurfix}`
+  }, [playerTimeLeft, intervalBlocks])
+
   return (
     <>
       <PageHeader background={theme.colors.gradients.pageHeader}>
@@ -330,13 +363,21 @@ const LuckyDice: React.FC = () => {
           {paused && (
             <Clock>
               <Label>Now Banker Time</Label>
-              <TimeLabel>{bankerTimeLeft === null ? '' : moment.duration(bankerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
+              <TimeLabel>{bankerTimeLabel}</TimeLabel>
             </Clock>
           )}
           {!paused && (
             <Clock>
-              <Label>Now Player Time</Label>
-              <TimeLabel>{playerTimeLeft === null ? '' : moment.duration(playerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 32 }}>
+                <div>
+                  <Label>Round</Label>
+                  <TimeLabel>{roundNumberLabel}</TimeLabel>
+                </div>
+                <div>
+                  <Label>Time Left</Label>
+                  <TimeLabel>{roundTimeLabel}</TimeLabel>
+                </div>
+              </div>
             </Clock>
           )}
         </Flex>
@@ -415,7 +456,7 @@ const LuckyDice: React.FC = () => {
               ) : (
                 <StyledButton
                   onClick={onPresentBet}
-                  disabled={!currentRound || (currentBlock < BigNumber.from(currentRound.startBlock).toNumber() || currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
+                  disabled={paused || !currentRound || (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
                 >
                   Bet with Amount
                 </StyledButton>

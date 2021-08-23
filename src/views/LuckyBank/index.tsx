@@ -264,6 +264,30 @@ const LuckyBank: React.FC = () => {
     }
   }, [currentBlock, currentGame, paused])
 
+  const bankerTimeLabel = useMemo(() => {
+    if (!bankerTimeLeft) {
+      return ''
+    }
+    const optionalPrefix = moment.duration(bankerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] h')
+    const requiredSurfix = moment.duration(bankerTimeLeft, 'seconds').format('mm:ss', { trim: false })
+    if (optionalPrefix === '0') {
+      return requiredSurfix
+    }
+    return `${optionalPrefix}:${requiredSurfix}`
+  }, [bankerTimeLeft])
+
+  const playerTimeLabel = useMemo(() => {
+    if (!playerTimeLeft) {
+      return ''
+    }
+    const optionalPrefix = moment.duration(playerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] h')
+    const requiredSurfix = moment.duration(playerTimeLeft, 'seconds').format('mm:ss', { trim: false })
+    if (optionalPrefix === '0') {
+      return requiredSurfix
+    }
+    return `${optionalPrefix}:${requiredSurfix}`
+  }, [playerTimeLeft])
+
   return (
     <>
       <PageHeader>
@@ -275,13 +299,13 @@ const LuckyBank: React.FC = () => {
             {paused && (
               <Clock>
                 <Label>Now Banker Time</Label>
-                <TimeLabel>{bankerTimeLeft === null ? '' : moment.duration(bankerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
+                <TimeLabel>{bankerTimeLabel}</TimeLabel>
               </Clock>
             )}
             {!paused && (
               <Clock>
                 <Label>Now Player Time</Label>
-                <TimeLabel>{playerTimeLeft === null ? '' : moment.duration(playerTimeLeft, 'seconds').format('y [years] w [weeks] d [days] hh:mm:ss')}</TimeLabel>
+                <TimeLabel>{playerTimeLabel}</TimeLabel>
               </Clock>
             )}
           </Flex>

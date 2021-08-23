@@ -90,7 +90,6 @@ enum Status {
 }
 
 export interface DiceGame {
-  startBlock: string
   bankerEndBlock: string
   playerEndBlock: string
 }
@@ -135,6 +134,7 @@ export interface DiceState {
   playerTimeBlocks?: string
   currentGame?: DiceGame
   currentEpoch?: string
+  intervalBlocks?: string
   currentRound?: DiceRound
   casted?: boolean
   paused?: boolean
