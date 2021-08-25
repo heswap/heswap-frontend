@@ -217,6 +217,7 @@ const LuckyDice: React.FC = () => {
   const { currentBlock } = useBlock()
   const { balance } = useTokenBalance(getWbnbAddress())
   const [roundNum, setRoundNum] = useState<number>(null)
+  const [betted, setBetted] = useState<boolean>(false)
   const [rolledNum, setRolledNum] = useState<number>(null)
 
   useEffect(() => {
@@ -246,6 +247,7 @@ const LuckyDice: React.FC = () => {
       })
       const receipt = await tx.wait()
       console.log(`betNumber,${receipt.transactionHash}`)
+      setBetted(true)
     } catch (e) {
       console.log(`betNumber failed`, e)
     }
@@ -339,20 +341,25 @@ const LuckyDice: React.FC = () => {
       setRoundNum(null)
       return
     }
-    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3
+    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3 // in seconds
     const v = Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
     setRoundNum(v)
   }, [playerTimeLeft, intervalBlocks])
 
   useEffect(() => {
+    setBetted(false)
     setRolledNum(null)
   }, [roundNum])
+
+  useEffect(() => {
+    console.log('finalNumber', currentRound.finalNumber)
+  }, [currentRound])
 
   const roundTimeLabel = useMemo(() => {
     if (!playerTimeLeft || !intervalBlocks) {
       return ''
     }
-    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3
+    const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3 // in seconds
     const optionalPrefix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('y [years] w [weeks] d [days] h')
     const requiredSurfix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('mm:ss', { trim: false })
     if (optionalPrefix === '0') {
@@ -379,7 +386,7 @@ const LuckyDice: React.FC = () => {
           ) : (
             <RollingDice
               style={{ zIndex: 1 }}
-              disabled={!!rolledNum}
+              disabled={!betted || !!rolledNum}
               onRollStart={onRollStart}
               onRollEnd={onRollEnd}
             />

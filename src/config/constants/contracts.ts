@@ -28,10 +28,10 @@ export default {
   },
   dice: {
     56: '',
-    97: '0x69863f021157012165662f72a18f85AA6E6F27E6', // WBNBDice
+    97: '0x170037EF2C730BC829aA791EA91447dC59677b68', // WBNBDice
   },
   diceToken: {
     56: '',
-    97: '0xA242eFc55931D81D8655e449E99e9aC1B53Aa53d', // WBNBDiceToken
+    97: '0x32760ff5b663E38125F3DE3595c3C1C4d99DFB42', // WBNBDiceToken
   },
 }
