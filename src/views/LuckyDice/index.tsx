@@ -352,7 +352,9 @@ const LuckyDice: React.FC = () => {
   }, [roundNum])
 
   useEffect(() => {
-    console.log('finalNumber', currentRound.finalNumber)
+    if (currentRound) {
+      console.log('finalNumber', currentRound.finalNumber)
+    }
   }, [currentRound])
 
   const roundTimeLabel = useMemo(() => {
