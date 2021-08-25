@@ -216,6 +216,8 @@ const LuckyDice: React.FC = () => {
   const playerTimerRef = useRef(null)
   const { currentBlock } = useBlock()
   const { balance } = useTokenBalance(getWbnbAddress())
+  const [roundNum, setRoundNum] = useState<number>(null)
+  const [rolledNum, setRolledNum] = useState<number>(null)
 
   useEffect(() => {
     // onDidMount -> mode == public
@@ -332,13 +334,19 @@ const LuckyDice: React.FC = () => {
     return `${optionalPrefix}:${requiredSurfix}`
   }, [bankerTimeLeft])
 
-  const roundNumberLabel = useMemo(() => {
+  useEffect(() => {
     if (!playerTimeLeft || !intervalBlocks) {
-      return ''
+      setRoundNum(null)
+      return
     }
     const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3
-    return Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
+    const v = Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
+    setRoundNum(v)
   }, [playerTimeLeft, intervalBlocks])
+
+  useEffect(() => {
+    setRolledNum(null)
+  }, [roundNum])
 
   const roundTimeLabel = useMemo(() => {
     if (!playerTimeLeft || !intervalBlocks) {
@@ -353,11 +361,29 @@ const LuckyDice: React.FC = () => {
     return `${optionalPrefix}:${requiredSurfix}`
   }, [playerTimeLeft, intervalBlocks])
 
+  const onRollStart = () => {
+    setRolledNum(null)
+  }
+
+  const onRollEnd = (sideNum) => {
+    console.log(sideNum)
+    setRolledNum(sideNum)
+  }
+
   return (
     <>
       <PageHeader background={theme.colors.gradients.pageHeader}>
         <Flex position="relative">
-          {paused ? <div style={{ height: 200 }} /> : <RollingDice style={{ zIndex: 1 }} />}
+          {paused ? (
+            <div style={{ height: 200 }} />
+          ) : (
+            <RollingDice
+              style={{ zIndex: 1 }}
+              disabled={!!rolledNum}
+              onRollStart={onRollStart}
+              onRollEnd={onRollEnd}
+            />
+          )}
           <LeftLogo />
           <RightLogo />
           {paused && (
@@ -371,7 +397,7 @@ const LuckyDice: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'center', gap: 32 }}>
                 <div>
                   <Label>Round</Label>
-                  <TimeLabel>{roundNumberLabel}</TimeLabel>
+                  <TimeLabel>{roundNum}</TimeLabel>
                 </div>
                 <div>
                   <Label>Time Left</Label>
