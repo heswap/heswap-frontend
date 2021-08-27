@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { Box, Flex, useMatchBreakpoints } from '@heswap/uikit'
 import {
@@ -25,7 +25,6 @@ interface StatsTableProps {
 
 const Table = styled.div`
   border-radius: ${({ theme }) => theme.radii.card};
-  background-color: ${({ theme }) => theme.card.background};
 
   > div:not(:last-child) {
     border-bottom: 2px solid ${({ theme }) => theme.colors.disabled};
@@ -38,7 +37,6 @@ const StyledFlex = styled(Flex)`
 `
 
 const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
-  const tableRef = useRef<HTMLDivElement>(null)
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const { theme } = useTheme()
 
@@ -99,7 +97,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
   }, [records])
 
   return (
-    <Table ref={tableRef}>
+    <Table>
       <StyledFlex>
         <div style={{ textAlign: 'center', width: '100px' }} />
         <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>

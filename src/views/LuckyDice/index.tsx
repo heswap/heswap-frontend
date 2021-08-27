@@ -108,7 +108,12 @@ const PickUpLayout = styled(BaseLayout)`
 
 const WhitePanel = styled(Box)`
   border-radius: ${({ theme }) => theme.radii.card};
-  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  overflow: hidden;
+  background-color: ${({ theme }) => theme.colors.background};
+`
+
+const PanelContainer = styled(Box)`
+  background-color: ${elevations.dp06};
   padding: 32px 8px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -515,10 +520,14 @@ const LuckyDice: React.FC = () => {
             />
           </Box>
           <WhitePanel mt="32px">
-            <StatsTable records={records} />
+            <PanelContainer>
+              <StatsTable records={records} />
+            </PanelContainer>
           </WhitePanel>
           <WhitePanel mt="32px">
-            <HistoryTable records={records} />
+            <PanelContainer>
+              <HistoryTable records={records} />
+            </PanelContainer>
           </WhitePanel>
         </Page>
       )}

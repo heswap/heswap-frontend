@@ -11,7 +11,6 @@ interface HistoryTableProps {
 
 const Table = styled.div`
   border-radius: ${({ theme }) => theme.radii.card};
-  background-color: ${({ theme }) => theme.card.background};
 
   > div:not(:last-child) {
     border-bottom: 2px solid ${({ theme }) => theme.colors.disabled};
