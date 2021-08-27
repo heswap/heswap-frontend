@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardBody, Heading, Skeleton, Text } from '@heswap/uikit'
+import { Box, Card, CardBody, Heading, Skeleton, Text } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useGetStats } from 'hooks/api'
+import { elevations } from 'utils/palette'
 
 const StyledCard = styled(Card)`
+  background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   display: flex;
   flex: 1;
@@ -17,19 +19,21 @@ const TotalValueLockedCard = () => {
 
   return (
     <StyledCard>
-      <CardBody>
-        <Heading scale="lg" mb="24px" color="primary">
-          {t('Total Value Locked (TVL)')}
-        </Heading>
-        {data ? (
-          <>
-            <Heading scale="xl">{`$${tvl}`}</Heading>
-            <Text color="textSubtle">{t('Across all LPs and Syrup Pools')}</Text>
-          </>
-        ) : (
-          <Skeleton height={66} />
-        )}
-      </CardBody>
+      <Box width="100%" height="100%" background={elevations.dp06}>
+        <CardBody>
+          <Heading scale="lg" mb="24px" color="primary">
+            {t('Total Value Locked (TVL)')}
+          </Heading>
+          {data ? (
+            <>
+              <Heading scale="xl">{`$${tvl}`}</Heading>
+              <Text color="textSubtle">{t('Across all LPs and Syrup Pools')}</Text>
+            </>
+          ) : (
+            <Skeleton height={66} />
+          )}
+        </CardBody>
+      </Box>
     </StyledCard>
   )
 }

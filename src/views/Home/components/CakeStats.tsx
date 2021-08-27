@@ -1,15 +1,17 @@
 import React from 'react'
-import { Card, CardBody, Heading, Text } from '@heswap/uikit'
+import { Box, Card, CardBody, Heading, Text } from '@heswap/uikit'
 import styled from 'styled-components'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useTotalSupply, useBurnedBalance } from 'hooks/useTokenBalance'
 import { useTranslation } from 'contexts/Localization'
 import { getCakeAddress } from 'utils/addressHelpers'
+import { elevations } from 'utils/palette'
 import CardValue from './CardValue'
 
 const StyledCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
+  background-color: ${({ theme }) => theme.colors.background};
 `
 
 const Row = styled.div`
@@ -28,23 +30,25 @@ const CakeStats = () => {
 
   return (
     <StyledCard>
-      <CardBody>
-        <Heading scale="xl" mb="24px" color="secondary">
-          {t('Cake Stats')}
-        </Heading>
-        <Row>
-          <Text color="primary">{t('Total CAKE Supply')}</Text>
-          {cakeSupply && <CardValue color="primary" fontSize="18px" value={cakeSupply} />}
-        </Row>
-        <Row>
-          <Text color="primary">{t('Total CAKE Burned')}</Text>
-          <CardValue color="primary" fontSize="18px" decimals={0} value={burnedBalance} />
-        </Row>
-        <Row>
-          <Text color="primary">{t('New CAKE/block')}</Text>
-          <CardValue color="primary" fontSize="18px" decimals={0} value={20} />
-        </Row>
-      </CardBody>
+      <Box background={elevations.dp06}>
+        <CardBody>
+          <Heading scale="xl" mb="24px" color="secondary">
+            {t('Cake Stats')}
+          </Heading>
+          <Row>
+            <Text color="primary">{t('Total CAKE Supply')}</Text>
+            {cakeSupply && <CardValue color="primary" fontSize="18px" value={cakeSupply} />}
+          </Row>
+          <Row>
+            <Text color="primary">{t('Total CAKE Burned')}</Text>
+            <CardValue color="primary" fontSize="18px" decimals={0} value={burnedBalance} />
+          </Row>
+          <Row>
+            <Text color="primary">{t('New CAKE/block')}</Text>
+            <CardValue color="primary" fontSize="18px" decimals={0} value={20} />
+          </Row>
+        </CardBody>
+      </Box>
     </StyledCard>
   )
 }

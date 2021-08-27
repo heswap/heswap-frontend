@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useTable, Button, ChevronUpIcon, ColumnType } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
+import { elevations } from 'utils/palette'
 
 import Row, { RowProps } from './Row'
 
@@ -16,8 +17,9 @@ export interface ITableProps {
 const Container = styled.div`
   filter: ${({ theme }) => theme.card.dropShadow};
   width: 100%;
-  background: ${({ theme }) => theme.card.background};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.card};
+  overflow: hidden;
   margin: 16px 0px;
 `
 
@@ -49,6 +51,7 @@ const TableBody = styled.tbody`
 
 const TableContainer = styled.div`
   position: relative;
+  background-color: ${elevations.dp06};
 `
 
 const ScrollButtonContainer = styled.div`

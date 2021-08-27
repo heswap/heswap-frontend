@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Text } from '@heswap/uikit'
+import { Box, Card, CardBody, Heading, Text } from '@heswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import { getReferralContract } from 'utils/contractHelpers'
+import { elevations } from 'utils/palette'
+
+const StyledCard = styled(Card)`
+  background-color: ${({ theme }) => theme.colors.background};
+`
 
 const Block = styled.div`
   margin-bottom: 16px;
@@ -45,8 +50,8 @@ const ReferralDashboard = () => {
   }, [account])
 
   return (
-    <>
-      <Card>
+    <StyledCard>
+      <Box background={elevations.dp06}>
         <CardBody>
           <Heading scale="xl" mb="24px">
             {t('Dashboard')}
@@ -69,8 +74,8 @@ const ReferralDashboard = () => {
             </Unit>
           </Block>
         </CardBody>
-      </Card>
-    </>
+      </Box>
+    </StyledCard>
   )
 }
 

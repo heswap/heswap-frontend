@@ -1,14 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import orderBy from 'lodash/orderBy'
-import { Heading, Card, CardBody, Flex, ArrowForwardIcon } from '@heswap/uikit'
+import { ArrowForwardIcon, Box, Card, CardBody, Flex, Heading } from '@heswap/uikit'
 import { NavLink } from 'react-router-dom'
 import pools from 'config/constants/pools'
 import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
+import { elevations } from 'utils/palette'
 
 const StyledFarmStakingCard = styled(Card)`
-  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
+  background-color: ${({ theme }) => theme.colors.background};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -42,18 +43,20 @@ const EarnAssetCard = () => {
   return (
     <StyledFarmStakingCard>
       <NavLink exact activeClassName="active" to="/syrup" id="pool-cta">
-        <CardBody>
-          <Heading color="backgroundAlt" scale="lg">
-            {earn}
-          </Heading>
-          <CardMidContent>{assets}</CardMidContent>
-          <Flex justifyContent="space-between">
+        <Box background={elevations.dp06}>
+          <CardBody>
             <Heading color="backgroundAlt" scale="lg">
-              {InPools}
+              {earn}
             </Heading>
-            <ArrowForwardIcon mt={30} color="warning" />
-          </Flex>
-        </CardBody>
+            <CardMidContent>{assets}</CardMidContent>
+            <Flex justifyContent="space-between">
+              <Heading color="backgroundAlt" scale="lg">
+                {InPools}
+              </Heading>
+              <ArrowForwardIcon mt={30} color="warning" />
+            </Flex>
+          </CardBody>
+        </Box>
       </NavLink>
     </StyledFarmStakingCard>
   )

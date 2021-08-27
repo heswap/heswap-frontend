@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Flex, ArrowForwardIcon } from '@heswap/uikit'
+import { ArrowForwardIcon, Box, Card, CardBody, Flex, Heading } from '@heswap/uikit'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
+import { elevations } from 'utils/palette'
 
 const StyledFarmStakingCard = styled(Card)`
-  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
+  background-color: ${({ theme }) => theme.colors.background};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -31,16 +32,18 @@ const WinCard = () => {
   return (
     <StyledFarmStakingCard>
       <NavLink exact activeClassName="active" to="/lottery" id="lottery-pot-cta">
-        <CardBody>
-          <Heading color="backgroundAlt" scale="lg">
-            {t('Lottery')}
-          </Heading>
-          <CardMidContent>{t('Coming Soon')}</CardMidContent>
-          <Flex justifyContent="space-between">
-            <Heading color="backgroundAlt" scale="lg" />
-            <ArrowForwardIcon mt={30} color="warning" />
-          </Flex>
-        </CardBody>
+        <Box background={elevations.dp06}>
+          <CardBody>
+            <Heading color="backgroundAlt" scale="lg">
+              {t('Lottery')}
+            </Heading>
+            <CardMidContent>{t('Coming Soon')}</CardMidContent>
+            <Flex justifyContent="space-between">
+              <Heading color="backgroundAlt" scale="lg" />
+              <ArrowForwardIcon mt={30} color="warning" />
+            </Flex>
+          </CardBody>
+        </Box>
       </NavLink>
     </StyledFarmStakingCard>
   )

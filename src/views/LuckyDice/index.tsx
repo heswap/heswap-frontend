@@ -17,6 +17,7 @@ import { useWbnbContract, useDiceContract } from 'hooks/useContract'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useCallWithGasPrice from 'hooks/useCallWithGasPrice'
 import { useBlock, useDice } from 'state/hooks'
+import { elevations } from 'utils/palette'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
@@ -87,9 +88,9 @@ const RightLogo = styled(Image).attrs(() => {
 `
 
 const GradientPanel = styled(Box)`
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.radii.card};
-  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
-  padding: 32px;
+  overflow: hidden;
 `
 
 const InfoLayout = styled(CardsLayout)`
@@ -420,82 +421,86 @@ const LuckyDice: React.FC = () => {
       {!paused && (
         <Page>
           <GradientPanel>
-            <InfoLayout>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Chance</Label>
-                <Value>{getWinningChance()}%</Value>
-              </Box>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Bet Pays</Label>
-                <Value>0.000</Value>
-                <Label>ANT</Label>
-                <Label>(with tax and fee)</Label>
-              </Box>
-              <Box style={{ textAlign: 'center' }}>
-                <Label>Winning Return Rate</Label>
-                <Value>5.88x</Value>
-              </Box>
-            </InfoLayout>
+            <Box background={elevations.dp06} p="32px">
+              <InfoLayout>
+                <Box style={{ textAlign: 'center' }}>
+                  <Label>Winning Chance</Label>
+                  <Value>{getWinningChance()}%</Value>
+                </Box>
+                <Box style={{ textAlign: 'center' }}>
+                  <Label>Winning Bet Pays</Label>
+                  <Value>0.000</Value>
+                  <Label>ANT</Label>
+                  <Label>(with tax and fee)</Label>
+                </Box>
+                <Box style={{ textAlign: 'center' }}>
+                  <Label>Winning Return Rate</Label>
+                  <Value>5.88x</Value>
+                </Box>
+              </InfoLayout>
+            </Box>
           </GradientPanel>
           <GradientPanel mt="32px">
-            <PickUpLayout>
-              <SideWrapper>
-                <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
-                  <div className="dot center" />
-                </Side>
-              </SideWrapper>
-              <SideWrapper>
-                <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
-                  <div className="dot dtop dleft" />
-                  <div className="dot dbottom dright" />
-                </Side>
-              </SideWrapper>
-              <SideWrapper>
-                <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
-                  <div className="dot dtop dleft" />
-                  <div className="dot center" />
-                  <div className="dot dbottom dright" />
-                </Side>
-              </SideWrapper>
-              <SideWrapper>
-                <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
-                  <div className="dot dtop dleft" />
-                  <div className="dot dtop dright" />
-                  <div className="dot dbottom dleft" />
-                  <div className="dot dbottom dright" />
-                </Side>
-              </SideWrapper>
-              <SideWrapper>
-                <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
-                  <div className="dot center" />
-                  <div className="dot dtop dleft" />
-                  <div className="dot dtop dright" />
-                  <div className="dot dbottom dleft" />
-                  <div className="dot dbottom dright" />
-                </Side>
-              </SideWrapper>
-              <SideWrapper>
-                <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
-                  <div className="dot dtop dleft" />
-                  <div className="dot dtop dright" />
-                  <div className="dot dbottom dleft" />
-                  <div className="dot dbottom dright" />
-                  <div className="dot center dleft" />
-                  <div className="dot center dright" />
-                </Side>
-              </SideWrapper>
-            </PickUpLayout>
-            <Box mt="24px" style={{ textAlign: 'center' }}>
-              {!account ? (
-                <Label>Connect wallet to bet</Label>
-              ) : (
-                <StyledButton
-                  onClick={onPresentBet}
-                  disabled={paused || !currentRound || (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
-                >
-                  Bet with Amount
-                </StyledButton>
-              )}
+            <Box background={elevations.dp06} p="32px">
+              <PickUpLayout>
+                <SideWrapper>
+                  <Side checked={sideToggles[0]} onClick={() => handleSideClick(0)}>
+                    <div className="dot center" />
+                  </Side>
+                </SideWrapper>
+                <SideWrapper>
+                  <Side checked={sideToggles[1]} onClick={() => handleSideClick(1)}>
+                    <div className="dot dtop dleft" />
+                    <div className="dot dbottom dright" />
+                  </Side>
+                </SideWrapper>
+                <SideWrapper>
+                  <Side checked={sideToggles[2]} onClick={() => handleSideClick(2)}>
+                    <div className="dot dtop dleft" />
+                    <div className="dot center" />
+                    <div className="dot dbottom dright" />
+                  </Side>
+                </SideWrapper>
+                <SideWrapper>
+                  <Side checked={sideToggles[3]} onClick={() => handleSideClick(3)}>
+                    <div className="dot dtop dleft" />
+                    <div className="dot dtop dright" />
+                    <div className="dot dbottom dleft" />
+                    <div className="dot dbottom dright" />
+                  </Side>
+                </SideWrapper>
+                <SideWrapper>
+                  <Side checked={sideToggles[4]} onClick={() => handleSideClick(4)}>
+                    <div className="dot center" />
+                    <div className="dot dtop dleft" />
+                    <div className="dot dtop dright" />
+                    <div className="dot dbottom dleft" />
+                    <div className="dot dbottom dright" />
+                  </Side>
+                </SideWrapper>
+                <SideWrapper>
+                  <Side checked={sideToggles[5]} onClick={() => handleSideClick(5)}>
+                    <div className="dot dtop dleft" />
+                    <div className="dot dtop dright" />
+                    <div className="dot dbottom dleft" />
+                    <div className="dot dbottom dright" />
+                    <div className="dot center dleft" />
+                    <div className="dot center dright" />
+                  </Side>
+                </SideWrapper>
+              </PickUpLayout>
+              <Box mt="24px" style={{ textAlign: 'center' }}>
+                {!account ? (
+                  <Label>Connect wallet to bet</Label>
+                ) : (
+                  <StyledButton
+                    onClick={onPresentBet}
+                    disabled={paused || !currentRound || (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
+                  >
+                    Bet with Amount
+                  </StyledButton>
+                )}
+              </Box>
             </Box>
           </GradientPanel>
           <Box mt="32px">

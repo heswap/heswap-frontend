@@ -10,7 +10,7 @@ const useTheme = () => {
   // theme.colors.backgroundAlt = ''
   theme.colors.backgroundDisabled = 'rgba(255, 255, 255, 0.12)'
   // theme.colors.binance = ''
-  // theme.colors.cardBorder = ''
+  theme.colors.cardBorder = grey[800]
   // theme.colors.contrast = ''
   theme.colors.disabled = 'rgba(255, 255, 255, 0.38)'
   theme.colors.dropdown = grey[500]
@@ -22,7 +22,7 @@ const useTheme = () => {
   theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${grey[700]}, ${grey[400]})`
   // theme.colors.gradients.gold = ''
   // theme.colors.gradients.inverseBubblegum = ''
-  theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${grey[900]}, ${grey[600]})`
+  theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${common.black}, #071d00)`
   theme.colors.gradients.slickDotLoading = `linear-gradient(180deg, ${green[400]}, ${green[600]})`
   // theme.colors.gradients.violet = ''
   // theme.colors.gradients.violetAlt = ''
@@ -39,11 +39,11 @@ const useTheme = () => {
   theme.colors.success = green[400]
   theme.colors.tertiary = grey[100]
   theme.colors.text = common.white
-  theme.colors.textDisabled = 'rgba(255, 255, 255, 0.5)'
-  theme.colors.textSubtle = 'rgba(255, 255, 255, 0.7)'
+  theme.colors.textDisabled = 'rgba(255, 255, 255, 0.6)'
+  theme.colors.textSubtle = 'rgba(255, 255, 255, 0.87)'
   theme.colors.warning = orange[400]
-  theme.menu.topBarColor = grey[900]
-  theme.menu.leftBarColor = grey[800]
+  theme.menu.topBarColor = '#121212'
+  theme.menu.leftBarColor = grey[900]
 
   // theme.colors.primary = green[400]
   // theme.colors.secondary = red[400]

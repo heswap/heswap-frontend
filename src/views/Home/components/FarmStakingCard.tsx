@@ -7,12 +7,13 @@ import { useTranslation } from 'contexts/Localization'
 import useFarmsWithBalance from 'hooks/useFarmsWithBalance'
 import { useMasterChef } from 'hooks/useContract'
 import UnlockButton from 'components/UnlockButton'
+import { elevations } from 'utils/palette'
 import CakeHarvestBalance from './CakeHarvestBalance'
 import CakeWalletBalance from './CakeWalletBalance'
 
 const StyledCard = styled(Card)`
   display: inline-block;
-  background: ${({ theme }) => theme.colors.gradients.cardHeader};
+  background-color: ${({ theme }) => theme.colors.background};
   min-height: 376px;
 `
 
@@ -73,37 +74,39 @@ const FarmStakingCard = () => {
 
   return (
     <StyledCard>
-      <CardBody>
-        <BackImage src={`${process.env.PUBLIC_URL}/images/luckychip-heap.png`} alt="" width={222} height={341} />
-        <Box position="relative">
-          <Heading scale="xl" mb="24px" color="backgroundAlt">
-            {t('Farms & Staking')}
-          </Heading>
-          <TokenImage src={`${process.env.PUBLIC_URL}/images/luckychip-token2.png`} alt="cake logo" width={64} height={64} />
-          <Block>
-            <Label>{t('CAKE to Harvest')}:</Label>
-            <CakeHarvestBalance />
-          </Block>
-          <Block>
-            <Label>{t('CAKE in Wallet')}:</Label>
-            <CakeWalletBalance />
-          </Block>
-          <Actions>
-            {account ? (
-              <Button
-                id="harvest-all"
-                disabled={balancesWithValue.length <= 0 || pendingTx}
-                onClick={harvestAllFarms}
-                width="100%"
-              >
-                {pendingTx ? t('Collecting CAKE') : t('Harvest all (%count%)', { count: balancesWithValue.length })}
-              </Button>
-            ) : (
-              <UnlockButton width="100%" />
-            )}
-          </Actions>
-        </Box>
-      </CardBody>
+      <Box background={elevations.dp04}>
+        <CardBody>
+          <BackImage src={`${process.env.PUBLIC_URL}/images/luckychip-heap.png`} alt="" width={222} height={341} />
+          <Box position="relative">
+            <Heading scale="xl" mb="24px" color="backgroundAlt">
+              {t('Farms & Staking')}
+            </Heading>
+            <TokenImage src={`${process.env.PUBLIC_URL}/images/luckychip-token2.png`} alt="cake logo" width={64} height={64} />
+            <Block>
+              <Label>{t('CAKE to Harvest')}:</Label>
+              <CakeHarvestBalance />
+            </Block>
+            <Block>
+              <Label>{t('CAKE in Wallet')}:</Label>
+              <CakeWalletBalance />
+            </Block>
+            <Actions>
+              {account ? (
+                <Button
+                  id="harvest-all"
+                  disabled={balancesWithValue.length <= 0 || pendingTx}
+                  onClick={harvestAllFarms}
+                  width="100%"
+                >
+                  {pendingTx ? t('Collecting CAKE') : t('Harvest all (%count%)', { count: balancesWithValue.length })}
+                </Button>
+              ) : (
+                <UnlockButton width="100%" />
+              )}
+            </Actions>
+          </Box>
+        </CardBody>
+      </Box>
     </StyledCard>
   )
 }

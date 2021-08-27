@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'CodecPro', sans-serif;
   }
   body {
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: #071d00;
 
     img {
       height: auto;

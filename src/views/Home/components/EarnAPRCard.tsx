@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { Heading, Card, CardBody, Flex, ArrowForwardIcon, Skeleton } from '@heswap/uikit'
+import { ArrowForwardIcon, Box, Card, CardBody, Flex, Heading, Skeleton } from '@heswap/uikit'
 import max from 'lodash/max'
 import { NavLink } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
@@ -9,9 +9,10 @@ import { useAppDispatch } from 'state'
 import { useFarms, usePriceCakeBusd } from 'state/hooks'
 import { fetchFarmsPublicDataAsync, nonArchivedFarms } from 'state/farms'
 import { getFarmApr } from 'utils/apr'
+import { elevations } from 'utils/palette'
 
 const StyledCard = styled(Card)`
-  background: ${({ theme }) => theme.colors.gradients.cardDiagonal};
+  background-color: ${({ theme }) => theme.colors.background};
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -75,24 +76,26 @@ const EarnAPRCard = () => {
   return (
     <StyledCard>
       <NavLink exact activeClassName="active" to="/farms" id="farm-apr-cta">
-        <CardBody>
-          <Heading color="backgroundAlt" scale="lg">
-            {earnUpTo}
-          </Heading>
-          <CardMidContent color="#7645d9">
-            {highestApr && !isFetchingFarmData ? (
-              `${highestApr}%`
-            ) : (
-              <Skeleton animation="pulse" variant="rect" height="44px" />
-            )}
-          </CardMidContent>
-          <Flex justifyContent="space-between">
+        <Box background={elevations.dp06}>
+          <CardBody>
             <Heading color="backgroundAlt" scale="lg">
-              {InFarms}
+              {earnUpTo}
             </Heading>
-            <ArrowForwardIcon mt={30} color="warning" />
-          </Flex>
-        </CardBody>
+            <CardMidContent color="#7645d9">
+              {highestApr && !isFetchingFarmData ? (
+                `${highestApr}%`
+              ) : (
+                <Skeleton animation="pulse" variant="rect" height="44px" />
+              )}
+            </CardMidContent>
+            <Flex justifyContent="space-between">
+              <Heading color="backgroundAlt" scale="lg">
+                {InFarms}
+              </Heading>
+              <ArrowForwardIcon mt={30} color="warning" />
+            </Flex>
+          </CardBody>
+        </Box>
       </NavLink>
     </StyledCard>
   )
