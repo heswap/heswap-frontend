@@ -38,9 +38,9 @@ const useTheme = () => {
   theme.colors.secondary = purple[400]
   theme.colors.success = green[400]
   theme.colors.tertiary = grey[100]
-  theme.colors.text = common.white
-  theme.colors.textDisabled = 'rgba(255, 255, 255, 0.6)'
-  theme.colors.textSubtle = 'rgba(255, 255, 255, 0.87)'
+  theme.colors.text = 'rgba(255, 255, 255, 87%)'
+  theme.colors.textSubtle = 'rgba(255, 255, 255, 60%)'
+  theme.colors.textDisabled = 'rgba(255, 255, 255, 38%)'
   theme.colors.warning = orange[400]
   theme.menu.topBarColor = '#121212'
   theme.menu.leftBarColor = grey[900]

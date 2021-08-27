@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Text, Button, Input, InputProps, Flex, Link } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { BigNumber } from 'bignumber.js'
+import useTheme from 'hooks/useTheme'
 
 interface ModalInputProps {
   max: string
@@ -40,6 +41,7 @@ const StyledInput = styled(Input)`
   width: 60px;
   margin: 0 8px;
   padding: 0 8px;
+  color: ${({ theme }) => theme.colors.secondary};
 
   ${({ theme }) => theme.mediaQueries.xs} {
     width: 80px;
@@ -68,6 +70,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
   inputTitle,
   decimals = 18,
 }) => {
+  const { theme } = useTheme()
   const { t } = useTranslation()
   const isBalanceZero = max === '0' || !max
 
@@ -86,8 +89,8 @@ const ModalInput: React.FC<ModalInputProps> = ({
     <div style={{ position: 'relative' }}>
       <StyledTokenInput isWarning={isBalanceZero}>
         <Flex justifyContent="space-between" pl="16px">
-          <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
+          <Text color={theme.colors.secondary} fontSize="14px">{inputTitle}</Text>
+          <Text color={theme.colors.secondary} fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
           <StyledInput
@@ -102,7 +105,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
           <Button scale="sm" onClick={onSelectMax} mr="8px">
             {t('Max')}
           </Button>
-          <Text fontSize="16px">{symbol}</Text>
+          <Text color={theme.colors.secondary} fontSize="16px">{symbol}</Text>
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (

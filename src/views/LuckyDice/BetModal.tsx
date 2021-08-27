@@ -4,6 +4,7 @@ import { Button, Modal } from '@heswap/uikit'
 import ModalActions from 'components/ModalActions'
 import ModalInput from 'components/ModalInput'
 import { getFullDisplayBalance } from 'utils/formatBalance'
+import { grey } from 'utils/palette'
 
 interface BetModalProps {
   title?: string
@@ -33,7 +34,11 @@ const BetModal: React.FC<BetModalProps> = ({ title = 'Bet Numbers', max, onConfi
   )
 
   return (
-    <Modal title={title} onDismiss={onDismiss}>
+    <Modal
+      background={`${grey[900]} !important`}
+      title={title}
+      onDismiss={onDismiss}
+    >
       <ModalInput value={amount} onChange={handleChange} max={fullBalance} symbol={tokenName} inputTitle="Bet" />
       <ModalActions>
         <Button variant="secondary" onClick={onDismiss} width="100%" disabled={pendingTx}>
