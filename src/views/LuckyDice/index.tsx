@@ -43,7 +43,7 @@ const LeftLogo = styled(Image).attrs(() => {
     height = 128
   }
   return {
-    src: `${process.env.PUBLIC_URL}/images/luckychip-token3.png`,
+    src: `${process.env.PUBLIC_URL}/images/luckychip-token2.png`,
     alt: '',
     width,
     height,
@@ -59,23 +59,23 @@ const RightLogo = styled(Image).attrs(() => {
   let width = 0
   let height = 0
   if (isXs) {
-    width = 32
-    height = 32
+    width = 30
+    height = 46
   } else if (isSm) {
-    width = 48
-    height = 48
+    width = 60
+    height = 91
   } else if (isMd) {
-    width = 64
-    height = 64
+    width = 89
+    height = 137
   } else if (isLg) {
-    width = 96
-    height = 96
+    width = 119
+    height = 182
   } else if (isXl) {
-    width = 128
-    height = 128
+    width = 148
+    height = 227
   }
   return {
-    src: `${process.env.PUBLIC_URL}/images/luckychip-token4.png`,
+    src: `${process.env.PUBLIC_URL}/images/luckychip-heap.png`,
     alt: '',
     width,
     height,
