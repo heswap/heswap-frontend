@@ -13,9 +13,16 @@ const Inner = styled(Container)`
 `
 
 const PageHeader: React.FC<{ background?: string }> = ({ background, children, ...props }) => (
-  <Outer background={background} {...props}>
+  <Box
+    background={background}
+    backgroundImage={`url(${process.env.PUBLIC_URL}/images/luckychip-banner.png)`}
+    backgroundPosition="center"
+    backgroundRepeat="no-repeat"
+    backgroundSize="cover"
+    {...props}
+  >
     <Inner>{children}</Inner>
-  </Outer>
+  </Box>
 )
 
 export default PageHeader

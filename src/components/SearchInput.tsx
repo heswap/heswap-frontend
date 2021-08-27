@@ -8,7 +8,7 @@ const StyledInput = styled(Input)`
   background-color: ${({ theme }) => theme.colors.dropdown};
   border-radius: 8px;
   border: ${({ theme }) => `1px solid ${theme.colors.inputBorder}`};
-  color: rgb(112, 141, 183);
+  color: ${({ theme }) => theme.colors.text};
   font-size: 12px;
   height: 40px;
   outline: none;

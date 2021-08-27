@@ -68,6 +68,10 @@ const Description = styled(Heading).attrs({
   line-height: 1.4;
 `
 
+const HeaderStuff = styled.div`
+  height: 136px;
+`
+
 const LuckyFarms: React.FC = () => {
   const location = useLocation()
   let referrer = AddressZero
@@ -194,22 +198,17 @@ const LuckyFarms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
+        {/* <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Title mb="24px">{t('Lucky Farms')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
           </Flex>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
-            alt=""
-            width={360}
-            height={180}
-          />
           <Box position="absolute" top={32} right={32}>
             <HelpButton />
           </Box>
-        </Flex>
+        </Flex> */}
+        <HeaderStuff />
       </PageHeader>
       <Page>
         <PoolControls justifyContent="space-between">

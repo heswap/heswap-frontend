@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 import { Route, useRouteMatch, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Box, Flex, Heading, Image, RowType, Text, Toggle } from '@heswap/uikit'
+import { Heading, Image, RowType, Text, Toggle } from '@heswap/uikit'
 import styled from 'styled-components'
 import FlexLayout from 'components/layout/Flex'
 import Page from 'components/layout/Page'
@@ -105,6 +105,10 @@ const Description = styled(Heading).attrs({
 })`
   font-weight: 300;
   line-height: 1.4;
+`
+
+const HeaderStuff = styled.div`
+  height: 136px;
 `
 
 const Farms: React.FC = () => {
@@ -363,18 +367,9 @@ const Farms: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Flex>
-          <Box style={{ flex: 1 }}>
-            <Title mb="24px">{t('Farms')}</Title>
-            <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description>
-          </Box>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
-            alt=""
-            width={360}
-            height={180}
-          />
-        </Flex>
+        {/* <Title mb="24px">{t('Farms')}</Title>
+        <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description> */}
+        <HeaderStuff />
       </PageHeader>
       <Page>
         <ControlContainer>

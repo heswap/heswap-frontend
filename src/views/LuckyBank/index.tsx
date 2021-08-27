@@ -32,8 +32,7 @@ const CardLayout = styled(FlexLayout)`
 `
 
 const Clock = styled.div`
-  position: absolute;
-  top: -16px;
+  padding-top: 32px;
   width: 100%;
   text-align: center;
 `
@@ -95,6 +94,10 @@ const Description = styled(Heading).attrs({
 })`
   font-weight: 300;
   line-height: 1.4;
+`
+
+const HeaderStuff = styled.div`
+  height: 136px;
 `
 
 const LuckyBank: React.FC = () => {
@@ -291,35 +294,30 @@ const LuckyBank: React.FC = () => {
   return (
     <>
       <PageHeader>
-        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
+        {/* <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']} position="relative">
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Title mb="24px">{t('Lucky Bank')}</Title>
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
-            {paused && (
-              <Clock>
-                <Label>Now Banker Time</Label>
-                <TimeLabel>{bankerTimeLabel}</TimeLabel>
-              </Clock>
-            )}
-            {!paused && (
-              <Clock>
-                <Label>Now Player Time</Label>
-                <TimeLabel>{playerTimeLabel}</TimeLabel>
-              </Clock>
-            )}
           </Flex>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
-            alt=""
-            width={360}
-            height={180}
-          />
           <Box position="absolute" top={32} right={32}>
             <HelpButton />
           </Box>
-        </Flex>
+        </Flex> */}
+        <HeaderStuff />
       </PageHeader>
+      {paused && (
+        <Clock>
+          <Label>Now Banker Time</Label>
+          <TimeLabel>{bankerTimeLabel}</TimeLabel>
+        </Clock>
+      )}
+      {!paused && (
+        <Clock>
+          <Label>Now Player Time</Label>
+          <TimeLabel>{playerTimeLabel}</TimeLabel>
+        </Clock>
+      )}
       {paused && (
         <Page>
           <PoolControls justifyContent="space-between">
