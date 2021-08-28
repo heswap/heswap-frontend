@@ -18,11 +18,6 @@ import { Box, Flex, Text, useMatchBreakpoints } from '@heswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { StatsRowProps } from './types'
 
-const StyledFlex = styled(Flex)`
-  padding-top: 8px;
-  padding-bottom: 8px;
-`
-
 const StatsRow: React.FC<StatsRowProps> = ({ color, label, scores }) => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const { theme } = useTheme()
@@ -62,20 +57,22 @@ const StatsRow: React.FC<StatsRowProps> = ({ color, label, scores }) => {
   }
   
   return (
-    <StyledFlex>
-      <div style={{ textAlign: 'center', width: '100px' }}>
-        <Text fontSize="16px" bold style={{ color }}>{label}</Text>
-      </div>
-      <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
-        <Flex justifyContent="space-evenly">
-          {scores.map((score, index) => (
-            <Box key={index.toString()} style={{ flex: 1 }}>
-              <Text fontSize="24px" bold textAlign="center" style={{ color }}>{score}</Text>
-            </Box>
-          ))}
-        </Flex>
-      </Box>
-    </StyledFlex>
+    <Box p="8px 0">
+      <Flex>
+        <div style={{ textAlign: 'center', width: '100px' }}>
+          <Text fontSize="16px" bold style={{ color }}>{label}</Text>
+        </div>
+        <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
+          <Flex justifyContent="space-evenly">
+            {scores.map((score, index) => (
+              <Box key={index.toString()} style={{ flex: 1 }}>
+                <Text fontSize="24px" bold textAlign="center" style={{ color }}>{score}</Text>
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+      </Flex>
+    </Box>
   )
 }
 

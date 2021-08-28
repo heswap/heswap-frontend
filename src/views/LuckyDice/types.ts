@@ -1,6 +1,10 @@
 export interface HistoryRecord {
-  bets: Array<number>
+  betNums: Array<number>
+  betAmount: string
   outcome: number
+  time: number
+  roll: number
+  profit: number
 }
 
 export interface HistoryRowProps extends HistoryRecord {
@@ -8,7 +12,7 @@ export interface HistoryRowProps extends HistoryRecord {
 }
 
 export interface StatsRowProps {
-  color: string;
-  label: string;
+  color: string
+  label: string
   scores: Array<number>
 }

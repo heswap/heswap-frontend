@@ -31,11 +31,6 @@ const Table = styled.div`
   }
 `
 
-const StyledFlex = styled(Flex)`
-  padding-top: 8px;
-  padding-bottom: 8px;
-`
-
 const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
   const { theme } = useTheme()
@@ -77,8 +72,8 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
   const wins = useMemo(() => {
     const result = [0, 0, 0, 0, 0, 0]
     for (let i = 0; i < records.length; i++) {
-      const { bets, outcome } = records[i]
-      if (bets.includes(outcome)) {
+      const { betNums, outcome } = records[i]
+      if (betNums.includes(outcome)) {
         result[outcome - 1]++
       }
     }
@@ -88,8 +83,8 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
   const losses = useMemo(() => {
     const result = [0, 0, 0, 0, 0, 0]
     for (let i = 0; i < records.length; i++) {
-      const { bets, outcome } = records[i]
-      if (!bets.includes(outcome)) {
+      const { betNums, outcome } = records[i]
+      if (!betNums.includes(outcome)) {
         result[outcome - 1]++
       }
     }
@@ -98,18 +93,20 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
 
   return (
     <Table>
-      <StyledFlex>
-        <div style={{ textAlign: 'center', width: '100px' }} />
-        <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
-          <Flex justifyContent="space-around">
-            {[1, 2, 3, 4, 5, 6].map((side, index) => (
-              <div key={index.toString()}>
-                {renderSide(side, true, theme.colors.primary)}
-              </div>
-            ))}
-          </Flex>
-        </Box>
-      </StyledFlex>
+      <Box p="8px 0">
+        <Flex>
+          <div style={{ textAlign: 'center', width: '100px' }} />
+          <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
+            <Flex justifyContent="space-around">
+              {[1, 2, 3, 4, 5, 6].map((side, index) => (
+                <div key={index.toString()}>
+                  {renderSide(side, true, theme.colors.primary)}
+                </div>
+              ))}
+            </Flex>
+          </Box>
+        </Flex>
+      </Box>
       <StatsRow color={theme.colors.success} label="Wins" scores={wins} />
       <StatsRow color={theme.colors.failure} label="Losses" scores={losses} />
     </Table>

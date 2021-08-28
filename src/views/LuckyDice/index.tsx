@@ -22,6 +22,7 @@ import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
 import BetModal from './BetModal'
+import { HistoryRowProps } from './types'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -187,18 +188,23 @@ const StyledButton = styled(Button)`
 `
 
 function getFakeRecords(len) {
-  const items = []
+  const items: Array<HistoryRowProps> = []
   for (let i = 0; i < len; i++) {
-    const bets = []
+    const betNums = []
     for (let j = 1; j <= 6; j++) {
       if (Math.random() < 0.5) {
-        bets.push(j)
+        betNums.push(j)
       }
     }
+    const now = new Date()
     items.push({
       id: i + 1,
-      bets,
-      outcome: Math.ceil(Math.random() * 5) + 1
+      betNums,
+      betAmount: '0.00000005',
+      outcome: Math.ceil(Math.random() * 5) + 1,
+      time: Math.floor(now.getTime() / 1000),
+      roll: 7485,
+      profit: i % 2 === 0 ? 45263215 : -45263215
     })
   }
   return items
@@ -224,7 +230,7 @@ const LuckyDice: React.FC = () => {
   const { balance } = useTokenBalance(getWbnbAddress())
   const [roundNum, setRoundNum] = useState<number>(null)
   const [betted, setBetted] = useState<boolean>(false)
-  const [rolledNum, setRolledNum] = useState<number>(null)
+  const [overcome, setOvercome] = useState<number>(null)
 
   useEffect(() => {
     // onDidMount -> mode == public
@@ -276,11 +282,11 @@ const LuckyDice: React.FC = () => {
     setSideToggles(toggles)
   }
 
-  const getWinningChance = () => {
+  const winningChance = useMemo(() => {
     const toggled = sideToggles.filter(x => x)
     const result = toggled.length * 100 / 6
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
-  }
+  }, [sideToggles])
 
   const coin = new URLSearchParams(location.search).get('coin')
 
@@ -349,12 +355,12 @@ const LuckyDice: React.FC = () => {
     }
     const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3 // in seconds
     const v = Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
-    setRoundNum(v)
+    setRoundNum(25 - v + 1)
   }, [playerTimeLeft, intervalBlocks])
 
   useEffect(() => {
     setBetted(false)
-    setRolledNum(null)
+    setOvercome(null)
   }, [roundNum])
 
   useEffect(() => {
@@ -377,12 +383,12 @@ const LuckyDice: React.FC = () => {
   }, [playerTimeLeft, intervalBlocks])
 
   const onRollStart = () => {
-    setRolledNum(null)
+    setOvercome(null)
   }
 
   const onRollEnd = (sideNum) => {
     console.log(sideNum)
-    setRolledNum(sideNum)
+    setOvercome(sideNum)
   }
 
   return (
@@ -394,7 +400,7 @@ const LuckyDice: React.FC = () => {
           ) : (
             <RollingDice
               style={{ zIndex: 1 }}
-              disabled={!betted || !!rolledNum}
+              disabled={!betted || !!overcome}
               onRollStart={onRollStart}
               onRollEnd={onRollEnd}
             />
@@ -430,7 +436,7 @@ const LuckyDice: React.FC = () => {
               <InfoLayout>
                 <Box style={{ textAlign: 'center' }}>
                   <Label>Winning Chance</Label>
-                  <Value>{getWinningChance()}%</Value>
+                  <Value>{winningChance}%</Value>
                 </Box>
                 <Box style={{ textAlign: 'center' }}>
                   <Label>Winning Bet Pays</Label>
