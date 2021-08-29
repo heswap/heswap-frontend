@@ -101,7 +101,7 @@ const Referrals: React.FC = () => {
 
   return (
     <>
-      <div style={{ background: theme.colors.gradients.pageHeader }}>
+      <div style={{ background: theme.pageHeader.background }}>
         <Hero>
           <Banner>
             <Title mb="24px">{t('Invite Your Friends. Earn Cryptocurrency Together.')}</Title>

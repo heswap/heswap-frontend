@@ -17,7 +17,7 @@ export const useGetStats = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://openapi.debank.com/v1/protocol?id=bsc_heswap')
+        const response = await fetch('https://openapi.debank.com/v1/protocol?id=bsc_luckychip')
         const responseData: DeBankTvlResponse = await response.json()
 
         setData(responseData)

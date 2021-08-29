@@ -1,14 +1,14 @@
 import React from 'react'
-import { AppMenu } from '@heswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { languageList } from 'config/localization/languages'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
 import { usePriceCakeBusd } from 'state/hooks'
-import config from './config'
+import Menu from './components/Menu'
+import { links } from './config'
 
-const Menu = (props) => {
+const AppMenu = (props) => {
   const { account } = useWeb3React()
   const { login, logout } = useAuth()
   const { isDark, toggleTheme } = useTheme()
@@ -16,7 +16,7 @@ const Menu = (props) => {
   const { currentLanguage, setLanguage, t } = useTranslation()
 
   return (
-    <AppMenu
+    <Menu
       logoTitle="LuckyChip"
       account={account}
       login={login}
@@ -27,10 +27,10 @@ const Menu = (props) => {
       langs={languageList}
       setLang={setLanguage}
       cakePriceUsd={cakePriceUsd.toNumber()}
-      links={config(t)}
+      links={links(t)}
       {...props}
     />
   )
 }
 
-export default Menu
+export default AppMenu

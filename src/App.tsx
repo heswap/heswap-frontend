@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
 import { usePollCoreFarmData, usePollBlockNumber, usePollDiceData } from 'state/hooks'
 import GlobalStyle from './style/Global'
-import Menu from './components/Menu'
+import AppMenu from './components/AppMenu'
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
 import ToastListener from './components/ToastListener'
 import PageLoader from './components/PageLoader'
@@ -38,7 +38,7 @@ const App: React.FC = () => {
     <Router history={history}>
       <ResetCSS />
       <GlobalStyle />
-      <Menu>
+      <AppMenu>
         <SuspenseWithChunkError fallback={<PageLoader />}>
           <Switch>
             <Route path="/" exact>
@@ -76,7 +76,7 @@ const App: React.FC = () => {
             <Route component={NotFound} />
           </Switch>
         </SuspenseWithChunkError>
-      </Menu>
+      </AppMenu>
       <EasterEgg iterations={2} />
       <ToastListener />
     </Router>

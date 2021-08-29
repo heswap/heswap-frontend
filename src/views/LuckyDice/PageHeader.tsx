@@ -4,7 +4,7 @@ import { Box } from '@heswap/uikit'
 import Container from '../../components/layout/Container'
 
 const Outer = styled(Box)<{ background?: string }>`
-  background: ${({ theme, background }) => background || theme.colors.gradients.pageHeader};
+  background: ${({ theme, background }) => background || theme.pageHeader.background};
 `
 
 const Inner = styled(Container)`

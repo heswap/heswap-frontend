@@ -108,7 +108,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div style={{ background: theme.colors.gradients.pageHeader }}>
+      <div style={{ background: theme.pageHeader.background }}>
         <Hero>
           <Banner>
             <Title mb="8px">{t('LuckyChip')}</Title>

@@ -1,15 +1,18 @@
-import { MenuEntry } from '@heswap/uikit'
+import React from 'react'
+import { IoIosCash, IoIosPeople, IoIosSwap } from 'react-icons/io'
+import { IoBicycle, IoColorWand, IoDice, IoEllipsisHorizontal, IoHome } from 'react-icons/io5'
 import { ContextApi } from 'contexts/Localization/types'
+import { MenuEntry } from './types'
 
-const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
+export const links: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   {
     label: t('Home'),
-    icon: 'HomeIcon',
+    icon: <IoHome fontSize="24px" />,
     href: '/',
   },
   {
     label: t('Swap'),
-    icon: 'TradeIcon',
+    icon: <IoIosSwap fontSize="24px" />,
     items: [
       {
         label: t('Exchange'),
@@ -23,12 +26,12 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   },
   {
     label: t('Farms'),
-    icon: 'FarmIcon',
+    icon: <IoBicycle fontSize="24px" />,
     href: '/farms',
   },
   {
     label: t('Lucky Dice'),
-    icon: 'DiceIcon',
+    icon: <IoDice fontSize="24px" />,
     items: [
       {
         label: 'LKCP',
@@ -54,37 +57,40 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   },
   {
     label: t('Lucky Bank'),
-    icon: 'BankIcon',
+    icon: <IoIosCash fontSize="24px" />,
     href: '/lucky_bank',
   },
   {
     label: t('Lucky Farms'),
-    icon: 'PoolIcon',
+    icon: <IoColorWand fontSize="24px" />,
     href: '/lucky_farms',
   },
   {
     label: t('Referrals'),
-    icon: 'GroupsIcon',
+    icon: <IoIosPeople fontSize="24px" />,
     href: '/referrals',
   },
   {
     label: t('More'),
-    icon: 'MoreIcon',
+    icon: <IoEllipsisHorizontal fontSize="24px" />,
     items: [
       {
         label: t('Docs'),
-        href: 'https://heswap.finance/docs',
+        href: 'https://luckychip-finance/docs',
       },
       {
         label: t('Github'),
-        href: 'https://github.com/heswap',
+        href: 'https://github.com/luckychip',
       },
       {
         label: t('Audits'),
-        href: 'https://heswap.finance/audit',
+        href: 'https://luckychip-finance/audit',
       },
     ],
   },
 ]
 
-export default config
+export const MENU_HEIGHT = 64;
+export const MENU_ENTRY_HEIGHT = 48;
+export const SIDEBAR_WIDTH_FULL = 240;
+export const SIDEBAR_WIDTH_REDUCED = 56;

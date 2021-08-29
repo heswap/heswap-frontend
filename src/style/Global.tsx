@@ -1,10 +1,17 @@
 import { createGlobalStyle } from 'styled-components'
 // eslint-disable-next-line import/no-unresolved
-import { HeswapTheme } from '@heswap/uikit/dist/theme'
+import { LuckyChipTheme } from '@heswap/uikit/dist/theme'
+import type { MenuTheme } from '../components/AppMenu/types'
+import type { PageHeaderTheme } from '../components/PageHeader/types'
+import type { SlickTheme } from '../components/Slick/types'
 
 declare module 'styled-components' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
-  export interface DefaultTheme extends HeswapTheme {}
+  export interface DefaultTheme extends LuckyChipTheme {
+    menu: MenuTheme
+    pageHeader: PageHeaderTheme
+    slick: SlickTheme
+  }
 }
 
 const GlobalStyle = createGlobalStyle`

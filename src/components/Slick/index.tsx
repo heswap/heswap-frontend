@@ -40,7 +40,7 @@ const StyledSlick = styled(Slick)`
     .loading {
       height: 8px;
       animation: loading ${({ autoplaySpped }) => autoplaySpped / 1000}s ease-in;
-      background-image: ${({ theme }) => theme.slick.dotLoading};
+      background-image: ${({ theme }) => theme.colors.gradients.slickDotLoading};
       display: inline-block;
       position: absolute;
       top: 0;

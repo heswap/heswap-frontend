@@ -2,6 +2,9 @@ import { useContext } from 'react'
 import { ThemeContext as StyledThemeContext } from 'styled-components'
 import { ThemeContext } from 'contexts/ThemeContext'
 import { common, red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, grey, blueGrey } from 'utils/palette'
+import { light as lightMenu, dark as darkMenu } from '../components/AppMenu/theme'
+import { light as lightPageHeader, dark as darkPageHeader } from '../components/PageHeader/theme'
+import { light as lightSlick, dark as darkSlick } from '../components/Slick/theme'
 
 const useTheme = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext)
@@ -18,12 +21,9 @@ const useTheme = () => {
   // theme.colors.failure = ''
   // theme.colors.gradients.blue = ''
   // theme.colors.gradients.bubblegum = ''
-  theme.colors.gradients.cardDiagonal = `linear-gradient(235deg, ${grey[600]} 4.05%, ${grey[800]} 103.52%)`
   theme.colors.gradients.cardHeader = `linear-gradient(180deg, ${grey[700]}, ${grey[400]})`
   // theme.colors.gradients.gold = ''
   // theme.colors.gradients.inverseBubblegum = ''
-  theme.colors.gradients.pageHeader = `linear-gradient(180deg, ${common.black}, #071d00)`
-  theme.colors.gradients.slickDotLoading = `linear-gradient(180deg, ${green[400]}, ${green[600]})`
   // theme.colors.gradients.violet = ''
   // theme.colors.gradients.violetAlt = ''
   theme.colors.input = grey[400]
@@ -42,8 +42,17 @@ const useTheme = () => {
   theme.colors.textSubtle = 'rgba(255, 255, 255, 60%)'
   theme.colors.textDisabled = 'rgba(255, 255, 255, 38%)'
   theme.colors.warning = orange[400]
-  theme.menu.topBarColor = '#121212'
-  theme.menu.leftBarColor = grey[900]
+
+  theme.menu = isDark ? darkMenu : lightMenu
+  theme.menu.topBar = '#121212'
+  theme.menu.leftBarBody = grey[900]
+  theme.menu.leftBarFooter = grey[800]
+
+  theme.pageHeader = isDark ? darkPageHeader : lightPageHeader
+  theme.pageHeader.background = `linear-gradient(180deg, ${common.black}, #071d00)`
+
+  theme.slick = isDark ? darkSlick : lightSlick
+  theme.slick.dotLoading = `linear-gradient(180deg, ${green[400]}, ${green[600]})`
 
   // theme.colors.primary = green[400]
   // theme.colors.secondary = red[400]

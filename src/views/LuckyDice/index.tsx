@@ -393,7 +393,7 @@ const LuckyDice: React.FC = () => {
 
   return (
     <>
-      <PageHeader background={theme.colors.gradients.pageHeader}>
+      <PageHeader background={theme.pageHeader.background}>
         <Flex position="relative">
           {paused ? (
             <div style={{ height: 200 }} />
