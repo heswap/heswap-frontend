@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Thin.otf");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-ThinItalic.otf");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-ExtraLight.otf");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-ExtraLightItalic.otf");
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Light.otf");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-LightItalic.otf");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-News.otf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-NewsItalic.otf");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Regular.otf");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Italic.otf");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Bold.otf");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-BoldItalic.otf");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-ExtraBold.otf");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-ExtraBoldItalic.otf");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Heavy.otf");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-HeavyItalic.otf");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-Ultra.otf");
+  font-weight: 900;
+}
+@font-face {
+  font-family: "CodecPro";
+  src: url("assets/fonts/CodecPro-UltraItalic.otf");
+  font-weight: 900;
+  font-style: italic;
+}
