@@ -52,7 +52,7 @@ export interface MenuEntry {
 
 export interface PanelProps {
   isDark: boolean
-  toggleTheme: (isDark: boolean) => void
+  toggleTheme: () => void
   cakePriceUsd?: number
   currentLang: string
   langs: Language[]

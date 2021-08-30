@@ -34,8 +34,8 @@ export const links: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     icon: <IoDice fontSize="24px" />,
     items: [
       {
-        label: 'LKCP',
-        href: '/lucky_dice?coin=LKCP',
+        label: 'LC',
+        href: '/lucky_dice?coin=LC',
       },
       {
         label: 'BNB',

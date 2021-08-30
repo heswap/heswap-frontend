@@ -15,7 +15,7 @@ interface ToggleViewProps {
 
 const Container = styled.div`
   border-radius: 8px;
-  background-color: rgb(16, 38, 72);
+  background-color: ${({ theme }) => theme.colors.dropdown};
 `
 
 const CardButton = styled(IconButton)<{ toggled: boolean }>`
