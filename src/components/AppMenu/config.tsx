@@ -38,8 +38,8 @@ export const links: (t: ContextApi['t']) => MenuEntry[] = (t) => [
         href: '/lucky_dice?coin=LC',
       },
       {
-        label: 'BNB',
-        href: '/lucky_dice?coin=BNB',
+        label: 'WBNB',
+        href: '/lucky_dice?coin=WBNB',
       },
       {
         label: 'BUSD',
