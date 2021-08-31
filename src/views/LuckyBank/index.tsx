@@ -306,7 +306,7 @@ const LuckyBank: React.FC = () => {
         </Flex> */}
         <HeaderStuff />
       </PageHeader>
-      {paused && (
+      {/* {paused && (
         <Clock>
           <Label>Now Banker Time</Label>
           <TimeLabel>{bankerTimeLabel}</TimeLabel>
@@ -318,7 +318,7 @@ const LuckyBank: React.FC = () => {
           <TimeLabel>{playerTimeLabel}</TimeLabel>
         </Clock>
       )}
-      {paused && (
+      {paused && ( */}
         <Page>
           <PoolControls justifyContent="space-between">
             <PoolTabButtons
@@ -383,7 +383,7 @@ const LuckyBank: React.FC = () => {
             height={184.5}
           />
         </Page>
-      )}
+      {/* )} */}
     </>
   )
 }
