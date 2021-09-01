@@ -120,7 +120,7 @@ const LuckyBank: React.FC = () => {
   const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, { localStorageKey: 'pancake_farm_view' })
   const [searchQuery, setSearchQuery] = useState('')
   const [sortOption, setSortOption] = useState('hot')
-  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, currentRound, casted, paused } = useDice()
+  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, currentRound, paused } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState(null)
   const bankerTimerRef = useRef(null)

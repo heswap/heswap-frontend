@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { FaBitcoin } from 'react-icons/fa'
 import moment from 'moment'
-import { BaseLayout, Box, Flex, Grid, Text } from '@heswap/uikit'
+import { Box, Grid, Text } from '@heswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { HistoryRowProps } from './types'
 

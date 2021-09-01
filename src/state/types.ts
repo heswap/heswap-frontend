@@ -136,6 +136,6 @@ export interface DiceState {
   currentEpoch?: string
   intervalBlocks?: string
   currentRound?: DiceRound
-  casted?: boolean
   paused?: boolean
+  rounds?: Array<DiceRound>
 }

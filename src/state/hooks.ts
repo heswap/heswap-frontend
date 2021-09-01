@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
@@ -10,6 +11,9 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
 import { filterFarmsByQuoteToken } from 'utils/farmsPriceHelpers'
 import { getDiceContract } from 'utils/contractHelpers'
+import { getDiceAddress } from 'utils/addressHelpers'
+import multicall from 'utils/multicall'
+import Dice from 'config/abi/dice/Dice.json'
 import { fetchFarmsPublicDataAsync, fetchPoolsPublicDataAsync, fetchPoolsUserDataAsync, setBlock } from './actions'
 import { State, Farm, Pool, FarmsState, DiceRoundResult, DiceRound } from './types'
 import { transformPool } from './pools/helpers'
@@ -186,6 +190,31 @@ export const useDice = () => {
 
 const POLL_TIME_IN_SECONDS = 6
 
+function convertRoundResult(roundResult: DiceRoundResult): DiceRound {
+  const round: DiceRound = {
+    startBlock: roundResult.startBlock.toString(),
+    lockBlock: roundResult.lockBlock.toString(),
+    secretSentBlock: roundResult.secretSentBlock.toString(),
+    bankHash: roundResult.bankHash,
+    bankSecret: roundResult.bankSecret.toString(),
+    totalAmount: roundResult.totalAmount.toString(),
+    maxBetAmount: roundResult.maxBetAmount.toString(),
+    lcBackAmount: roundResult.lcBackAmount.toString(),
+    bonusAmount: roundResult.bonusAmount.toString(),
+    swapLcAmount: roundResult.swapLcAmount.toString(),
+    betUsers: roundResult.betUsers.toString(),
+    finalNumber: roundResult.finalNumber,
+    status: roundResult.status
+  }
+  if (roundResult.betAmounts) {
+    round.betAmounts = []
+    for (let i = 0; i < roundResult.betAmounts.length; i++) {
+      round.betAmounts.push(roundResult.betAmounts[i].toString())
+    }
+  }
+  return round
+}
+
 export const usePollDiceData = () => {
   const timer = useRef<NodeJS.Timeout>(null)
   const dispatch = useAppDispatch()
@@ -196,46 +225,79 @@ export const usePollDiceData = () => {
     }
     const diceContract = getDiceContract()
     timer.current = setInterval(async () => {
-      const paused: boolean = await diceContract.paused()
-      const _bankerTimeBlocks: BigNumber = await diceContract.bankerTimeBlocks()
-      const _playerTimeBlocks: BigNumber = await diceContract.playerTimeBlocks()
-      const _bankerEndBlock: BigNumber = await diceContract.bankerEndBlock()
-      const _playerEndBlock: BigNumber = await diceContract.playerEndBlock()
-      const _currentEpoch: BigNumber = await diceContract.currentEpoch()
-      const _intervalBlocks: BigNumber = await diceContract.intervalBlocks()
-      const currentRoundResult: DiceRoundResult = await diceContract.rounds(_currentEpoch)
-      const currentRound: DiceRound = {
-        startBlock: currentRoundResult.startBlock.toString(),
-        lockBlock: currentRoundResult.lockBlock.toString(),
-        secretSentBlock: currentRoundResult.secretSentBlock.toString(),
-        bankHash: currentRoundResult.bankHash,
-        bankSecret: currentRoundResult.bankSecret.toString(),
-        totalAmount: currentRoundResult.totalAmount.toString(),
-        maxBetAmount: currentRoundResult.maxBetAmount.toString(),
-        lcBackAmount: currentRoundResult.lcBackAmount.toString(),
-        bonusAmount: currentRoundResult.bonusAmount.toString(),
-        swapLcAmount: currentRoundResult.swapLcAmount.toString(),
-        betUsers: currentRoundResult.betUsers.toString(),
-        finalNumber: currentRoundResult.finalNumber,
-        status: currentRoundResult.status
-      }
-      if (currentRoundResult.betAmounts) {
-        currentRound.betAmounts = []
-        for (let i = 0; i < currentRoundResult.betAmounts.length; i++) {
-          currentRound.betAmounts.push(currentRoundResult.betAmounts[i].toString())
+      const diceAddr = getDiceAddress()
+      const calls = [{
+        address: diceAddr,
+        name: 'paused'
+      },{
+        address: diceAddr,
+        name: 'bankerTimeBlocks'
+      },{
+        address: diceAddr,
+        name: 'playerTimeBlocks'
+      },{
+        address: diceAddr,
+        name: 'bankerEndBlock'
+      },{
+        address: diceAddr,
+        name: 'playerEndBlock'
+      },{
+        address: diceAddr,
+        name: 'currentEpoch'
+      },{
+        address: diceAddr,
+        name: 'intervalBlocks'
+      }]
+      const [
+        _paused,
+        _bankerTimeBlocks,
+        _playerTimeBlocks,
+        _bankerEndBlock,
+        _playerEndBlock,
+        _currentEpoch,
+        _intervalBlocks
+      ] = await multicall(Dice.abi, calls)
+      const paused: boolean = _paused[0] // hack due to multicall
+      const bankerTimeBlocks: ethers.BigNumber = ethers.BigNumber.from(_bankerTimeBlocks.toString())
+      const playerTimeBlocks: ethers.BigNumber = ethers.BigNumber.from(_playerTimeBlocks.toString())
+      const bankerEndBlock: ethers.BigNumber = ethers.BigNumber.from(_bankerEndBlock.toString())
+      const playerEndBlock: ethers.BigNumber = ethers.BigNumber.from(_playerEndBlock.toString())
+      const currentEpoch: ethers.BigNumber = ethers.BigNumber.from(_currentEpoch.toString())
+      const intervalBlocks: ethers.BigNumber = ethers.BigNumber.from(_intervalBlocks.toString())
+      let currentRound: DiceRound = null
+      let rounds: Array<DiceRound> = []
+      if (currentEpoch.gt(0)) {
+        let end: ethers.BigNumber = currentEpoch.sub(20) // fetch 20 records, not 100 records
+        if (end.lt(1)) {
+          end = ethers.BigNumber.from(1)
         }
+        const roundCalls = []
+        for (let i: ethers.BigNumber = currentEpoch; i.gte(end); i = i.sub(1)) {
+          roundCalls.push({
+            address: diceAddr,
+            name: 'rounds',
+            params: [i.toString()]
+          })
+        }
+        const roundResults = await multicall(Dice.abi, roundCalls)
+        currentRound = convertRoundResult(roundResults[0])
+        for (let j = 1; j < roundResults.length; j++) {
+          rounds.push(convertRoundResult(roundResults[j]))
+        }
+        rounds = roundResults.map(roundResult => convertRoundResult(roundResult))
       }
       dispatch(updateState({
-        bankerTimeBlocks: _bankerTimeBlocks.toString(),
-        playerTimeBlocks: _playerTimeBlocks.toString(),
+        paused,
+        bankerTimeBlocks: bankerTimeBlocks.toString(),
+        playerTimeBlocks: playerTimeBlocks.toString(),
         currentGame: {
-          bankerEndBlock: _bankerEndBlock.toString(),
-          playerEndBlock: _playerEndBlock.toString()
+          bankerEndBlock: bankerEndBlock.toString(),
+          playerEndBlock: playerEndBlock.toString()
         },
-        currentEpoch: _currentEpoch.toString(),
-        intervalBlocks: _intervalBlocks.toString(),
+        currentEpoch: currentEpoch.toString(),
+        intervalBlocks: intervalBlocks.toString(),
         currentRound,
-        paused
+        rounds
       }))
     }, POLL_TIME_IN_SECONDS * 1000)
 

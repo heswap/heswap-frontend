@@ -221,7 +221,7 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound, casted, paused } = useDice()
+  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
@@ -230,6 +230,7 @@ const LuckyDice: React.FC = () => {
   const { balance } = useTokenBalance(getWbnbAddress())
   const [roundNum, setRoundNum] = useState<number>(null)
   const [betted, setBetted] = useState<boolean>(false)
+  const autoRolling = useRef(false)
   const [overcome, setOvercome] = useState<number>(null)
 
   useEffect(() => {
@@ -260,6 +261,7 @@ const LuckyDice: React.FC = () => {
       const receipt = await tx.wait()
       console.log(`betNumber,${receipt.transactionHash}`)
       setBetted(true)
+      autoRolling.current = true
     } catch (e) {
       console.log(`betNumber failed`, e)
     }
@@ -275,6 +277,12 @@ const LuckyDice: React.FC = () => {
       tokenName="WBNB"
     />,
   )
+
+  const onClaimWinnings = async () => {
+    console.log('claim winnings started')
+    await diceContract.claim(currentEpoch)
+    console.log('claim winnings ended')
+  }
 
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
@@ -315,7 +323,8 @@ const LuckyDice: React.FC = () => {
         clearInterval(bankerTimerRef.current)
       }
     }
-  }, [currentBlock, currentGame, paused])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentBlock, currentGame])
 
   useEffect(() => {
     if (playerTimerRef) {
@@ -334,7 +343,8 @@ const LuckyDice: React.FC = () => {
         clearInterval(playerTimerRef.current)
       }
     }
-  }, [currentBlock, currentGame, paused])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentBlock, currentGame])
 
   const bankerTimeLabel = useMemo(() => {
     if (!bankerTimeLeft) {
@@ -354,6 +364,9 @@ const LuckyDice: React.FC = () => {
       return
     }
     const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3 // in seconds
+    if (playerTimeLeft % roundTime <= 10 && autoRolling.current) { // transition time of dice is 6 seconds
+      autoRolling.current = false
+    }
     const v = Math.floor((playerTimeLeft + roundTime - 1) / roundTime)
     setRoundNum(25 - v + 1)
   }, [playerTimeLeft, intervalBlocks])
@@ -400,7 +413,9 @@ const LuckyDice: React.FC = () => {
           ) : (
             <RollingDice
               style={{ zIndex: 1 }}
-              disabled={!betted || !!overcome}
+              roundNum={roundNum}
+              disabled={!betted}
+              autoRolling={autoRolling.current}
               onRollStart={onRollStart}
               onRollEnd={onRollEnd}
             />
@@ -429,6 +444,19 @@ const LuckyDice: React.FC = () => {
           )}
         </Flex>
       </PageHeader>
+      {paused && (
+        <Page>
+          <GradientPanel>
+            <Box background={elevations.dp06} p="32px">
+              <Box style={{ textAlign: 'center' }}>
+                <StyledButton onClick={onClaimWinnings}>
+                  Claim Winnings
+                </StyledButton>
+              </Box>
+            </Box>
+          </GradientPanel>
+        </Page>
+      )}
       {!paused && (
         <Page>
           <GradientPanel>
@@ -506,7 +534,7 @@ const LuckyDice: React.FC = () => {
                 ) : (
                   <StyledButton
                     onClick={onPresentBet}
-                    disabled={paused || !currentRound || (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
+                    disabled={paused || !currentRound || betted}
                   >
                     Bet with Amount
                   </StyledButton>

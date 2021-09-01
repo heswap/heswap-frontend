@@ -5,13 +5,13 @@ import { DiceState } from './types'
 
 const initialState: DiceState = {
   attending: false,
+  paused: true,
   bankerTimeBlocks: null,
   playerTimeBlocks: null,
   currentGame: null,
   currentEpoch: null,
   currentRound: null,
-  casted: true,
-  paused: true
+  rounds: []
 }
 
 export const diceSlice = createSlice({

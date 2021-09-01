@@ -12,7 +12,9 @@ let yRnd = 0
 
 export interface RollingDiceProps {
   style: CSSProperties
+  roundNum: number
   disabled: boolean
+  autoRolling: boolean
   onRollStart?: () => void
   onRollEnd?: (sideNumber) => void
 }
@@ -43,9 +45,27 @@ const Side = styled.div<{ disabled: boolean }>`
   }
 `
 
-const RollingDice: React.FC<RollingDiceProps> = ({ style, disabled, onRollStart, onRollEnd }) => {
+const RollingDice: React.FC<RollingDiceProps> = ({ style, roundNum, disabled, autoRolling, onRollStart, onRollEnd }) => {
   const cubeRef = useRef<HTMLDivElement>(null)
   const onTransitionEnd = useRef(null)
+  const rotating = useRef(false)
+
+  useEffect(() => {
+    // remove transition effect and reset rotations in x degree and y degree
+    cubeRef.current.style.webkitTransition = 'none !importatn'
+    cubeRef.current.style.transition = 'none !importatn'
+    cubeRef.current.style.webkitTransform = 'translateZ(-500px)'
+    cubeRef.current.style.transform = 'translateZ(-500px)'
+    // restore transition effect
+    setTimeout(() => {
+      cubeRef.current.style.webkitTransition = 'transform 6s'
+      cubeRef.current.style.transition = 'transform 6s'
+    }, 100)
+  }, [roundNum])
+
+  useEffect(() => {
+    rotating.current = autoRolling
+  }, [autoRolling])
 
   useEffect(() => {
     if (onTransitionEnd.current) {
@@ -55,21 +75,39 @@ const RollingDice: React.FC<RollingDiceProps> = ({ style, disabled, onRollStart,
       const rx = /^translateZ\((-?\d+)px\) rotateX\((\d+)deg\) rotateY\((\d+)deg\)$/
       const matched = rx.exec(cubeRef.current.style.transform)
       if (matched) {
-        const xDeg = parseInt(matched[2])
-        const yDeg = parseInt(matched[3])
-        const sideNum = getRollingResult(xDeg, yDeg)
-        onRollEnd(sideNum)
+        if (rotating.current) {
+          rollRandomly()
+        } else {
+          const xDeg = parseInt(matched[2])
+          const yDeg = parseInt(matched[3])
+          const sideNum = getRollingResult(xDeg, yDeg)
+          onRollEnd(sideNum)
+        }
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (autoRolling) {
+      onRollStart()
+      rollRandomly()
+    } else {
+      console.log('autoRolling', autoRolling)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRolling])
+
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault()
-    if (disabled) {
+    if (disabled || autoRolling) {
       return
     }
     onRollStart()
+    rollRandomly()
+  }
+
+  function rollRandomly() {
     xRnd += getRandom(12, 24)
     yRnd += getRandom(12, 24)
     const transform = `translateZ(-500px) rotateX(${xRnd}deg) rotateY(${yRnd}deg)`
