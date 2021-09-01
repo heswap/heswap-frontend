@@ -15,7 +15,7 @@ import { getDiceAddress } from 'utils/addressHelpers'
 import multicall from 'utils/multicall'
 import Dice from 'config/abi/dice/Dice.json'
 import { fetchFarmsPublicDataAsync, fetchPoolsPublicDataAsync, fetchPoolsUserDataAsync, setBlock } from './actions'
-import { State, Farm, Pool, FarmsState, DiceRoundResult, DiceRound } from './types'
+import { State, Farm, Pool, FarmsState, DiceRound, DiceRoundResult, BetInfo, DiceHistoryRecord } from './types'
 import { transformPool } from './pools/helpers'
 import { fetchPoolsStakingLimitsAsync } from './pools'
 import { fetchFarmUserDataAsync, nonArchivedFarms } from './farms'
@@ -216,6 +216,7 @@ function convertRoundResult(roundResult: DiceRoundResult): DiceRound {
 }
 
 export const usePollDiceData = () => {
+  const { account } = useWeb3React()
   const timer = useRef<NodeJS.Timeout>(null)
   const dispatch = useAppDispatch()
 
@@ -223,7 +224,6 @@ export const usePollDiceData = () => {
     if (timer.current) {
       clearInterval(timer.current)
     }
-    const diceContract = getDiceContract()
     timer.current = setInterval(async () => {
       const diceAddr = getDiceAddress()
       const calls = [{
@@ -266,7 +266,10 @@ export const usePollDiceData = () => {
       const intervalBlocks: ethers.BigNumber = ethers.BigNumber.from(_intervalBlocks.toString())
       let currentRound: DiceRound = null
       let rounds: Array<DiceRound> = []
+      const publicHistoryRecords: Array<DiceHistoryRecord> = []
+      const privateHistoryRecords: Array<DiceHistoryRecord> = []
       if (currentEpoch.gt(0)) {
+        // public history
         let end: ethers.BigNumber = currentEpoch.sub(20) // fetch 20 records, not 100 records
         if (end.lt(1)) {
           end = ethers.BigNumber.from(1)
@@ -279,12 +282,44 @@ export const usePollDiceData = () => {
             params: [i.toString()]
           })
         }
-        const roundResults = await multicall(Dice.abi, roundCalls)
+        const roundResults: Array<DiceRoundResult> = await multicall(Dice.abi, roundCalls)
         currentRound = convertRoundResult(roundResults[0])
         for (let j = 1; j < roundResults.length; j++) {
           rounds.push(convertRoundResult(roundResults[j]))
         }
         rounds = roundResults.map(roundResult => convertRoundResult(roundResult))
+        // private history
+        const diceContract = getDiceContract()
+        const [userRounds, newPos] = await diceContract.getUserRounds(account, ethers.BigNumber.from(0), ethers.BigNumber.from(20))
+        const privateCalls = []
+        for (let j = 0; j < userRounds.length; j++) {
+          privateCalls.push({
+            address: diceAddr,
+            name: 'rounds',
+            params: [ethers.BigNumber.from(userRounds[j])]
+          })
+          privateCalls.push({
+            address: diceAddr,
+            name: 'ledger',
+            params: [ethers.BigNumber.from(userRounds[j]), account]
+          })
+        }
+        const privateResults: Array<any> = await multicall(Dice.abi, privateCalls)
+        const now = Math.floor(new Date().getTime() / 1000)
+        for (let j = 0; j < userRounds.length; j++) {
+          const roundResult: DiceRoundResult = privateResults[j * 2]
+          const betInfo: BetInfo = privateResults[j * 2 + 1]
+          privateHistoryRecords.push({
+            betHash:  roundResult.bankHash,
+            account,
+            betNums: betInfo.numbers,
+            betAmount: betInfo.amount.toString(),
+            outcome: roundResult.finalNumber,
+            time: now - roundResult.startBlock.sub(currentEpoch).toNumber() * 3,
+            roll: 0,
+            profit: 0.125
+          })
+        }
       }
       dispatch(updateState({
         paused,
@@ -297,7 +332,9 @@ export const usePollDiceData = () => {
         currentEpoch: currentEpoch.toString(),
         intervalBlocks: intervalBlocks.toString(),
         currentRound,
-        rounds
+        rounds,
+        publicHistoryRecords,
+        privateHistoryRecords
       }))
     }, POLL_TIME_IN_SECONDS * 1000)
 
@@ -306,5 +343,5 @@ export const usePollDiceData = () => {
         clearInterval(timer.current)
       }
     }
-  }, [dispatch])
+  }, [account, dispatch])
 }

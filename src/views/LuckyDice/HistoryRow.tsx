@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FaBitcoin } from 'react-icons/fa'
+import { BigNumber, ethers } from 'ethers'
 import moment from 'moment'
 import { Box, Grid, Text } from '@heswap/uikit'
 import useTheme from 'hooks/useTheme'
@@ -16,26 +16,33 @@ function getProfitText(value: number) {
   return `${sign}${Math.abs(value)}`
 }
 
-function getChance(betNums: Array<number>) {
-  const toggled = betNums.filter(x => x)
-  const result = toggled.length * 100 / 6
+function getChance(betNums: Array<boolean>) {
+  if (!betNums) {
+    return '0'
+  }
+  const result = betNums.length * 100 / 6
   return parseFloat(result.toFixed(2)).toString() // remove trailing zero
 }
 
-const HistoryRow: React.FC<HistoryRowProps> = ({ id, betNums, betAmount, outcome, time, roll, profit }) => {
+const HistoryRow: React.FC<HistoryRowProps> = ({ betHash, account, betNums, betAmount, outcome, time, roll, profit, mode }) => {
   const { theme } = useTheme()
 
   return (
     <Box p="8px 0">
       <GridLayout>
         <div style={{ textAlign: 'center' }}>
-          <Text color="textSubtle">{id}</Text>
+          <Text color="textSubtle">{`${betHash.substr(0, 4)}...${betHash.substr(betHash.length - 4)}`}</Text>
         </div>
+        {mode === 'public' && (
+          <div style={{ textAlign: 'center' }}>
+            <Text color="textSubtle">{`${account.substr(0, 4)}...${account.substr(account.length - 4)}`}</Text>
+          </div>
+        )}
         <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center' }}>
-          <Box mr="8px">
-            <FaBitcoin color={theme.colors.text} />
+          <Box width="16px" mr="8px">
+            <img alt="" src={`${process.env.PUBLIC_URL}/images/tokens/bnb.png`} />
           </Box>
-          <Text color="text" bold>{betAmount}</Text>
+          <Text color="text" bold>{ethers.utils.formatEther(BigNumber.from(betAmount))}</Text>
         </div>
         <div style={{ textAlign: 'center' }}>
           <Text color="textSubtle">{moment.unix(time).format('HH:mm:ss')}</Text>
@@ -43,12 +50,14 @@ const HistoryRow: React.FC<HistoryRowProps> = ({ id, betNums, betAmount, outcome
         <div style={{ textAlign: 'center' }}>
           <Text color="textSubtle">{getChance(betNums)}%</Text>
         </div>
-        <div style={{ textAlign: 'center' }}>
-          <Text color="textSubtle">{roll}</Text>
-        </div>
+        {mode === 'private' && (
+          <div style={{ textAlign: 'center' }}>
+            <Text color="textSubtle">{roll}</Text>
+          </div>
+        )}
         <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center' }}>
-          <Box mr="8px">
-            <FaBitcoin color={theme.colors[profit > 0 ? 'success' : 'failure']} />
+          <Box width="16px" mr="8px">
+            <img alt="" src={`${process.env.PUBLIC_URL}/images/tokens/bnb.png`} />
           </Box>
           <Text color={profit > 0 ? 'success' : 'failure'}>{getProfitText(profit)}</Text>
         </div>

@@ -1,14 +1,7 @@
-export interface HistoryRecord {
-  betNums: Array<number>
-  betAmount: string
-  outcome: number
-  time: number
-  roll: number
-  profit: number
-}
+import { DiceHistoryRecord } from 'state/types'
 
-export interface HistoryRowProps extends HistoryRecord {
-  id: number
+export interface HistoryRowProps extends DiceHistoryRecord {
+  mode: 'public' | 'private'
 }
 
 export interface StatsRowProps {

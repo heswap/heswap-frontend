@@ -16,11 +16,11 @@ import {
   GiInvertedDice6,
 } from 'react-icons/gi'
 import useTheme from 'hooks/useTheme'
+import { DiceHistoryRecord } from 'state/types'
 import StatsRow from './StatsRow'
-import { HistoryRecord } from './types'
 
 interface StatsTableProps {
-  records: Array<HistoryRecord>;
+  records: Array<DiceHistoryRecord>
 }
 
 const Table = styled.div`
@@ -73,7 +73,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
     const result = [0, 0, 0, 0, 0, 0]
     for (let i = 0; i < records.length; i++) {
       const { betNums, outcome } = records[i]
-      if (betNums.includes(outcome)) {
+      if (betNums[outcome - 1]) {
         result[outcome - 1]++
       }
     }
@@ -84,7 +84,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
     const result = [0, 0, 0, 0, 0, 0]
     for (let i = 0; i < records.length; i++) {
       const { betNums, outcome } = records[i]
-      if (!betNums.includes(outcome)) {
+      if (!betNums[outcome - 1]) {
         result[outcome - 1]++
       }
     }

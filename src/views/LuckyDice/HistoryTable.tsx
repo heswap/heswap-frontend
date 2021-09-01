@@ -2,11 +2,12 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Box, Button, ChevronUpIcon, Grid, Text } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
+import { DiceHistoryRecord } from 'state/types'
 import HistoryRow from './HistoryRow'
-import { HistoryRowProps } from './types'
 
 interface HistoryTableProps {
-  records: Array<HistoryRowProps>
+  records: Array<DiceHistoryRecord>
+  mode: 'public' | 'private'
 }
 
 const Table = styled.div`
@@ -20,14 +21,19 @@ const Table = styled.div`
 const GridLayout = styled(Grid)`
   grid-template-columns: repeat(6, 1fr);
   grid-gap: 16px;
-`;
+`
 
-const HistoryHeader = () => (
+const HistoryHeader = ({ mode }) => (
   <Box p="8px 0">
     <GridLayout>
       <div style={{ textAlign: 'center' }}>
-        <Text color="textSubtle">Bet ID</Text>
+        <Text color="textSubtle">Bet Hash</Text>
       </div>
+      {mode === 'public' && (
+        <div style={{ textAlign: 'center' }}>
+          <Text color="textSubtle" bold>User</Text>
+        </div>
+      )}
       <div style={{ textAlign: 'center' }}>
         <Text color="textSubtle" bold>Bet Amount</Text>
       </div>
@@ -37,9 +43,11 @@ const HistoryHeader = () => (
       <div style={{ textAlign: 'center' }}>
         <Text color="textSubtle">Chance</Text>
       </div>
-      <div style={{ textAlign: 'center' }}>
-        <Text color="textSubtle">Roll</Text>
-      </div>
+      {mode === 'private' && (
+        <div style={{ textAlign: 'center' }}>
+          <Text color="textSubtle">Roll</Text>
+        </div>
+      )}
       <div style={{ textAlign: 'center' }}>
         <Text color="textSubtle">Profit</Text>
       </div>
@@ -54,7 +62,7 @@ const ScrollButtonContainer = styled.div`
   padding-bottom: 5px;
 `
 
-const HistoryTable: React.FC<HistoryTableProps> = ({ records }) => {
+const HistoryTable: React.FC<HistoryTableProps> = ({ records, mode }) => {
   const { t } = useTranslation()
   const tableRef = useRef<HTMLDivElement>(null)
 
@@ -67,9 +75,9 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ records }) => {
   return (
     <>
       <Table ref={tableRef}>
-        <HistoryHeader />
-        {records.map((record, index) => (
-          <HistoryRow key={index.toString()} {...record} />
+        <HistoryHeader mode={mode} />
+        {records.map((round, index) => (
+          <HistoryRow key={index.toString()} {...round} mode={mode} />
         ))}
       </Table>
       <ScrollButtonContainer>

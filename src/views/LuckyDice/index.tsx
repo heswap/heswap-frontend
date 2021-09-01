@@ -22,7 +22,6 @@ import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
 import HistoryTable from './HistoryTable'
 import BetModal from './BetModal'
-import { HistoryRowProps } from './types'
 
 const LeftLogo = styled(Image).attrs(() => {
   const { isXs, isSm, isMd, isLg, isXl } = useMatchBreakpoints()
@@ -187,41 +186,17 @@ const StyledButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.secondary};
 `
 
-function getFakeRecords(len) {
-  const items: Array<HistoryRowProps> = []
-  for (let i = 0; i < len; i++) {
-    const betNums = []
-    for (let j = 1; j <= 6; j++) {
-      if (Math.random() < 0.5) {
-        betNums.push(j)
-      }
-    }
-    const now = new Date()
-    items.push({
-      id: i + 1,
-      betNums,
-      betAmount: '0.00000005',
-      outcome: Math.ceil(Math.random() * 5) + 1,
-      time: Math.floor(now.getTime() / 1000),
-      roll: 7485,
-      profit: i % 2 === 0 ? 45263215 : -45263215
-    })
-  }
-  return items
-}
-
 const LuckyDice: React.FC = () => {
   const location = useLocation()
   const history = useHistory()
   const { theme } = useTheme()
   const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
-  const [records, setRecords] = useState([])
 
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound } = useDice()
+  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound, rounds, privateHistoryRecords } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
@@ -232,12 +207,6 @@ const LuckyDice: React.FC = () => {
   const [betted, setBetted] = useState<boolean>(false)
   const autoRolling = useRef(false)
   const [overcome, setOvercome] = useState<number>(null)
-
-  useEffect(() => {
-    // onDidMount -> mode == public
-    const items = getFakeRecords(100)
-    setRecords(items)
-  }, [])
 
   const betModalTitle = useMemo(() => {
     const sideNumbers = []
@@ -297,14 +266,7 @@ const LuckyDice: React.FC = () => {
   }, [sideToggles])
 
   const coin = new URLSearchParams(location.search).get('coin')
-
-  useEffect(() => {
-    return history.listen(loc => {
-      const mode = new URLSearchParams(loc.search).get('mode')
-      const items = getFakeRecords(mode === 'private' ? 20 : 100)
-      setRecords(items)
-    })
-  }, [history])
+  const mode = new URLSearchParams(location.search).get('mode')
 
   useEffect(() => {
     if (bankerTimerRef) {
@@ -553,14 +515,14 @@ const LuckyDice: React.FC = () => {
               }]}
             />
           </Box>
-          <WhitePanel mt="32px">
+          {/* <WhitePanel mt="32px">
             <PanelContainer>
               <StatsTable records={records} />
             </PanelContainer>
-          </WhitePanel>
+          </WhitePanel> */}
           <WhitePanel mt="32px">
             <PanelContainer>
-              <HistoryTable records={records} />
+              <HistoryTable records={privateHistoryRecords} mode={mode === 'private' ? 'private' : 'public'} />
             </PanelContainer>
           </WhitePanel>
         </Page>

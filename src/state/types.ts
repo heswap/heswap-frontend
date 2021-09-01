@@ -128,6 +128,25 @@ export interface DiceRound {
   status: Status
 }
 
+export interface DiceHistoryRecord {
+  betHash: string
+  account: string
+  betNums: Array<boolean>
+  betAmount: string
+  outcome: number
+  time: number
+  roll: number
+  profit: number
+}
+
+export interface BetInfo {
+  amount: ethers.BigNumber
+  numberCount: number
+  numbers?: Array<boolean>
+  claimed: boolean
+  lcClaimed: boolean
+}
+
 export interface DiceState {
   attending?: boolean
   bankerTimeBlocks?: string
@@ -138,4 +157,6 @@ export interface DiceState {
   currentRound?: DiceRound
   paused?: boolean
   rounds?: Array<DiceRound>
+  publicHistoryRecords?: Array<DiceHistoryRecord>
+  privateHistoryRecords?: Array<DiceHistoryRecord>
 }

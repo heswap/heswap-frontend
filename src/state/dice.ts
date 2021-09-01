@@ -11,7 +11,9 @@ const initialState: DiceState = {
   currentGame: null,
   currentEpoch: null,
   currentRound: null,
-  rounds: []
+  rounds: [],
+  publicHistoryRecords: [],
+  privateHistoryRecords: []
 }
 
 export const diceSlice = createSlice({
