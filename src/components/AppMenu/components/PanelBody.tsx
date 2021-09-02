@@ -1,6 +1,6 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { Box, MenuLink } from '@heswap/uikit'
 import Accordion from './Accordion'
 import { MenuEntry, LinkLabel, LinkStatus } from './MenuEntry'

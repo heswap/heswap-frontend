@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Button, useModal, IconButton, AddIcon, MinusIcon, Skeleton, Text } from '@heswap/uikit'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { BigNumber } from 'bignumber.js'
 import UnlockButton from 'components/UnlockButton'
 import Balance from 'components/Balance'
