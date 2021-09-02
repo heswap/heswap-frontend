@@ -85,7 +85,7 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
     const claimableAndRoundCalls = [{
       address: diceAddr,
       name: 'claimable',
-      params: [currentEpoch.toString(), account]
+      params: [currentEpoch.sub(1), account]
     }]
     for (let i: BigNumber = currentEpoch; i.gte(end); i = i.sub(1)) {
       claimableAndRoundCalls.push({
