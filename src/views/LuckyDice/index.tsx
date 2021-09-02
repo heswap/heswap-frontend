@@ -278,7 +278,7 @@ const LuckyDice: React.FC = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentBlock, currentGame])
+  }, [currentGame])
 
   useEffect(() => {
     if (playerTimerRef) {
@@ -290,7 +290,11 @@ const LuckyDice: React.FC = () => {
     let timeLeft: number = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
     playerTimerRef.current = setInterval(() => {
       setPlayerTimeLeft(timeLeft)
-      timeLeft--
+      if (timeLeft > 0) {
+        timeLeft--
+      } else {
+        clearInterval(playerTimerRef.current)
+      }
     }, 1000)
     return () => {
       if (playerTimerRef) {
@@ -298,7 +302,7 @@ const LuckyDice: React.FC = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentBlock, currentGame])
+  }, [currentEpoch])
 
   const bankerTimeLabel = useMemo(() => {
     if (!bankerTimeLeft) {
