@@ -10,11 +10,11 @@ const initialState: DiceState = {
   playerTimeBlocks: null,
   currentGame: null,
   currentEpoch: null,
+  claimable: false,
   currentRound: null,
   rounds: [],
   publicHistoryRecords: [],
-  privateHistoryRecords: [],
-  claimable: false
+  privateHistoryRecords: []
 }
 
 export const diceSlice = createSlice({

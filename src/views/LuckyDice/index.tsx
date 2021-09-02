@@ -330,11 +330,13 @@ const LuckyDice: React.FC = () => {
     setOvercome(null)
   }, [roundNum])
 
-  useEffect(() => {
-    if (currentRound) {
-      console.log('finalNumber', currentRound.finalNumber)
-    }
+  const finalNumber = useMemo(() => {
+    return currentRound ? currentRound.finalNumber : null
   }, [currentRound])
+
+  useEffect(() => {
+    console.log('finalNumber', finalNumber)
+  }, [finalNumber])
 
   const roundTimeLabel = useMemo(() => {
     if (!playerTimeLeft || !intervalBlocks) {

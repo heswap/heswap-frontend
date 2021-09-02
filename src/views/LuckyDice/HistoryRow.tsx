@@ -25,8 +25,6 @@ function getChance(betNums: Array<boolean>) {
 }
 
 const HistoryRow: React.FC<HistoryRowProps> = ({ betHash, account, betNums, betAmount, outcome, time, roll, profit, mode }) => {
-  const { theme } = useTheme()
-
   return (
     <Box p="8px 0">
       <GridLayout>

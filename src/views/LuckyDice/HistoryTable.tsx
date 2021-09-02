@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Box, Button, ChevronUpIcon, Grid, Text } from '@heswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { DiceHistoryRecord } from 'state/types'
+import { DiceHistoryRecord } from 'state/dice/types'
 import HistoryRow from './HistoryRow'
 
 interface HistoryTableProps {

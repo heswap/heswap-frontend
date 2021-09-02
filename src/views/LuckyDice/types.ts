@@ -1,4 +1,4 @@
-import { DiceHistoryRecord } from 'state/types'
+import { DiceHistoryRecord } from 'state/dice/types'
 
 export interface HistoryRowProps extends DiceHistoryRecord {
   mode: 'public' | 'private'

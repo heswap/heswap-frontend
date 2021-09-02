@@ -16,7 +16,7 @@ import {
   GiInvertedDice6,
 } from 'react-icons/gi'
 import useTheme from 'hooks/useTheme'
-import { DiceHistoryRecord } from 'state/types'
+import { DiceHistoryRecord } from 'state/dice/types'
 import StatsRow from './StatsRow'
 
 interface StatsTableProps {
