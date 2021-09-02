@@ -13,7 +13,8 @@ const initialState: DiceState = {
   currentRound: null,
   rounds: [],
   publicHistoryRecords: [],
-  privateHistoryRecords: []
+  privateHistoryRecords: [],
+  claimable: false
 }
 
 export const diceSlice = createSlice({

@@ -226,7 +226,7 @@ export const usePollDiceData = () => {
     }
     timer.current = setInterval(async () => {
       const diceAddr = getDiceAddress()
-      const calls = [{
+      const gameCalls = [{
         address: diceAddr,
         name: 'paused'
       },{
@@ -256,7 +256,7 @@ export const usePollDiceData = () => {
         _playerEndBlock,
         _currentEpoch,
         _intervalBlocks
-      ] = await multicall(Dice.abi, calls)
+      ] = await multicall(Dice.abi, gameCalls)
       const paused: boolean = _paused[0] // hack due to multicall
       const bankerTimeBlocks: ethers.BigNumber = ethers.BigNumber.from(_bankerTimeBlocks.toString())
       const playerTimeBlocks: ethers.BigNumber = ethers.BigNumber.from(_playerTimeBlocks.toString())
@@ -264,6 +264,7 @@ export const usePollDiceData = () => {
       const playerEndBlock: ethers.BigNumber = ethers.BigNumber.from(_playerEndBlock.toString())
       const currentEpoch: ethers.BigNumber = ethers.BigNumber.from(_currentEpoch.toString())
       const intervalBlocks: ethers.BigNumber = ethers.BigNumber.from(_intervalBlocks.toString())
+      let claimable = false
       let currentRound: DiceRound = null
       let rounds: Array<DiceRound> = []
       const publicHistoryRecords: Array<DiceHistoryRecord> = []
@@ -274,20 +275,26 @@ export const usePollDiceData = () => {
         if (end.lt(1)) {
           end = ethers.BigNumber.from(1)
         }
-        const roundCalls = []
+        const claimableAndRoundCalls = [{
+          address: diceAddr,
+          name: 'claimable',
+          params: [currentEpoch.toString(), account]
+        }]
         for (let i: ethers.BigNumber = currentEpoch; i.gte(end); i = i.sub(1)) {
-          roundCalls.push({
+          claimableAndRoundCalls.push({
             address: diceAddr,
             name: 'rounds',
             params: [i.toString()]
           })
         }
-        const roundResults: Array<DiceRoundResult> = await multicall(Dice.abi, roundCalls)
-        currentRound = convertRoundResult(roundResults[0])
-        for (let j = 1; j < roundResults.length; j++) {
-          rounds.push(convertRoundResult(roundResults[j]))
-        }
-        rounds = roundResults.map(roundResult => convertRoundResult(roundResult))
+        const [
+          _claimable,
+          _currentRound,
+          ..._rounds
+        ] = await multicall(Dice.abi, claimableAndRoundCalls)
+        claimable = _claimable[0] // hack due to multicall
+        currentRound = convertRoundResult(_currentRound)
+        rounds = _rounds.map(_round => convertRoundResult(_round))
         // private history
         const diceContract = getDiceContract()
         const [userRounds, newPos] = await diceContract.getUserRounds(account, ethers.BigNumber.from(0), ethers.BigNumber.from(20))
@@ -331,6 +338,7 @@ export const usePollDiceData = () => {
         },
         currentEpoch: currentEpoch.toString(),
         intervalBlocks: intervalBlocks.toString(),
+        claimable,
         currentRound,
         rounds,
         publicHistoryRecords,

@@ -11,7 +11,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import { Button, Flex, IconButton, MenuAvatar, Overlay, useMatchBreakpoints } from '@heswap/uikit'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { MENU_HEIGHT, SIDEBAR_WIDTH_REDUCED, SIDEBAR_WIDTH_FULL } from '../config'
 import Panel from './Panel'
 import UserBlock from './UserBlock'
@@ -115,6 +115,7 @@ const ClaimButton = styled(Button)`
 const Menu: React.FC<NavProps> = ({
   logoTitle,
   account,
+  claimable,
   claim,
   login,
   logout,
@@ -194,6 +195,7 @@ const Menu: React.FC<NavProps> = ({
                 <ClaimButton
                   scale="sm"
                   variant="tertiary"
+                  disabled={!claimable}
                   onClick={claim}
                 >
                   Claim

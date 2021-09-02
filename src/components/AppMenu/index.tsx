@@ -19,7 +19,7 @@ const AppMenu = (props) => {
   const { currentLanguage, setLanguage, t } = useTranslation()
 
   const diceContract = useDiceContract()
-  const { currentEpoch } = useDice()
+  const { currentEpoch, claimable } = useDice()
 
   const [onPresentConfirmation] = useModal(
     <ConfirmationModal
@@ -37,6 +37,7 @@ const AppMenu = (props) => {
     <Menu
       logoTitle="LuckyChip"
       account={account}
+      claimable={claimable}
       claim={onPresentConfirmation}
       login={login}
       logout={logout}

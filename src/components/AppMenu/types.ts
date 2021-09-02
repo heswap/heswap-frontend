@@ -63,6 +63,7 @@ export interface PanelProps {
 export interface NavProps extends PanelProps {
   logoTitle?: string
   account?: string
+  claimable?: boolean
   claim?: () => void
   login?: Login
   profile?: Profile

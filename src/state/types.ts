@@ -159,4 +159,5 @@ export interface DiceState {
   rounds?: Array<DiceRound>
   publicHistoryRecords?: Array<DiceHistoryRecord>
   privateHistoryRecords?: Array<DiceHistoryRecord>
+  claimable?: boolean
 }

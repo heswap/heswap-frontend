@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useHistory } from 'react-router'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import styled from 'styled-components'
 import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
 import { BigNumber, ethers } from 'ethers'
@@ -188,7 +187,6 @@ const StyledButton = styled(Button)`
 
 const LuckyDice: React.FC = () => {
   const location = useLocation()
-  const history = useHistory()
   const { theme } = useTheme()
   const { account } = useWeb3React()
   const [sideToggles, setSideToggles] = useState([true, false, false, false, false, false])
@@ -196,7 +194,7 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound, rounds, privateHistoryRecords } = useDice()
+  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, claimable, currentRound, rounds, privateHistoryRecords } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
@@ -400,8 +398,8 @@ const LuckyDice: React.FC = () => {
           )}
         </Flex>
       </PageHeader>
-      {!paused && (
-        <Page>
+      <Page>
+        {!paused && (
           <GradientPanel>
             <Box background={elevations.dp06} p="32px">
               <InfoLayout>
@@ -422,6 +420,8 @@ const LuckyDice: React.FC = () => {
               </InfoLayout>
             </Box>
           </GradientPanel>
+        )}
+        {!paused && (
           <GradientPanel mt="32px">
             <Box background={elevations.dp06} p="32px">
               <PickUpLayout>
@@ -485,29 +485,29 @@ const LuckyDice: React.FC = () => {
               </Box>
             </Box>
           </GradientPanel>
-          <Box mt="32px">
-            <SwitchButtonGroup
-              buttons={[{
-                url: `/lucky_dice?coin=${coin}`,
-                node: <span>Public</span>
-              },{
-                url: `/lucky_dice?coin=${coin}&mode=private`,
-                node: <span>Private</span>
-              }]}
-            />
-          </Box>
-          {/* <WhitePanel mt="32px">
-            <PanelContainer>
-              <StatsTable records={records} />
-            </PanelContainer>
-          </WhitePanel> */}
-          <WhitePanel mt="32px">
-            <PanelContainer>
-              <HistoryTable records={privateHistoryRecords} mode={mode === 'private' ? 'private' : 'public'} />
-            </PanelContainer>
-          </WhitePanel>
-        </Page>
-      )}
+        )}
+        <Box mt="32px">
+          <SwitchButtonGroup
+            buttons={[{
+              url: `/lucky_dice?coin=${coin}`,
+              node: <span>Public</span>
+            },{
+              url: `/lucky_dice?coin=${coin}&mode=private`,
+              node: <span>Private</span>
+            }]}
+          />
+        </Box>
+        {/* <WhitePanel mt="32px">
+          <PanelContainer>
+            <StatsTable records={records} />
+          </PanelContainer>
+        </WhitePanel> */}
+        <WhitePanel mt="32px">
+          <PanelContainer>
+            <HistoryTable records={privateHistoryRecords} mode={mode === 'private' ? 'private' : 'public'} />
+          </PanelContainer>
+        </WhitePanel>
+      </Page>
     </>
   )
 }
