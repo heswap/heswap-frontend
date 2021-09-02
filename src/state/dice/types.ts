@@ -74,6 +74,7 @@ export interface DiceState {
   currentGame?: DiceGame
   currentEpoch?: string
   intervalBlocks?: string
+  prevDrawnNumber?: number
   claimable?: boolean
   currentRound?: DiceRound
   rounds?: Array<DiceRound>

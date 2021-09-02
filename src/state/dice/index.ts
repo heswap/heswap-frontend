@@ -10,6 +10,7 @@ const initialState: DiceState = {
   playerTimeBlocks: null,
   currentGame: null,
   currentEpoch: null,
+  prevDrawnNumber: null,
   claimable: false,
   currentRound: null,
   rounds: [],
