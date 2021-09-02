@@ -11,6 +11,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import { Button, Flex, IconButton, MenuAvatar, Overlay, useMatchBreakpoints } from '@heswap/uikit'
+import { useLocation } from 'react-router-dom'
 import { MENU_HEIGHT, SIDEBAR_WIDTH_REDUCED, SIDEBAR_WIDTH_FULL } from '../config'
 import Panel from './Panel'
 import UserBlock from './UserBlock'
@@ -134,6 +135,7 @@ const Menu: React.FC<NavProps> = ({
   const [navColor, setNavColor] = useState('transparent')
   const refPrevOffset = useRef(window.pageYOffset)
   const theme = useTheme()
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -188,7 +190,7 @@ const Menu: React.FC<NavProps> = ({
               <AuditButton variant="text" startIcon={<StyledCheck />}>
                 Certik Audit
               </AuditButton>
-              {!!account && (
+              {(location.pathname === '/lucky_dice' && !!account) && (
                 <ClaimButton
                   scale="sm"
                   variant="tertiary"
