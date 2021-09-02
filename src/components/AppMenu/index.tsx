@@ -4,9 +4,12 @@ import { languageList } from 'config/localization/languages'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import useAuth from 'hooks/useAuth'
-import { usePriceCakeBusd } from 'state/hooks'
+import { usePriceCakeBusd, useDice } from 'state/hooks'
+import { useDiceContract } from 'hooks/useContract'
+import { useModal } from '@heswap/uikit'
 import Menu from './components/Menu'
 import { links } from './config'
+import ConfirmationModal from '../ConfirmationModal'
 
 const AppMenu = (props) => {
   const { account } = useWeb3React()
@@ -15,10 +18,24 @@ const AppMenu = (props) => {
   const cakePriceUsd = usePriceCakeBusd()
   const { currentLanguage, setLanguage, t } = useTranslation()
 
+  const diceContract = useDiceContract()
+  const { currentEpoch } = useDice()
+
+  const [onPresentConfirmation] = useModal(
+    <ConfirmationModal
+      title="Confirm claim"
+      description="Are you sure to claim?"
+      onConfirm={async () => {
+        await diceContract.claim(currentEpoch)
+      }}
+    />,
+  )
+
   return (
     <Menu
       logoTitle="LuckyChip"
       account={account}
+      claim={onPresentConfirmation}
       login={login}
       logout={logout}
       isDark={isDark}

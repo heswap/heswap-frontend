@@ -69,7 +69,7 @@ const MobileOnlyOverlay = styled(Overlay)`
   }
 `
 
-const StyledButton = styled(Button)`
+const AuditButton = styled(Button)`
   color: ${({ theme }) => theme.colors.backgroundAlt};
 `
 
@@ -90,9 +90,31 @@ const StyledChevron = styled(IconButton)<{ isPushed: boolean }>`
   }
 `
 
+const ClaimButton = styled(Button)`
+  align-items: center;
+  border: none;
+  border-radius: 8px;
+  box-shadow: rgb(14 14 44 / 40%) 0px -1px 0px 0px inset;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  opacity: 1;
+  outline: 0px;
+  padding: 0px 16px;
+  transition: background-color 0.2s ease 0s, opacity 0.2s ease 0s;
+  margin-left: 16px;
+  margin-right: 16px;
+`
+
 const Menu: React.FC<NavProps> = ({
   logoTitle,
   account,
+  claim,
   login,
   logout,
   isDark,
@@ -163,9 +185,18 @@ const Menu: React.FC<NavProps> = ({
         <StyledNav isMobile={isMobile} isPushed={isPushed} showMenu={showMenu} bgColor={navColor}>
           {!!login && !!logout && (
             <StyledFlex>
-              <StyledButton variant="text" startIcon={<StyledCheck />}>
+              <AuditButton variant="text" startIcon={<StyledCheck />}>
                 Certik Audit
-              </StyledButton>
+              </AuditButton>
+              {!!account && (
+                <ClaimButton
+                  scale="sm"
+                  variant="tertiary"
+                  onClick={claim}
+                >
+                  Claim
+                </ClaimButton>
+              )}
               <UserBlock account={account} login={login} logout={logout} />
               {profile && <MenuAvatar profile={profile} />}
             </StyledFlex>
