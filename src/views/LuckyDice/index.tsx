@@ -247,12 +247,6 @@ const LuckyDice: React.FC = () => {
     />,
   )
 
-  const onClaimWinnings = async () => {
-    console.log('claim winnings started')
-    await diceContract.claim(currentEpoch)
-    console.log('claim winnings ended')
-  }
-
   const handleSideClick = (index) => {
     const toggles = [...sideToggles]
     toggles[index] = !toggles[index]
@@ -406,19 +400,6 @@ const LuckyDice: React.FC = () => {
           )}
         </Flex>
       </PageHeader>
-      {paused && (
-        <Page>
-          <GradientPanel>
-            <Box background={elevations.dp06} p="32px">
-              <Box style={{ textAlign: 'center' }}>
-                <StyledButton onClick={onClaimWinnings}>
-                  Claim Winnings
-                </StyledButton>
-              </Box>
-            </Box>
-          </GradientPanel>
-        </Page>
-      )}
       {!paused && (
         <Page>
           <GradientPanel>

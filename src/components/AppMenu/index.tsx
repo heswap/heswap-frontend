@@ -26,7 +26,9 @@ const AppMenu = (props) => {
       title="Confirm claim"
       description="Are you sure to claim?"
       onConfirm={async () => {
-        await diceContract.claim(currentEpoch)
+        const tx = await diceContract.claim(currentEpoch)
+        const receipt = await tx.wait()
+        console.log('claim', receipt.transactionHash)
       }}
     />,
   )
