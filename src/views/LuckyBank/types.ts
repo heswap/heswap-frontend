@@ -4,7 +4,10 @@ import { Token } from 'config/constants/types'
 export interface BankRowProps {
   stakingToken: Token
   earningToken: Token
-  balance: BigNumber
+  stakingBalance: BigNumber
+  earningBalance: BigNumber
+  onDeposit: () => void
+  onWithdraw: () => void
 }
 
 export interface BankTableProps {

@@ -57,6 +57,24 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://www.paxos.com/eth/',
   },
+  lc: {
+    symbol: 'LC',
+    address: {
+      56: '',
+      97: '0x0bd5B0bF4dA8249ed9502eeD2ed318D17C843f89',
+    },
+    decimals: 18,
+    projectLink: 'https://www.paxos.com/lc/',
+  },
+  dice: {
+    symbol: 'DICE',
+    address: {
+      56: '',
+      97: '0xF82CD0af5ecF2e79ae560C11afC12959bB3028b6',
+    },
+    decimals: 18,
+    projectLink: 'https://www.paxos.com/dice/',
+  },
 }
 
 export default tokens

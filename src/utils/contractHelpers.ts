@@ -14,6 +14,7 @@ import {
   getMulticallAddress,
   getMulticall2Address,
   getReferralAddress,
+  getLcAddress,
   getWbnbAddress,
   getBusdAddress,
   getBtcbAddress,
@@ -33,6 +34,7 @@ import MultiCallAbi from 'config/abi/Multicall.json'
 import MultiCall2 from 'config/abi/dice/Multicall2.json'
 import referralsAbi from 'config/abi/referrals.json'
 
+import LCToken from 'config/abi/dice/LCToken.json'
 import WBNB from 'config/abi/dice/WBNB.json'
 import BusdAbi from 'config/abi/dice/BUSD.json'
 import Dice from 'config/abi/dice/Dice.json'
@@ -93,6 +95,9 @@ const getEthersContract = (abi: any, address: string, signer?: ethers.Signer | e
   return new ethers.Contract(address, abi, signerOrProvider)
 }
 
+export const getLcContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(WBNB.abi, getLcAddress(), signer)
+}
 export const getWbnbContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getEthersContract(WBNB.abi, getWbnbAddress(), signer)
 }

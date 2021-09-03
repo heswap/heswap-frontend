@@ -3,7 +3,7 @@ import { useLocation } from 'react-router'
 import styled from 'styled-components'
 import { BigNumber } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
-import { Box, Flex, Heading, Image, Text } from '@heswap/uikit'
+import { Heading, Image } from '@heswap/uikit'
 import { noop } from 'lodash'
 import moment from 'moment'
 import 'moment-duration-format'
@@ -12,8 +12,9 @@ import { isAddress } from 'utils/addressHelpers'
 import { AddressZero } from '@ethersproject/constants'
 import Page from 'components/layout/Page'
 import PageHeader from 'components/PageHeader'
-import { getLpContract, getWbnbContract, getBusdContract, getBtcbContract, getEthContract } from 'utils/contractHelpers'
-import config from './config'
+import { getLcContract, getWbnbContract, getBusdContract, getBtcbContract, getEthContract } from 'utils/contractHelpers'
+import tokens from 'config/constants/tokens'
+import { BankRowProps } from './types'
 import BankTable from './BankTable'
 
 const Clock = styled.div`
@@ -80,23 +81,83 @@ const LuckyBank: React.FC = () => {
   const bankerTimerRef = useRef(null)
   const playerTimerRef = useRef(null)
   const { currentBlock } = useBlock()
-  const [tokens, setTokens] = useState(config)
+
+  const config: Array<BankRowProps> = [{
+    stakingToken: tokens.lc,
+    earningToken: tokens.dice,
+    stakingBalance: BigNumber.from(0),
+    earningBalance: BigNumber.from(0),
+    onDeposit: () => {
+      console.log('deposit from lc')
+    },
+    onWithdraw: () => {
+      console.log('withdraw to lc')
+    }
+  },{
+    stakingToken: tokens.wbnb,
+    earningToken: tokens.dice,
+    stakingBalance: BigNumber.from(0),
+    earningBalance: BigNumber.from(0),
+    onDeposit: () => {
+      console.log('deposit from wbnb')
+    },
+    onWithdraw: () => {
+      console.log('withdraw to wbnb')
+    }
+  },{
+    stakingToken: tokens.busd,
+    earningToken: tokens.dice,
+    stakingBalance: BigNumber.from(0),
+    earningBalance: BigNumber.from(0),
+    onDeposit: () => {
+      console.log('deposit from busd')
+    },
+    onWithdraw: () => {
+      console.log('withdraw to busd')
+    }
+  },{
+    stakingToken: tokens.btcb,
+    earningToken: tokens.dice,
+    stakingBalance: BigNumber.from(0),
+    earningBalance: BigNumber.from(0),
+    onDeposit: () => {
+      console.log('deposit from btcb')
+    },
+    onWithdraw: () => {
+      console.log('withdraw to btcb')
+    }
+  },{
+    stakingToken: tokens.eth,
+    earningToken: tokens.dice,
+    stakingBalance: BigNumber.from(0),
+    earningBalance: BigNumber.from(0),
+    onDeposit: () => {
+      console.log('deposit from eth')
+    },
+    onWithdraw: () => {
+      console.log('withdraw to eth')
+    }
+  }]
+  const [records, setRecords] = useState(config)
 
   useEffect(() => {
     async function fetchWBNB() {
+      const lcContract = getLcContract()
+      const lcBalance = await lcContract.balanceOf(account)
+      records[0].stakingBalance = lcBalance
       const wbnbContract = getWbnbContract()
       const wbnbBalance = await wbnbContract.balanceOf(account)
-      tokens[0].balance = wbnbBalance
+      records[1].stakingBalance = wbnbBalance
       const busdContract = getBusdContract()
       const busdBalance = await busdContract.balanceOf(account)
-      tokens[1].balance = busdBalance
+      records[2].stakingBalance = busdBalance
       const btcbContract = getBtcbContract()
       const btcbBalance = await btcbContract.balanceOf(account)
-      tokens[2].balance = btcbBalance
+      records[3].stakingBalance = btcbBalance
       const ethContract = getEthContract()
       const ethBalance = await ethContract.balanceOf(account)
-      tokens[3].balance = ethBalance
-      setTokens(tokens)
+      records[4].stakingBalance = ethBalance
+      setRecords(records)
     }
     fetchWBNB()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -193,7 +254,7 @@ const LuckyBank: React.FC = () => {
       )}
       {paused && ( */}
         <Page>
-          <BankTable records={tokens} />
+          <BankTable records={records} />
           <Image
             mx="auto"
             mt="12px"

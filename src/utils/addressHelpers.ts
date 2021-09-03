@@ -21,6 +21,9 @@ export const getMulticallAddress = () => {
 export const getMulticall2Address = () => {
   return getAddress(addresses.multiCall2)
 }
+export const getLcAddress = () => {
+  return getAddress(tokens.lc.address)
+}
 export const getWbnbAddress = () => {
   return getAddress(tokens.wbnb.address)
 }
