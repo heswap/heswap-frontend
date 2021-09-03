@@ -194,7 +194,9 @@ export const usePollDiceData = () => {
       clearInterval(timer.current)
     }
     timer.current = setInterval(() => {
-      dispatch(fetchDice(account))
+      if (account) {
+        dispatch(fetchDice(account))
+      }
     }, POLL_TIME_IN_SECONDS * 1000)
 
     return () => {
