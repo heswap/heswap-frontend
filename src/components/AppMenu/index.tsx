@@ -19,16 +19,16 @@ const AppMenu = (props) => {
   const { currentLanguage, setLanguage, t } = useTranslation()
 
   const diceContract = useDiceContract()
-  const { currentEpoch, claimable } = useDice()
+  const { claimable } = useDice()
 
   const [onPresentConfirmation] = useModal(
     <ConfirmationModal
-      title="Confirm claim"
+      title="Confirm to claim"
       description="Are you sure to claim?"
       onConfirm={async () => {
-        const tx = await diceContract.claim(currentEpoch)
+        const tx = await diceContract.claimReward()
         const receipt = await tx.wait()
-        console.log('claim', receipt.transactionHash)
+        console.log('claimReward', receipt.transactionHash)
       }}
     />,
   )

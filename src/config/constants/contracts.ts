@@ -4,7 +4,7 @@
 export default {
   masterChef: {
     56: '',
-    97: '0xCc82850F42281E71f75ECc675ABdCc92891ec704', // MasterChef
+    97: '0xB0940bf20358011093ea4391b3f15981A3e53Ab0', // MasterChef
   },
   sousChef: {
     56: '',
@@ -28,10 +28,10 @@ export default {
   },
   dice: {
     56: '',
-    97: '0x170037EF2C730BC829aA791EA91447dC59677b68', // WBNBDice
+    97: '0x5DBfD155c3A15aCdD322AeEBD54fC55bd257736D', // WBNBDice
   },
   diceToken: {
     56: '',
-    97: '0x32760ff5b663E38125F3DE3595c3C1C4d99DFB42', // WBNBDiceToken
+    97: '0xF82CD0af5ecF2e79ae560C11afC12959bB3028b6', // WBNBDiceToken
   },
 }

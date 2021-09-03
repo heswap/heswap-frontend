@@ -7,7 +7,7 @@ const pools: PoolConfig[] = [
     stakingToken: tokens.cake,
     earningToken: tokens.cake,
     contractAddress: {
-      97: '0x8909BbBe374cF5158BEB18b1A8D5e93BC3e2C30F', // LCToken
+      97: '0x0bd5B0bF4dA8249ed9502eeD2ed318D17C843f89', // LCToken
       56: '',
     },
     poolCategory: PoolCategory.CORE,
