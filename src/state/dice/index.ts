@@ -14,8 +14,7 @@ const initialState: DiceState = {
   claimable: false,
   currentRound: null,
   rounds: [],
-  publicHistoryRecords: [],
-  privateHistoryRecords: []
+  privateRounds: []
 }
 
 export const diceSlice = createSlice({

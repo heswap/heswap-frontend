@@ -3,7 +3,7 @@ import Dice from 'config/abi/dice/Dice.json'
 import { getDiceContract } from 'utils/contractHelpers'
 import { getDiceAddress } from 'utils/addressHelpers'
 import multicall from 'utils/multicall'
-import { DiceRound, DiceRoundResult, BetInfo, DiceHistoryRecord } from './types'
+import { DiceRound, DiceRoundResult, BetInfo, DicePrivateRound } from './types'
 import { updateState } from './index'
 
 function convertRoundResult(roundResult: DiceRoundResult): DiceRound {
@@ -89,8 +89,7 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
   let claimable = false
   let currentRound: DiceRound = null
   let rounds: Array<DiceRound> = []
-  const publicHistoryRecords: Array<DiceHistoryRecord> = []
-  const privateHistoryRecords: Array<DiceHistoryRecord> = []
+  const privateRounds: Array<DicePrivateRound> = []
   if (currentEpoch.gt(0)) {
     // public history
     let end: BigNumber = currentEpoch.sub(20) // fetch 20 records, not 100 records
@@ -120,6 +119,7 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
     console.log('claimable', claimable)
     currentRound = convertRoundResult(_currentRound)
     rounds = _rounds.map(_round => convertRoundResult(_round))
+
     // private history
     const [userRounds, newPos] = await diceContract.getUserRounds(account, BigNumber.from(0), BigNumber.from(20))
     const privateCalls = []
@@ -140,9 +140,8 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
     for (let j = 0; j < userRounds.length; j++) {
       const roundResult: DiceRoundResult = privateResults[j * 2]
       const betInfo: BetInfo = privateResults[j * 2 + 1]
-      privateHistoryRecords.push({
+      privateRounds.push({
         betHash:  roundResult.bankHash,
-        account,
         betNums: betInfo.numbers,
         betAmount: betInfo.amount.toString(),
         outcome: roundResult.finalNumber,
@@ -166,8 +165,7 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
     claimable,
     currentRound,
     rounds,
-    publicHistoryRecords,
-    privateHistoryRecords
+    privateRounds
   }))
 }
 

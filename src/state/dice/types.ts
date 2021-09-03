@@ -1,9 +1,8 @@
 import { BigNumber } from 'ethers'
 
-enum Status {
+export enum DiceStatus {
   Pending = 0,
   Open,
-  Lock,
   Claimable,
   Expired
 }
@@ -27,7 +26,7 @@ export interface DiceRoundResult {
   swapLcAmount: BigNumber
   betUsers: BigNumber
   finalNumber: number
-  status: Status
+  status: DiceStatus
 }
 
 export interface DiceRound {
@@ -44,12 +43,11 @@ export interface DiceRound {
   swapLcAmount: string
   betUsers: string
   finalNumber: number
-  status: Status
+  status: DiceStatus
 }
 
-export interface DiceHistoryRecord {
+export interface DicePrivateRound {
   betHash: string
-  account: string
   betNums: Array<boolean>
   betAmount: string
   outcome: number
@@ -78,6 +76,5 @@ export interface DiceState {
   claimable?: boolean
   currentRound?: DiceRound
   rounds?: Array<DiceRound>
-  publicHistoryRecords?: Array<DiceHistoryRecord>
-  privateHistoryRecords?: Array<DiceHistoryRecord>
+  privateRounds?: Array<DicePrivateRound>
 }

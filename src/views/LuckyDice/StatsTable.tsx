@@ -16,11 +16,11 @@ import {
   GiInvertedDice6,
 } from 'react-icons/gi'
 import useTheme from 'hooks/useTheme'
-import { DiceHistoryRecord } from 'state/dice/types'
+import { DicePrivateRound } from 'state/dice/types'
 import StatsRow from './StatsRow'
 
 interface StatsTableProps {
-  records: Array<DiceHistoryRecord>
+  records: Array<DicePrivateRound>
 }
 
 const Table = styled.div`

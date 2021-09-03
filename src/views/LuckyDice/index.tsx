@@ -19,7 +19,8 @@ import { useBlock, useDice } from 'state/hooks'
 import { elevations } from 'utils/palette'
 import PageHeader from './PageHeader'
 import StatsTable from './StatsTable'
-import HistoryTable from './HistoryTable'
+import PublicHistoryTable from './PublicHistoryTable'
+import PrivateHistoryTable from './PrivateHistoryTable'
 import BetModal from './BetModal'
 
 const LeftLogo = styled(Image).attrs(() => {
@@ -194,7 +195,7 @@ const LuckyDice: React.FC = () => {
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
   const diceContract = useDiceContract()
-  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, claimable, currentRound, rounds, privateHistoryRecords } = useDice()
+  const { attending, paused, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, claimable, currentRound, rounds, privateRounds } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
@@ -511,7 +512,11 @@ const LuckyDice: React.FC = () => {
         </WhitePanel> */}
         <WhitePanel mt="32px">
           <PanelContainer>
-            <HistoryTable records={privateHistoryRecords} mode={mode === 'private' ? 'private' : 'public'} />
+            {mode === 'private' ? (
+              <PrivateHistoryTable records={privateRounds} />
+            ) : (
+              <PublicHistoryTable records={rounds} />
+            )}
           </PanelContainer>
         </WhitePanel>
       </Page>
