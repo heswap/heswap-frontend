@@ -288,6 +288,7 @@ const LuckyDice: React.FC = () => {
       return () => { noop() }
     }
     let timeLeft: number = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    console.log('timeLeft', timeLeft)
     playerTimerRef.current = setInterval(() => {
       setPlayerTimeLeft(timeLeft)
       if (timeLeft > 0) {

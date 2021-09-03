@@ -2,7 +2,7 @@ import { MAINNET_CHAIN_ID } from 'config'
 import addresses from 'config/constants/contracts'
 import tokens from 'config/constants/tokens'
 import { Address } from 'config/constants/types'
-import { getAddress as getEthAddress } from '@ethersproject/address'
+import { getAddress as getEthersAddress } from '@ethersproject/address'
 
 export const getAddress = (address: Address): string => {
   const chainId = process.env.REACT_APP_CHAIN_ID
@@ -34,9 +34,19 @@ export const getDiceTokenAddress = () => {
   return getAddress(addresses.diceToken)
 }
 
+export const getBusdAddress = () => {
+  return getAddress(tokens.busd.address)
+}
+export const getBtcbAddress = () => {
+  return getAddress(tokens.btcb.address)
+}
+export const getEthAddress = () => {
+  return getAddress(tokens.eth.address)
+}
+
 export const isAddress = (value: any): string | false => {
   try {
-    return getEthAddress(value)
+    return getEthersAddress(value)
   } catch {
     return false
   }

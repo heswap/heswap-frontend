@@ -97,10 +97,10 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
     if (end.lt(1)) {
       end = BigNumber.from(1)
     }
-    const claimableAndRoundCalls = [{
+    const claimableAndRoundCalls: Array<any> = [{
       address: diceAddr,
-      name: 'claimable',
-      params: [currentEpoch.sub(1), account]
+      name: 'pendingReward',
+      params: [account]
     }]
     for (let i: BigNumber = currentEpoch; i.gte(end); i = i.sub(1)) {
       claimableAndRoundCalls.push({
@@ -110,11 +110,13 @@ export const fetchDice = (account: string) => async (dispatch, getState) => {
       })
     }
     const [
-      _claimable,
+      _pendingReward,
       _currentRound,
       ..._rounds
     ] = await multicall(Dice.abi, claimableAndRoundCalls)
-    claimable = _claimable[0] // hack due to multicall
+    const [rewardAmount, startIndex, endIndex] = _pendingReward
+    console.log('rewardAmount', rewardAmount.toString(), 'startIndex', startIndex.toString(), 'endIndex', endIndex.toString())
+    claimable = rewardAmount.gt(0)
     console.log('claimable', claimable)
     currentRound = convertRoundResult(_currentRound)
     rounds = _rounds.map(_round => convertRoundResult(_round))
