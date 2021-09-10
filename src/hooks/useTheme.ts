@@ -1,7 +1,27 @@
 import { useContext } from 'react'
 import { ThemeContext as StyledThemeContext } from 'styled-components'
 import { ThemeContext } from 'contexts/ThemeContext'
-import { red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, grey, blueGrey } from 'utils/palette'
+import {
+  red,
+  pink,
+  purple,
+  deepPurple,
+  indigo,
+  blue,
+  lightBlue,
+  cyan,
+  teal,
+  green,
+  lightGreen,
+  lime,
+  yellow,
+  amber,
+  orange,
+  deepOrange,
+  brown,
+  grey,
+  blueGrey,
+} from 'utils/palette'
 
 const useTheme = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext)

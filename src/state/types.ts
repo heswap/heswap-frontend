@@ -2,7 +2,7 @@ import { ThunkAction } from 'redux-thunk'
 import { AnyAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { FarmConfig, PoolConfig } from 'config/constants/types'
+import { FarmConfig, PoolConfig, DiceConfig } from 'config/constants/types'
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, State, unknown, AnyAction>
 
@@ -70,15 +70,6 @@ export interface BlockState {
   initialBlock: number
 }
 
-// Global state
-
-export interface State {
-  block: BlockState
-  farms: FarmsState
-  pools: PoolsState
-  dice: DiceState
-}
-
 // Dice
 
 enum Status {
@@ -86,7 +77,7 @@ enum Status {
   Open,
   Lock,
   Claimable,
-  Expired
+  Expired,
 }
 
 export interface DiceGame {
@@ -138,4 +129,38 @@ export interface DiceState {
   currentRound?: DiceRound
   casted?: boolean
   paused?: boolean
+}
+
+export interface Dice extends DiceConfig {
+  attending?: boolean
+  bankerTimeBlocks?: string
+  playerTimeBlocks?: string
+  currentGame?: DiceGame
+  currentEpoch?: string
+  intervalBlocks?: string
+  currentRound?: DiceRound
+  casted?: boolean
+  paused?: boolean
+  userData?: {
+    allowance: BigNumber
+    diceAllowance: BigNumber
+    depositTokenBalance: BigNumber
+    withdrawableAmount: BigNumber
+    profitRate: any
+  }
+}
+
+export interface DicesState {
+  data: Dice[]
+  userDataLoaded: boolean
+}
+
+// Global state
+
+export interface State {
+  block: BlockState
+  farms: FarmsState
+  pools: PoolsState
+  dice: DiceState
+  dices: DicesState
 }

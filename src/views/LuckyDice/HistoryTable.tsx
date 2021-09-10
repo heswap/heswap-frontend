@@ -31,7 +31,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ records }) => {
 
   const scrollToTop = () => {
     tableRef.current.scrollIntoView({
-      behavior: 'smooth'
+      behavior: 'smooth',
     })
   }
 

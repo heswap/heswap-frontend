@@ -23,7 +23,7 @@ const SwitchButtonGroup: React.FC<SwitchButtonGroupProps> = ({ buttons }) => {
   const location = useLocation()
   const { theme } = useTheme()
 
-  const activeIndex = buttons.findIndex(x => x.url === location.pathname + location.search)
+  const activeIndex = buttons.findIndex((x) => x.url === location.pathname + location.search)
 
   return (
     <Wrapper>
@@ -44,7 +44,7 @@ const SwitchButtonGroup: React.FC<SwitchButtonGroupProps> = ({ buttons }) => {
               paddingRight: '16px',
               backgroundColor: activeIndex === index ? theme.colors.primary : 'transparent',
               color: theme.colors[activeIndex === index ? 'backgroundAlt' : 'text'],
-              fontSize: '14px'
+              fontSize: '14px',
             }}
           >
             {button.node}

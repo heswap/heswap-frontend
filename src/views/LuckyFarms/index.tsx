@@ -200,12 +200,7 @@ const LuckyFarms: React.FC = () => {
             <Description>{t('Just stake some tokens to earn.')}</Description>
             <Description>{t('High APR, low risk.')}</Description>
           </Flex>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
-            alt=""
-            width={360}
-            height={180}
-          />
+          <Image src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`} alt="" width={360} height={180} />
           <Box position="absolute" top={32} right={32}>
             <HelpButton />
           </Box>

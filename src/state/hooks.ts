@@ -10,12 +10,20 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
 import { filterFarmsByQuoteToken } from 'utils/farmsPriceHelpers'
 import { getDiceContract } from 'utils/contractHelpers'
-import { fetchFarmsPublicDataAsync, fetchPoolsPublicDataAsync, fetchPoolsUserDataAsync, setBlock } from './actions'
-import { State, Farm, Pool, FarmsState, DiceRoundResult, DiceRound } from './types'
+import dicesConfig from 'config/constants/dices'
+import {
+  fetchFarmsPublicDataAsync,
+  fetchPoolsPublicDataAsync,
+  fetchPoolsUserDataAsync,
+  setBlock,
+  fetchDicesUserDataAsync,
+} from './actions'
+import { State, Farm, Pool, FarmsState, DiceRoundResult, DiceRound, Dice } from './types'
 import { transformPool } from './pools/helpers'
 import { fetchPoolsStakingLimitsAsync } from './pools'
 import { fetchFarmUserDataAsync, nonArchivedFarms } from './farms'
 import { updateState } from './dice'
+import { setDicesPublicData } from './dices'
 
 export const usePollFarmsData = (includeArchive = false) => {
   const dispatch = useAppDispatch()
@@ -194,7 +202,7 @@ export const usePollDiceData = () => {
     if (timer.current) {
       clearInterval(timer.current)
     }
-    const diceContract = getDiceContract()
+    const diceContract = getDiceContract('LC')
     timer.current = setInterval(async () => {
       const paused: boolean = await diceContract.paused()
       const _bankerTimeBlocks: BigNumber = await diceContract.bankerTimeBlocks()
@@ -217,7 +225,7 @@ export const usePollDiceData = () => {
         swapLcAmount: currentRoundResult.swapLcAmount.toString(),
         betUsers: currentRoundResult.betUsers.toString(),
         finalNumber: currentRoundResult.finalNumber,
-        status: currentRoundResult.status
+        status: currentRoundResult.status,
       }
       if (currentRoundResult.betAmounts) {
         currentRound.betAmounts = []
@@ -225,18 +233,106 @@ export const usePollDiceData = () => {
           currentRound.betAmounts.push(currentRoundResult.betAmounts[i].toString())
         }
       }
-      dispatch(updateState({
-        bankerTimeBlocks: _bankerTimeBlocks.toString(),
-        playerTimeBlocks: _playerTimeBlocks.toString(),
-        currentGame: {
-          bankerEndBlock: _bankerEndBlock.toString(),
-          playerEndBlock: _playerEndBlock.toString()
-        },
-        currentEpoch: _currentEpoch.toString(),
-        intervalBlocks: _intervalBlocks.toString(),
-        currentRound,
-        paused
-      }))
+      dispatch(
+        updateState({
+          bankerTimeBlocks: _bankerTimeBlocks.toString(),
+          playerTimeBlocks: _playerTimeBlocks.toString(),
+          currentGame: {
+            bankerEndBlock: _bankerEndBlock.toString(),
+            playerEndBlock: _playerEndBlock.toString(),
+          },
+          currentEpoch: _currentEpoch.toString(),
+          intervalBlocks: _intervalBlocks.toString(),
+          currentRound,
+          paused,
+        }),
+      )
+    }, POLL_TIME_IN_SECONDS * 1000)
+
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current)
+      }
+    }
+  }, [dispatch])
+}
+
+// Dices
+export const useDices = (account): { dices: Dice[]; userDataLoaded: boolean } => {
+  const { fastRefresh } = useRefresh()
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    if (account) {
+      dispatch(fetchDicesUserDataAsync(account))
+    }
+  }, [account, dispatch, fastRefresh])
+
+  const { dices, userDataLoaded } = useSelector((state: State) => ({
+    dices: state.dices.data,
+    userDataLoaded: state.dices.userDataLoaded,
+  }))
+  return { dices, userDataLoaded }
+}
+
+export const usePollDicesData = () => {
+  const timer = useRef<NodeJS.Timeout>(null)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (timer.current) {
+      clearInterval(timer.current)
+    }
+    timer.current = setInterval(async () => {
+      const liveData = await Promise.all(
+        dicesConfig.map(async (dice) => {
+          const diceContract = getDiceContract(dice.depositToken.symbol)
+          const paused: boolean = await diceContract.paused()
+          const _bankerTimeBlocks: BigNumber = await diceContract.bankerTimeBlocks()
+          const _playerTimeBlocks: BigNumber = await diceContract.playerTimeBlocks()
+          const _bankerEndBlock: BigNumber = await diceContract.bankerEndBlock()
+          const _playerEndBlock: BigNumber = await diceContract.playerEndBlock()
+          const _currentEpoch: BigNumber = await diceContract.currentEpoch()
+          const _intervalBlocks: BigNumber = await diceContract.intervalBlocks()
+          const currentRoundResult: DiceRoundResult = await diceContract.rounds(_currentEpoch)
+          const currentRound: DiceRound = {
+            startBlock: currentRoundResult.startBlock.toString(),
+            lockBlock: currentRoundResult.lockBlock.toString(),
+            secretSentBlock: currentRoundResult.secretSentBlock.toString(),
+            bankHash: currentRoundResult.bankHash,
+            bankSecret: currentRoundResult.bankSecret.toString(),
+            totalAmount: currentRoundResult.totalAmount.toString(),
+            maxBetAmount: currentRoundResult.maxBetAmount.toString(),
+            lcBackAmount: currentRoundResult.lcBackAmount.toString(),
+            bonusAmount: currentRoundResult.bonusAmount.toString(),
+            swapLcAmount: currentRoundResult.swapLcAmount.toString(),
+            betUsers: currentRoundResult.betUsers.toString(),
+            finalNumber: currentRoundResult.finalNumber,
+            status: currentRoundResult.status,
+          }
+          if (currentRoundResult.betAmounts) {
+            currentRound.betAmounts = []
+            for (let i = 0; i < currentRoundResult.betAmounts.length; i++) {
+              currentRound.betAmounts.push(currentRoundResult.betAmounts[i].toString())
+            }
+          }
+
+          return {
+            diceId: dice.diceId,
+            bankerTimeBlocks: _bankerTimeBlocks.toString(),
+            playerTimeBlocks: _playerTimeBlocks.toString(),
+            currentGame: {
+              bankerEndBlock: _bankerEndBlock.toString(),
+              playerEndBlock: _playerEndBlock.toString(),
+            },
+            currentEpoch: _currentEpoch.toString(),
+            intervalBlocks: _intervalBlocks.toString(),
+            currentRound,
+            paused,
+          }
+        }),
+      )
+
+      dispatch(setDicesPublicData(liveData))
     }, POLL_TIME_IN_SECONDS * 1000)
 
     return () => {

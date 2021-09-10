@@ -58,3 +58,10 @@ export type PageMeta = {
   description?: string
   image?: string
 }
+
+export interface DiceConfig {
+  diceId: number
+  depositToken: Token
+  diceToken: Token
+  contractAddress: Address
+}

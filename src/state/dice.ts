@@ -11,7 +11,7 @@ const initialState: DiceState = {
   currentEpoch: null,
   currentRound: null,
   casted: true,
-  paused: true
+  paused: true,
 }
 
 export const diceSlice = createSlice({
@@ -20,8 +20,8 @@ export const diceSlice = createSlice({
   reducers: {
     updateState: (state, action: PayloadAction<DiceState>) => {
       assign(state, action.payload)
-    }
-  }
+    },
+  },
 })
 
 // Actions

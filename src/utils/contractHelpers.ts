@@ -17,6 +17,10 @@ import {
   getWbnbAddress,
   getDiceAddress,
   getDiceTokenAddress,
+  getBETHAddress,
+  getBusdAddress,
+  getBtcbAddress,
+  getLCAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -32,7 +36,11 @@ import referralsAbi from 'config/abi/referrals.json'
 
 import WBNB from 'config/abi/dice/WBNB.json'
 import Dice from 'config/abi/dice/Dice.json'
-import DiceToken from 'config/abi/dice/DiceToken.json'
+import DiceTokenAbi from 'config/abi/dice/DiceToken.json'
+import ETHAbi from 'config/abi/dice/ETH.json'
+import BUSDAbi from 'config/abi/dice/BUSD.json'
+import BTCBAbi from 'config/abi/dice/BTCB.json'
+import LC from 'config/abi/dice/LCToken.json'
 
 import { DEFAULT_GAS_PRICE, TESTNET_CHAIN_ID } from 'config'
 import { getSettings, getGasPriceInWei } from './settings'
@@ -92,9 +100,21 @@ const getEthersContract = (abi: any, address: string, signer?: ethers.Signer | e
 export const getWbnbContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getEthersContract(WBNB.abi, getWbnbAddress(), signer)
 }
-export const getDiceContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getEthersContract(Dice.abi, getDiceAddress(), signer)
+export const getDiceContract = (symbol: string, signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(Dice.abi, getDiceAddress(symbol), signer)
 }
-export const getDiceTokenContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getEthersContract(DiceToken.abi, getDiceTokenAddress(), signer)
+export const getDiceTokenContract = (symbol: string, signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(DiceTokenAbi, getDiceTokenAddress(symbol), signer)
+}
+export const getETHContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(ETHAbi, getBETHAddress(), signer)
+}
+export const getBUSDContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(BUSDAbi, getBusdAddress(), signer)
+}
+export const getBTCBContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(BTCBAbi, getBtcbAddress(), signer)
+}
+export const getLCContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getEthersContract(LC.abi, getLCAddress(), signer)
 }

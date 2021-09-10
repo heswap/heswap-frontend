@@ -26,12 +26,44 @@ export default {
     56: '',
     97: '0x5eAE5455707D46FCCbAa359f1214a25d370e240c', // LuckyChipReferral
   },
-  dice: {
+  wbnbDice: {
     56: '',
-    97: '0x170037EF2C730BC829aA791EA91447dC59677b68', // WBNBDice
+    97: '0x7e7D2Ce21e043B1ef1CB8635c87A0ebc29a07F74', // WBNBDice
   },
-  diceToken: {
+  wbnbDiceToken: {
     56: '',
-    97: '0x32760ff5b663E38125F3DE3595c3C1C4d99DFB42', // WBNBDiceToken
+    97: '0xE3B773EBa295ae95CA1F94e9339a05a8196035D6', // WBNBDiceToken
+  },
+  lcDice: {
+    56: '',
+    97: '0xFec94FbC0C5f6C4B19829a0a1e2C6408C9E89337', // LCDice
+  },
+  lcDiceToken: {
+    56: '',
+    97: '0x469F34Bd00a2843D135Dd268007E1a0845a06EdD', // LCDiceToken
+  },
+  busdDice: {
+    56: '',
+    97: '0x4DbF92CaE4347aca7c9D1ee7FAabC49AaF4e2a75', // BUSDDice
+  },
+  busdDiceToken: {
+    56: '',
+    97: '0xAa6879E6912eDcE431E3B4f64D027963e59FAAB9', // BUSDDiceToken
+  },
+  btcbDice: {
+    56: '',
+    97: '0x2Cb6113B79644a2E89d922408b94bc612d8f3D8c', // BTCBDice
+  },
+  btcbDiceToken: {
+    56: '',
+    97: '0x458be0422F3D2D12F7d78BAd1ca208Bffb1E9Fa1', // BTCBDiceToken
+  },
+  ethDice: {
+    56: '',
+    97: '0x8AFCd319B0561DC647a388b174CF32A6c49CF419', // ETHDice
+  },
+  ethDiceToken: {
+    56: '',
+    97: '0x30f61B0B37708ab60A0a7E16a9457F8fc1CFAC51', // ETHDiceToken
   },
 }
