@@ -79,7 +79,12 @@ const FarmStakingCard = () => {
           <Heading scale="xl" mb="24px" color="backgroundAlt">
             {t('Farms & Staking')}
           </Heading>
-          <TokenImage src={`${process.env.PUBLIC_URL}/images/luckychip-token2.png`} alt="cake logo" width={64} height={64} />
+          <TokenImage
+            src={`${process.env.PUBLIC_URL}/images/luckychip-token2.png`}
+            alt="cake logo"
+            width={64}
+            height={64}
+          />
           <Block>
             <Label>{t('CAKE to Harvest')}:</Label>
             <CakeHarvestBalance />

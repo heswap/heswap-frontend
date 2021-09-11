@@ -4,6 +4,7 @@ import farmsReducer from './farms'
 import poolsReducer from './pools'
 import blockReducer from './block'
 import diceReducer from './dice'
+import dicesReducer from './dices'
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
@@ -12,6 +13,7 @@ const store = configureStore({
     farms: farmsReducer,
     pools: poolsReducer,
     dice: diceReducer,
+    dices: dicesReducer,
   },
 })
 

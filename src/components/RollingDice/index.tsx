@@ -18,7 +18,9 @@ export interface RollingDiceProps {
 }
 
 function getRollingResult(rotX, rotY) {
-  const countX = BigNumber.from(rotX / 90).mod(4).toNumber()
+  const countX = BigNumber.from(rotX / 90)
+    .mod(4)
+    .toNumber()
   if (countX === 1) {
     // bottom face
     return 5
@@ -29,7 +31,9 @@ function getRollingResult(rotX, rotY) {
   }
   // We add countX here to correctly offset in case it is a 180 degrees rotation
   // It can be 0 (no rotation) or 2 (180 degrees)
-  const countY = BigNumber.from(rotY / 90 + countX).mod(4).toNumber()
+  const countY = BigNumber.from(rotY / 90 + countX)
+    .mod(4)
+    .toNumber()
   // faces order (front->left->back->right)
   return [1, 4, 6, 3][countY]
 }

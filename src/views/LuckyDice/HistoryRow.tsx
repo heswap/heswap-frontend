@@ -80,11 +80,17 @@ const HistoryRow: React.FC<HistoryRowProps> = ({ id, bets, outcome }) => {
   return (
     <StyledFlex>
       <div style={{ textAlign: 'center' }}>
-        <Text fontSize="16px" bold color="primary">#</Text>
-        <Text fontSize="24px" bold color="textSubtle" width="40px">{id}</Text>
+        <Text fontSize="16px" bold color="primary">
+          #
+        </Text>
+        <Text fontSize="24px" bold color="textSubtle" width="40px">
+          {id}
+        </Text>
       </div>
       <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
-        <Text fontSize="16px" bold color="primary">Betting</Text>
+        <Text fontSize="16px" bold color="primary">
+          Betting
+        </Text>
         <Flex justifyContent="space-between">
           {[1, 2, 3, 4, 5, 6].map((side, index) => (
             <Box key={index.toString()}>
@@ -94,15 +100,12 @@ const HistoryRow: React.FC<HistoryRowProps> = ({ id, bets, outcome }) => {
         </Flex>
       </Box>
       <Outcome>
-        <Text fontSize="16px" bold color="primary">Outcome</Text>
+        <Text fontSize="16px" bold color="primary">
+          Outcome
+        </Text>
         <Flex alignItems="center">
           {renderSide(outcome, true, theme.colors[bets.includes(outcome) ? 'success' : 'failure'])}
-          <Text
-            fontSize="16px"
-            bold
-            color={bets.includes(outcome) ? 'success' : 'failure'}
-            display="inline-block"
-          >
+          <Text fontSize="16px" bold color={bets.includes(outcome) ? 'success' : 'failure'} display="inline-block">
             {bets.includes(outcome) ? 'WIN' : 'LOSS'}
           </Text>
         </Flex>

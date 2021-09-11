@@ -52,7 +52,7 @@ const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, vi
             paddingRight: '16px',
             backgroundColor: isExact ? theme.colors.primary : 'transparent',
             color: theme.colors[isExact ? 'backgroundAlt' : 'text'],
-            fontSize: '14px'
+            fontSize: '14px',
           }}
         >
           {t('Live')}
@@ -70,7 +70,7 @@ const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, vi
             paddingRight: '16px',
             backgroundColor: !isExact ? theme.colors.primary : 'transparent',
             color: theme.colors[!isExact ? 'backgroundAlt' : 'text'],
-            fontSize: '14px'
+            fontSize: '14px',
           }}
         >
           <NotificationDot show={hasStakeInFinishedPools}>
@@ -90,12 +90,7 @@ const PoolTabButtons = ({ stakedOnly, setStakedOnly, hasStakeInFinishedPools, vi
 
   if (isXs || isSm) {
     return (
-      <Flex
-        mb="24px"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        style={{ gap: '8px' }}
-      >
+      <Flex mb="24px" justifyContent="space-between" flexWrap="wrap" style={{ gap: '8px' }}>
         {viewModeToggle}
         {liveOrFinishedSwitch}
         {stakedOnlySwitch}

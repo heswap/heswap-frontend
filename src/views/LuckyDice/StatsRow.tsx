@@ -60,17 +60,21 @@ const StatsRow: React.FC<StatsRowProps> = ({ color, label, scores }) => {
     }
     return null
   }
-  
+
   return (
     <StyledFlex>
       <div style={{ textAlign: 'center', width: '100px' }}>
-        <Text fontSize="16px" bold style={{ color }}>{label}</Text>
+        <Text fontSize="16px" bold style={{ color }}>
+          {label}
+        </Text>
       </div>
       <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
         <Flex justifyContent="space-evenly">
           {scores.map((score, index) => (
             <Box key={index.toString()} style={{ flex: 1 }}>
-              <Text fontSize="24px" bold textAlign="center" style={{ color }}>{score}</Text>
+              <Text fontSize="24px" bold textAlign="center" style={{ color }}>
+                {score}
+              </Text>
             </Box>
           ))}
         </Flex>

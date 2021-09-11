@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
 type Actions =
-  { type: 'START' } |
-  { type: 'RESET', payload: number } |
-  { type: 'PAUSE' } |
-  { type: 'RUNNING' } |
-  { type: 'TICK', payload: number }
+  | { type: 'START' }
+  | { type: 'RESET'; payload: number }
+  | { type: 'PAUSE' }
+  | { type: 'RUNNING' }
+  | { type: 'TICK'; payload: number }
 
 type State = {
   canStart: boolean
@@ -18,30 +18,30 @@ function reducer(state: State, action: Actions): State {
     case 'START':
       return {
         ...state,
-        canStart: state.timeLeft !== 0
+        canStart: state.timeLeft !== 0,
       }
     case 'RESET':
       return {
         ...state,
         timeLeft: action.payload,
         canStart: false,
-        isRunning: false
+        isRunning: false,
       }
     case 'PAUSE':
       return {
         ...state,
         canStart: false,
-        isRunning: false
+        isRunning: false,
       }
     case 'RUNNING':
       return {
         ...state,
-        isRunning: true
+        isRunning: true,
       }
     case 'TICK':
       return {
         ...state,
-        timeLeft: state.timeLeft - action.payload
+        timeLeft: state.timeLeft - action.payload,
       }
     default:
       return state
@@ -121,12 +121,12 @@ export function useCountdown({
   expireImmediate = false,
   resetOnExpire = true,
   onExpire,
-  onReset
+  onReset,
 }: ICountdownParams): CountdownResult {
   const [state, dispatch] = useReducer(reducer, {
     canStart: autoStart,
     timeLeft: timeToCount,
-    isRunning: false
+    isRunning: false,
   })
 
   function start() {
@@ -172,20 +172,13 @@ export function useCountdown({
       }
     }
     return () => clearInterval(id)
-  }, [
-    expire,
-    expireImmediate,
-    interval,
-    state.canStart,
-    state.timeLeft,
-    state.isRunning
-  ])
+  }, [expire, expireImmediate, interval, state.canStart, state.timeLeft, state.isRunning])
 
   return {
     timeLeft: state.timeLeft,
     isRunning: state.isRunning,
     start,
     reset,
-    pause
+    pause,
   }
 }

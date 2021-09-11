@@ -8,7 +8,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     href: '/',
   },
   {
-    label: t('Swap'),
+    label: t('Lucky Swap'),
     icon: 'TradeIcon',
     items: [
       {
@@ -19,48 +19,29 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
         label: t('Liquidity'),
         href: 'http://101.36.111.81:3002/#/pool',
       },
+      {
+        label: t('Farms'),
+        href: '/farms',
+      },
     ],
-  },
-  {
-    label: t('Farms'),
-    icon: 'FarmIcon',
-    href: '/farms',
   },
   {
     label: t('Lucky Dice'),
     icon: 'DiceIcon',
     items: [
       {
-        label: 'LKCP',
-        href: '/lucky_dice?coin=LKCP',
+        label: t('Play'),
+        href: '/lucky_dice',
       },
       {
-        label: 'BNB',
-        href: '/lucky_dice?coin=BNB',
+        label: t('Bank'),
+        href: '/lucky_bank',
       },
       {
-        label: 'BUSD',
-        href: '/lucky_dice?coin=BUSD',
-      },
-      {
-        label: 'BTCB',
-        href: '/lucky_dice?coin=BTCB',
-      },
-      {
-        label: 'ETH',
-        href: '/lucky_dice?coin=ETH',
+        label: t('Farms'),
+        href: '/lucky_farms',
       },
     ],
-  },
-  {
-    label: t('Lucky Bank'),
-    icon: 'BankIcon',
-    href: '/lucky_bank',
-  },
-  {
-    label: t('Lucky Farms'),
-    icon: 'PoolIcon',
-    href: '/lucky_farms',
   },
   {
     label: t('Referrals'),

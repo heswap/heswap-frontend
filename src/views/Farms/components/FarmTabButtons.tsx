@@ -51,7 +51,7 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
             paddingRight: '16px',
             backgroundColor: activeIndex === 0 ? theme.colors.primary : 'transparent',
             color: theme.colors[activeIndex === 0 ? 'backgroundAlt' : 'text'],
-            fontSize: '14px'
+            fontSize: '14px',
           }}
         >
           {t('Live')}
@@ -70,7 +70,7 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
             paddingRight: '16px',
             backgroundColor: activeIndex === 1 ? theme.colors.primary : 'transparent',
             color: theme.colors[activeIndex === 1 ? 'backgroundAlt' : 'text'],
-            fontSize: '14px'
+            fontSize: '14px',
           }}
         >
           <NotificationDot show={hasStakeInFinishedFarms}>

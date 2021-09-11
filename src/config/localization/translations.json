@@ -19,6 +19,7 @@
   "Github": "Github",
   "Twitter": "Twitter",
   "Deposit": "Deposit",
+  "Deposited": "Deposited",
   "Earn": "Earn",
   "Stake LP tokens to stack CAKE": "Stake LP tokens to stack CAKE",
   "You can swap back anytime": "You can swap back anytime",
@@ -819,5 +820,7 @@
   "These pools are no longer distributing rewards. Please unstake your tokens.": "These pools are no longer distributing rewards. Please unstake your tokens.",
   "Max. stake per user": "Max. stake per user",
   "You have claimed your rewards!": "You have claimed your rewards!",
-  "Already Collected": "Already Collected"
+  "Already Collected": "Already Collected",
+  "Get Dices": "Get Dices",
+  "Withdraw": "Withdraw"
 }

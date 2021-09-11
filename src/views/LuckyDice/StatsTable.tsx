@@ -20,7 +20,7 @@ import StatsRow from './StatsRow'
 import { HistoryRecord } from './types'
 
 interface StatsTableProps {
-  records: Array<HistoryRecord>;
+  records: Array<HistoryRecord>
 }
 
 const Table = styled.div`
@@ -105,9 +105,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ records }) => {
         <Box mx={['8px', '16px', '32px', '64px', '128px']} style={{ flex: 1 }}>
           <Flex justifyContent="space-around">
             {[1, 2, 3, 4, 5, 6].map((side, index) => (
-              <div key={index.toString()}>
-                {renderSide(side, true, theme.colors.primary)}
-              </div>
+              <div key={index.toString()}>{renderSide(side, true, theme.colors.primary)}</div>
             ))}
           </Flex>
         </Box>

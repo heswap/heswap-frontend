@@ -10,7 +10,7 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
     super(props)
     this.state = {
       hasError: false,
-      animationDone: false
+      animationDone: false,
     }
   }
 

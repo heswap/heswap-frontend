@@ -9,7 +9,7 @@ const usePaused = () => {
   useEffect(() => {
     async function fetchPaused() {
       if (mounted) {
-        const diceContract = getDiceContract()
+        const diceContract = getDiceContract('LC')
         const p = await diceContract.paused()
         console.log('paused', p)
         setPaused(p)

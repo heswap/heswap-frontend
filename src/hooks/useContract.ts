@@ -8,6 +8,11 @@ import {
   getSousChefContract,
   getWbnbContract,
   getDiceContract,
+  getBUSDContract,
+  getBTCBContract,
+  getLCContract,
+  getETHContract,
+  getDiceTokenContract,
 } from 'utils/contractHelpers'
 
 /**
@@ -39,7 +44,32 @@ export const useWbnbContract = () => {
   return useMemo(() => getWbnbContract(library.getSigner()), [library])
 }
 
-export const useDiceContract = () => {
+export const useBusdContract = () => {
   const { library } = useActiveWeb3React()
-  return useMemo(() => getDiceContract(library.getSigner()), [library])
+  return useMemo(() => getBUSDContract(library.getSigner()), [library])
+}
+
+export const useBtcbContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getBTCBContract(library.getSigner()), [library])
+}
+
+export const useLCContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getLCContract(library.getSigner()), [library])
+}
+
+export const useETHContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getETHContract(library.getSigner()), [library])
+}
+
+export const useDiceContract = (symbol: string) => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getDiceContract(symbol, library.getSigner()), [symbol, library])
+}
+
+export const useDiceTokenContract = (symbol: string) => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getDiceTokenContract(symbol, library.getSigner()), [symbol, library])
 }

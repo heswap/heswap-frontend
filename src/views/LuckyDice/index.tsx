@@ -2,7 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { BaseLayout, Box, Button, CardsLayout, Flex, Heading, Image, useMatchBreakpoints, useModal } from '@heswap/uikit'
+import {
+  BaseLayout,
+  Box,
+  Button,
+  CardsLayout,
+  Flex,
+  Heading,
+  Image,
+  useMatchBreakpoints,
+  useModal,
+} from '@heswap/uikit'
 import { BigNumber, ethers } from 'ethers'
 import { noop } from 'lodash'
 import moment from 'moment'
@@ -192,7 +202,7 @@ function getFakeRecords(len) {
     items.push({
       id: i + 1,
       bets,
-      outcome: Math.ceil(Math.random() * 5) + 1
+      outcome: Math.ceil(Math.random() * 5) + 1,
     })
   }
   return items
@@ -208,8 +218,18 @@ const LuckyDice: React.FC = () => {
 
   const { callWithGasPrice } = useCallWithGasPrice()
   const wbnbContract = useWbnbContract()
-  const diceContract = useDiceContract()
-  const { attending, bankerTimeBlocks, playerTimeBlocks, currentGame, currentEpoch, intervalBlocks, currentRound, casted, paused } = useDice()
+  const diceContract = useDiceContract('LC')
+  const {
+    attending,
+    bankerTimeBlocks,
+    playerTimeBlocks,
+    currentGame,
+    currentEpoch,
+    intervalBlocks,
+    currentRound,
+    casted,
+    paused,
+  } = useDice()
   const [bankerTimeLeft, setBankerTimeLeft] = useState<number>(null)
   const [playerTimeLeft, setPlayerTimeLeft] = useState<number>(null)
   const bankerTimerRef = useRef(null)
@@ -240,7 +260,7 @@ const LuckyDice: React.FC = () => {
     try {
       // The token holder calls approve to set an allowance of tokens that the contract can use
       // This is from BEP20
-      await wbnbContract.approve(getDiceAddress(), ethers.constants.MaxUint256)
+      await wbnbContract.approve(getDiceAddress('LC'), ethers.constants.MaxUint256)
       // call betNumber of dice contract
       const tx = await callWithGasPrice(diceContract, 'betNumber', [toggles, ethers.utils.parseEther(amount)], {
         value: ethers.utils.parseEther('0.001'),
@@ -271,15 +291,15 @@ const LuckyDice: React.FC = () => {
   }
 
   const getWinningChance = () => {
-    const toggled = sideToggles.filter(x => x)
-    const result = toggled.length * 100 / 6
+    const toggled = sideToggles.filter((x) => x)
+    const result = (toggled.length * 100) / 6
     return parseFloat(result.toFixed(2)).toString() // remove trailing zero
   }
 
   const coin = new URLSearchParams(location.search).get('coin')
 
   useEffect(() => {
-    return history.listen(loc => {
+    return history.listen((loc) => {
       const mode = new URLSearchParams(loc.search).get('mode')
       const items = getFakeRecords(mode === 'private' ? 20 : 100)
       setRecords(items)
@@ -291,9 +311,14 @@ const LuckyDice: React.FC = () => {
       clearInterval(bankerTimerRef.current)
     }
     if (currentBlock === 0 || !currentGame || !paused) {
-      return () => { noop() }
+      return () => {
+        noop()
+      }
     }
-    let timeLeft: number = BigNumber.from(currentGame.bankerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft: number = BigNumber.from(currentGame.bankerEndBlock)
+      .sub(BigNumber.from(currentBlock))
+      .mul(3)
+      .toNumber() // each block is nearly 3 seconds in bsc
     bankerTimerRef.current = setInterval(() => {
       setBankerTimeLeft(timeLeft)
       timeLeft--
@@ -310,9 +335,14 @@ const LuckyDice: React.FC = () => {
       clearInterval(playerTimerRef.current)
     }
     if (currentBlock === 0 || !currentGame || paused) {
-      return () => { noop() }
+      return () => {
+        noop()
+      }
     }
-    let timeLeft: number = BigNumber.from(currentGame.playerEndBlock).sub(BigNumber.from(currentBlock)).mul(3).toNumber() // each block is nearly 3 seconds in bsc
+    let timeLeft: number = BigNumber.from(currentGame.playerEndBlock)
+      .sub(BigNumber.from(currentBlock))
+      .mul(3)
+      .toNumber() // each block is nearly 3 seconds in bsc
     playerTimerRef.current = setInterval(() => {
       setPlayerTimeLeft(timeLeft)
       timeLeft--
@@ -362,7 +392,9 @@ const LuckyDice: React.FC = () => {
       return ''
     }
     const roundTime = BigNumber.from(intervalBlocks).toNumber() * 3 // in seconds
-    const optionalPrefix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('y [years] w [weeks] d [days] h')
+    const optionalPrefix = moment
+      .duration(playerTimeLeft % roundTime, 'seconds')
+      .format('y [years] w [weeks] d [days] h')
     const requiredSurfix = moment.duration(playerTimeLeft % roundTime, 'seconds').format('mm:ss', { trim: false })
     if (optionalPrefix === '0') {
       return requiredSurfix
@@ -491,7 +523,11 @@ const LuckyDice: React.FC = () => {
               ) : (
                 <StyledButton
                   onClick={onPresentBet}
-                  disabled={paused || !currentRound || (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())}
+                  disabled={
+                    paused ||
+                    !currentRound ||
+                    (!paused && currentBlock >= BigNumber.from(currentRound.lockBlock).toNumber())
+                  }
                 >
                   Bet with Amount
                 </StyledButton>
@@ -500,13 +536,16 @@ const LuckyDice: React.FC = () => {
           </GradientPanel>
           <Box mt="32px">
             <SwitchButtonGroup
-              buttons={[{
-                url: `/lucky_dice?coin=${coin}`,
-                node: <span>Public</span>
-              },{
-                url: `/lucky_dice?coin=${coin}&mode=private`,
-                node: <span>Private</span>
-              }]}
+              buttons={[
+                {
+                  url: `/lucky_dice?coin=${coin}`,
+                  node: <span>Public</span>,
+                },
+                {
+                  url: `/lucky_dice?coin=${coin}&mode=private`,
+                  node: <span>Private</span>,
+                },
+              ]}
             />
           </Box>
           <WhitePanel mt="32px">

@@ -50,7 +50,13 @@ const Farm: React.FunctionComponent<FarmProps> = ({ image, label, pid }) => {
 
   return (
     <Container>
-      <IconImage src={`${process.env.PUBLIC_URL}/images/farms/${image}.svg`} alt="icon" width={40} height={40} mr="8px" />
+      <IconImage
+        src={`${process.env.PUBLIC_URL}/images/farms/${image}.svg`}
+        alt="icon"
+        width={40}
+        height={40}
+        mr="8px"
+      />
       <div>
         {handleRenderFarming()}
         <Text bold>{label}</Text>

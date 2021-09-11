@@ -368,12 +368,7 @@ const Farms: React.FC = () => {
             <Title mb="24px">{t('Farms')}</Title>
             <Description>{t('Stake Liquidity Pool (LP) tokens to earn.')}</Description>
           </Box>
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`}
-            alt=""
-            width={360}
-            height={180}
-          />
+          <Image src={`${process.env.PUBLIC_URL}/images/luckychip-card.png`} alt="" width={360} height={180} />
         </Flex>
       </PageHeader>
       <Page>
